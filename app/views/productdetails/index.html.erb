@@ -1,0 +1,160 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Products</h1>
+
+
+<%= form_tag productdetails_path, method: :get, remote: true, html: { id: 'search-form' } do %>
+        <div class="form-group d-flex">
+          <%= text_field_tag :product_title_or_vendor_first_name_cont, params[:product_title_or_vendor_first_name_cont], placeholder: 'Search by Product Title ', class: 'search form-control mr-2' %>
+          <%= select_tag :vendor_first_name_eq, options_for_select([['All Vendors', '']] + Vendor.distinct.pluck(:first_name).map { |name| [name, name] }, selected: params[:vendor_first_name_eq]), class: 'search form-control mr-2',style:'width:140px' %>
+          
+            <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="sort-by-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-sort"></i>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="sort-by-toggle">
+                    <%= select_tag :s, options_for_select([
+                  ['Product Title (A-Z)', 'product_title asc'],
+                  ['Product Title (Z-A)', 'product_title desc'],
+                  ['Created At (Oldest First)', 'created_at asc'],
+                  ['Created At (Newest First)', 'created_at desc'],
+                  ['Vendor First Name (A-Z)', 'vendor_first_name asc'],
+                  ['Vendor First Name (Z-A)', 'vendor_first_name desc'],
+                  ['Price (Low to High)', 'price asc'],
+                  ['Price (High to Low)', 'price desc']
+                ], selected: params[:s]), class: 'search form-control mr-2', id: 'sort-by-select', style: 'width: 176px;' %>
+
+                </div>
+          </div>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="sort-by-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left:18px; margin-right: 30px;" >
+                  <i class="fa fa-money"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="sort-by-toggle">
+                  <%= select_tag :currency, options_for_select([['Select Currency', ''], ['USD', 'USD'], ['EUR', 'EUR'], ['GBP', 'GBP']], selected: params[:currency]), class: 'search form-control mr-2', id: 'currency-select',  style: 'width: 176px;'%>
+                </div>
+              </div>
+
+
+        
+        
+
+          <%#= select_tag :currency, options_for_select([['Select Currency', ''], ['USD', 'USD'], ['EUR', 'EUR'], ['GBP', 'GBP']], selected: params[:currency]), class: 'search form-control mr-2', id: 'currency-select' %>
+          
+            <%= submit_tag nil, class: 'btn btn-primary', style: 'margin-right: 36px;' do %>
+              <i class="fa fa-search"></i> Search
+            <% end %>
+
+
+        </div>
+<% end %>
+
+
+
+<div class="container" style="background-color:#f7f7f7;border-radius: 13px; width:1100px; overflow: scroll;">
+
+  <table id="product-details-table" class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Image</th>
+        <th style='min-width:150px'>Product title</th>
+        
+        <th>Brand</th>
+        <th>price</th>
+        <th>Sku</th>
+        <th style='min-width:150px'>Product type</th>
+        <th>Status</th>
+        <th style='min-width:100px'>created at</th>
+        <th style='min-width:150px'>first name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="search-results">
+      <% @productdetails.includes(:vendor).each_with_index do |productdetail, index| %>
+        <tr>
+          <td><%= ((@current_page - 1) * @productdetails.limit_value) + index + 1 %></td>
+          <td>
+            <%#= if productdetail.images.attached? %>
+              <%#= image_tag productdetail.images, width: "30px", height: "38px" %>
+            <%#= end %>
+             
+ <% if productdetail.images.attached? && productdetail.feature_image.present? %>
+  <%= image_tag productdetail.feature_image.variant(resize_to_limit: [100, 100]), style:"width:70px; height:100px;" %>
+<% else %>
+  <% if productdetail.images.attached? %>
+    <%= image_tag productdetail.images.first.variant(resize_to_limit: [100, 100]) , style:"width:70px; height:100px;" %>
+  <% else %>
+   
+    <%= image_tag 'avtar1.png', style: " width:90px; height:90px;" , style:"width:70px; height:100px;" %>
+  <% end %>
+<% end %>
+
+
+
+          </td>
+          <td><%= productdetail.product_title %></td>
+         
+          <td><%= productdetail.brand %></td>
+          <td class="product-price" data-original-price="<%= productdetail.price %>"><%= productdetail.price %></td>
+          <td><%= productdetail.sku %></td>
+          <td><%= productdetail.product_type %></td>
+          <td>
+            <% if productdetail.status == true %>
+              <span style="color: green;">Active</span>
+            <% else %>
+              <span style="color: red;">Inactive</span>
+            <% end %>
+          </td>
+         <td><%= productdetail.created_at.strftime('%A, %e %B %Y') %></td>
+
+
+          <td><%= productdetail.vendor.first_name %></td>
+          
+        <td><%= link_to productdetail_path(productdetail) do %>
+            <i class="fas fa-eye"></i>
+          <% end %></td>
+
+         
+          <td><%= link_to edit_productdetail_path(productdetail) do %>
+            <i class="fas fa-edit"></i>
+          <% end %></td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+<nav aria-label="Pagination">
+  <ul class="pagination pagination-horizontal justify-content-center">
+    <% if @current_page > 1 %>
+      <li class="page-item">
+        
+        <%= link_to 'Previous', productdetails_path(page: @current_page - 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
+      </li>
+    <% end %>
+
+    <% (1..@total_search_pages).each do |page| %>
+      <li class="page-item <%= 'active' if page == @current_page %>">
+        <%= link_to page, productdetails_path(page: page, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <% if @current_page < @total_search_pages %>
+      <li class="page-item">
+        <%= link_to 'Next', productdetails_path(page: @current_page + 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
+      </li>
+    <% end %>
+     <div class="item-count" style="margin-top:9px; margin-left:11px; color:#1d1ddf;">
+    Displaying  total item <%= @total_items %> current page<%= @current_page %> 
+  </div>
+  </ul>
+ 
+
+</nav>
+  

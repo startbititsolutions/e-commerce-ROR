@@ -1,0 +1,103 @@
+<h1>Edit Profile</h1>
+
+<div class="container">
+  <div class="row flex-lg-nowrap">
+    <!-- Sidebar -->
+    <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+      <div class="card p-3">
+        <!-- Sidebar content -->
+        <!-- ... -->
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col">
+      <div class="row">
+        <div class="col mb-3">
+          <div class="card">
+            <div class="card-body">
+              <!-- User profile content -->
+              <div class="e-profile">
+                <!-- ... -->
+
+                <!-- User profile form -->
+                <div class="tab-content pt-3">
+                  <div class="tab-pane active">
+                    <%= form_for @user, url: admin_user_path(@user), method: :put, html: { multipart: true } do |f| %>
+                      <div class="row">
+                        <div class="col">
+                             <div class="form-group">
+
+                           <% if @user.image.attached? %>
+                                <div class="profile-image-preview">
+                                <%= image_tag @user.image.variant(resize_to_limit: [200, 200]), class: "img-thumbnail" %>
+                                </div>
+                            <% end %>
+
+                            <%= f.label :image %>
+                            <%= f.file_field :image, onchange: "previewImage(this)" %>
+                          <!-- Name field -->
+                          <div class="form-group">
+                            <%= f.label :name %>
+                            <%= f.text_field :name, class: "form-control", placeholder: "John Smith" %>
+                          </div>
+                          <!-- Email field -->
+                          <div class="form-group">
+                            <%= f.label :email %>
+                            <%= f.email_field :email, class: "form-control", placeholder: "user@example.com" %>
+                          </div>
+                          <!-- Password field -->
+                          <div class="form-group">
+                            <%= f.label :password %>
+                            <%= f.password_field :password, class: "form-control", placeholder: "Enter new password" %>
+                          </div>
+                          <!-- Password confirmation field -->
+                          <div class="form-group">
+                            <%= f.label :password_confirmation %>
+                            <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm new password" %>
+                          </div>
+                          <!-- Image field -->
+                         
+                          </div>
+                          <!-- Submit button -->
+                          <div class="form-group">
+                            <%= f.submit 'Update', class: "btn btn-primary" %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-12 col-md-3 mb-3">
+          <div class="card mb-3">
+            <!-- Sidebar content -->
+            <!-- ... -->
+          </div>
+          <div class="card">
+            <!-- Sidebar content -->
+            <!-- ... -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function previewImage(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.profile-image-preview').html('<img src="' + e.target.result + '" class="img-thumbnail" style="width:200px; height:200px" />');
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+    </script>

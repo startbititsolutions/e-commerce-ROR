@@ -1,0 +1,3 @@
+const imageId = <%= params[:image_id].to_json %>;
+const imageElement = document.querySelector(`.gallery-image[data-image-id="${imageId}"]`);
+imageElement.remove();

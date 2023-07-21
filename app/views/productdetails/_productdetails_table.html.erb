@@ -1,0 +1,358 @@
+<p id="notice"><%= notice %></p>
+<%#= link_to 'New Productdetail', new_productdetail_path %>
+
+
+
+<h1>Products</h1>
+<%= search_form_for @q, url: productdetails_path, method: :get, remote: true, html: { id: 'search-form' }  do |f| %>
+<div class="form-group pull-right">
+    <%= f.text_field :product_title_or_vendor_email_cont, placeholder: 'Search by Product Title or Vendor Email', class: 'search form-control' %>
+     <%= f.collection_select :vendor_first_name_eq, Vendor.all, :first_name, :first_name, { include_blank: 'All Vendors' }, class: 'search form-control'%> 
+   <%= f.collection_select :s, [['Product Title (A-Z)', 'product_title asc'], ['Product Title (Z-A)', 'product_title desc'], ['Created At (Oldest First)', 'created_at asc'], ['Created At (Newest First)', 'created_at desc'], ['Vendor First Name (A-Z)', 'vendor_first_name asc'], ['Vendor First Name (Z-A)', 'vendor_first_name desc']], :second, :first, { include_blank: 'Sort by', } , class: 'search form-control'%>
+   <%#= f.collection_select :s, [['<i class="fas fa-sort-alpha-down"></i> Product Title (A-Z)', 'product_title asc'], ['<i class="fas fa-sort-alpha-up"></i> Product Title (Z-A)', 'product_title desc'], ['<i class="fas fa-calendar-alt"></i> Created At (Oldest First)', 'created_at asc'], ['<i class="fas fa-calendar-alt"></i> Created At (Newest First)', 'created_at desc'], ['<i class="fas fa-sort-alpha-down"></i> Vendor First Name (A-Z)', 'vendor_first_name asc'], ['<i class="fas fa-sort-alpha-up"></i> Vendor First Name (Z-A)', 'vendor_first_name desc']], :second, :first, { include_blank: 'Sort by' }, { class: 'search form-control' }%>
+
+
+  <%= f.submit 'Search' %>
+</div>
+
+  
+  
+<% end %> 
+
+<div class="container" style="background-color:#d2d7db;border-radius: 57px; width:1100px;  overflow: scroll;">
+  
+<table id="product-details-table" class="table table-hover">
+  <thead>
+    <tr>
+      <th># </th>
+     
+      <th>Image </th>
+     
+      <th style='min-width:150px'>Product title</th>
+      <th style='min-width:100px'>product id</th>
+      <th>Brand</th>
+      <th><%= sort_link(@q, :price, 'Price') %></th>
+      <th style='min-width:100px'>List price</th>
+      
+      <th>Sku</th>
+      
+      <th style='min-width:150px'>Product type</th>
+      <th>Status</th>
+       <th style='min-width:100px'>created at</th>
+      <th style='min-width:100px'>Meta title</th>
+      <th style='min-width:150px'>Meta description</th> 
+      <th>Vendor</th>
+       <th style='min-width:150px'><%= sort_link(@q, :vendor_first_name) %></th>
+      
+       <th style='min-width:150px'>last name </th>
+         <th>vendor email</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+ <tbody  id="search-results">
+
+  <%#@productdetails.includes(:vendor).each.with_index(1) do |productdetail,index| %>
+  <% #pagy, productdetails = pagy(@productdetails.includes(:vendor)) %>
+     
+      <% @productdetails.each.with_index(start_index) do |productdetail, index| %>
+        
+    <tr>
+      <td><%= index %></td>
+      <td>
+        <% if productdetail.image.attached? %>
+          <%= image_tag productdetail.image, width: "30px", height: "38px" %>
+        <% end %>
+      </td>
+       
+      <td><%= productdetail.product_title %></td>
+        <td><%= productdetail.id %></td>
+      <td><%= productdetail.brand %></td>
+      <td><%= productdetail.price %></td>
+      <td><%= productdetail.list_price %></td>
+      <td><%= productdetail.sku %></td>
+      <td><%= productdetail.product_type %></td>
+      <td>
+        <% if productdetail.status == true %>
+          <span style="color: green;">Active</span>
+        <% else %>
+          <span style="color: red;">Inactive</span>
+        <% end %>
+      </td>
+      <td><%= productdetail.created_at %></td>
+       <td><%= productdetail.meta_title %></td>
+       <td><%= productdetail.meta_description %></td>
+      
+      
+      <td><%= productdetail.vendor_id %></td>
+      <td><%= productdetail.vendor.first_name %></td>
+      <td><%= productdetail.vendor.last_name %></td>
+      <td><%= productdetail.vendor.email %></td>
+    </tr>
+  <% end %>
+</tbody>
+
+</table>
+<div class="d-flex justify-content-center">
+  <%== pagy_bootstrap_nav(@pagy) %>
+  <%==pagy_info(@pagy) %> 
+
+</div>
+</div>
+<br>
+<script>
+  $(document).ready(function() {
+    $('#search-form').on('ajax:success', function(event) {
+      var response = event.detail[0];
+      $('#search-results').html(response);
+    });
+  });
+</script>
+
+<p id="notice"><%= notice %></p>
+<h1>Products</h1>
+<%= search_form_for @q, url: productdetails_path, method: :get, remote: true, html: { id: 'search-form' } do |f| %>
+  <div class="form-group pull-right">
+    <%= f.text_field :product_title_or_vendor_email_cont, placeholder: 'Search by Product Title or Vendor Email', class: 'search form-control' %>
+    <%= f.collection_select :vendor_first_name_eq, Vendor.all, :first_name, :first_name, { include_blank: 'All Vendors' }, class: 'search form-control' %>
+    <%= f.collection_select :s, [['Product Title (A-Z)', 'product_title asc'], ['Product Title (Z-A)', 'product_title desc'], ['Created At (Oldest First)', 'created_at asc'], ['Created At (Newest First)', 'created_at desc'], ['Vendor First Name (A-Z)', 'vendor_first_name asc'], ['Vendor First Name (Z-A)', 'vendor_first_name desc']], :second, :first, { include_blank: 'Sort by', }, class: 'search form-control' %>
+    <%= f.submit 'Search' %>
+  </div>
+<% end %>
+
+<div class="container" style="background-color:#d2d7db;border-radius: 57px; width:1100px; overflow: scroll;">
+  <table id="product-details-table" class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Image</th>
+        <th style='min-width:150px'>Product title</th>
+        <th style='min-width:150px'>product id</th>
+        <th>Brand</th>
+        <th><%= sort_link(@q, :price, 'Price') %></th>
+        <th style='min-width:100px'>List price</th>
+        <th>Sku</th>
+        <th style='min-width:150px'>Product type</th>
+        <th>Status</th>
+        <th style='min-width:100px'>created at</th>
+        <th style='min-width:100px'>Meta title</th>
+        <th style='min-width:190px'>Meta description</th>
+        <th>Vendor</th>
+        <th style='min-width:150px'><%= sort_link(@q, :vendor_first_name) %></th>
+        <th style='min-width:150px'>last name</th>
+        <th>vendor email</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <tbody id="search-results">
+      <% start_index = @pagy.offset + 1 %>
+      <% @productdetails.includes(:vendor).each.with_index(start_index) do |productdetail, index| %>
+        <tr>
+          <td><%= index %></td>  
+          <td>
+            <% if productdetail.image.attached? %>
+              <%= image_tag productdetail.image, width: "30px", height: "38px" %>
+            <% end %>
+          </td>
+          <td><%= productdetail.product_title %></td>
+          <td><%= productdetail.id %></td>
+          <td><%= productdetail.brand %></td>
+          <td><%= productdetail.price %></td>
+          <td><%= productdetail.list_price %></td>
+          <td><%= productdetail.sku %></td>
+          <td><%= productdetail.product_type %></td>
+          <td>
+            <% if productdetail.status == true %>
+              <span style="color: green;">Active</span>
+            <% else %>
+              <span style="color: red;">Inactive</span>
+            <% end %>
+          </td>
+         
+
+
+
+          <td><%= productdetail.meta_title %></td>
+          <td><%= productdetail.meta_description %></td>
+          <td><%= productdetail.vendor_id %></td>
+          <td><%= productdetail.vendor.first_name %></td>
+          <td><%= productdetail.vendor.last_name %></td>
+          <td><%= productdetail.vendor.email %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center">
+    <%== pagy_bootstrap_nav(@pagy) %>
+    <%== pagy_info(@pagy) %>
+  </div>
+</div>
+<br>
+<%= search_form_for @q, url: productdetails_path, method: :get, remote: true, html: { id: 'search-form' } do |f| %>
+  <div class="form-group pull-right">
+    <%= f.text_field :product_title_or_vendor_first_name_cont, placeholder: 'Search by Product Title or Vendor Email', class: 'search form-control' %>
+    <%= f.collection_select :vendor_first_name_eq, Vendor.all, :first_name, :first_name, { include_blank: 'All Vendors' }, class: 'search form-control' %>
+   
+    <%= f.collection_select :s, [
+      ['Product Title (A-Z)', 'product_title asc'],
+      ['Product Title (Z-A)', 'product_title desc'],
+      ['Created At (Oldest First)', 'created_at asc'],
+      ['Created At (Newest First)', 'created_at desc'],
+      ['Vendor First Name (A-Z)', 'vendor_first_name asc'],
+      ['Vendor First Name (Z-A)', 'vendor_first_name desc'],
+      ['Price (Low to High)', 'price asc'],
+      ['Price (High to Low)', 'price desc']
+    ], :second, :first, { include_blank: 'Sort by' }, class: 'search form-control' %>
+
+    <%= f.submit 'Search' %>
+  </div>
+<% end %>
+-------------------------------------
+<p id="notice"><%= notice %></p>
+<h1>Products</h1>
+
+<%= search_form_for @q, url: productdetails_path, method: :get, remote: true, html: { id: 'search-form' } do |f| %>
+  <div class="form-group pull-right">
+    <%= f.text_field :product_title_or_vendor_first_name_cont, placeholder: 'Search by Product Title or Vendor Email', class: 'search form-control' %>
+    <%= f.collection_select :vendor_first_name_eq, Vendor.all, :first_name, :first_name, { include_blank: 'All Vendors' }, class: 'search form-control' %>
+   
+    <%= f.collection_select :s, [
+      ['Product Title (A-Z)', 'product_title asc'],
+      ['Product Title (Z-A)', 'product_title desc'],
+      ['Created At (Oldest First)', 'created_at asc'],
+      ['Created At (Newest First)', 'created_at desc'],
+      ['Vendor First Name (A-Z)', 'vendor_first_name asc'],
+      ['Vendor First Name (Z-A)', 'vendor_first_name desc'],
+      ['Price (Low to High)', 'price asc'],
+      ['Price (High to Low)', 'price desc']
+    ], :second, :first, { include_blank: 'Sort by' }, class: 'search form-control' %>
+
+    <%= f.submit 'Search' %>
+  </div>
+<% end %>
+
+<div class="container" style="background-color:#d2d7db;border-radius: 57px; width:1100px; overflow: scroll;">
+  <table id="product-details-table" class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Image</th>
+        <th style='min-width:150px'>Product title</th>
+        <th style='min-width:150px'>product id</th>
+        <th>Brand</th>
+        <th><%= sort_link(@q, :price, 'Price') %></th>
+        <th style='min-width:100px'>List price</th>
+        <th>Sku</th>
+        <th style='min-width:150px'>Product type</th>
+        <th>Status</th>
+        <th style='min-width:100px'>created at</th>
+        <th style='min-width:100px'>Meta title</th>
+        <th style='min-width:190px'>Meta description</th>
+        <th>Vendor</th>
+        <th style='min-width:150px'><%= sort_link(@q, :vendor_first_name) %></th>
+        <th style='min-width:150px'>last name</th>
+        <th>vendor email</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <tbody id="search-results">
+    
+       <%# start_index offset + 1 %>
+      <% @productdetails.includes(:vendor).each do |productdetail| %>
+      
+        <tr>
+        
+        
+          <td>
+            <% if productdetail.image.attached? %>
+              <%= image_tag productdetail.image, width: "30px", height: "38px" %>
+            <% end %>
+          </td>
+          <td><%= productdetail.product_title %></td>
+          <td><%= productdetail.id %></td>
+          <td><%= productdetail.brand %></td>
+          <td><%= productdetail.price %></td>
+          <td><%= productdetail.list_price %></td>
+          <td><%= productdetail.sku %></td>
+          <td><%= productdetail.product_type %></td>
+          <td>
+            <% if productdetail.status == true %>
+              <span style="color: green;">Active</span>
+            <% else %>
+              <span style="color: red;">Inactive</span>
+            <% end %>
+          </td>
+         
+          <td><%= productdetail.created_at.strftime('%Y-%m-%d') %></td>
+         
+
+          
+          <td><%= productdetail.meta_title %></td>
+          <td><%= productdetail.meta_description %></td>
+          <td><%= productdetail.vendor_id %></td>
+          <td><%= productdetail.vendor.first_name %></td>
+          <td><%= productdetail.vendor.last_name %></td>
+          <td><%= productdetail.vendor.email %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+</div>
+<nav aria-label>
+  <ul class="pagination justify-content-center"> 
+    <li class="page-item">
+      <% if @current_page > 1 %>
+        <%#= link_to 'Previous', page_productdetails_path(params.permit(:page, q: {}).merge(page: @current_page - 1)), class: "page-link" %>
+<%= link_to 'Previous', page_productdetails_path(page: @current_page - 1, q: params[:q]&.permit(:product_title_or_vendor_first_name_cont, :vendor_first_name_eq, :s)), class: "page-link" %>
+
+      <% end %>
+    </li>
+    
+    <li class="page-item">
+      <% (1..@total_search_pages).each do |page| %>
+  <% if page == @current_page %>
+    <span class="page-link current-page"><%= page %></span> 
+  <% else %>
+ <% query_params = (params[:q] || {}).merge(page: page) %>
+<%= link_to page, page_productdetails_path(page: page, q: params[:q]&.permit(:product_title_or_vendor_first_name_cont, :vendor_first_name_eq, :s)), class: 'page-link' %>
+
+
+  <% end %>
+<% end %>
+    </li> 
+    
+    <li class="page-item">
+      <% if @current_page < @total_search_pages %>
+        <%= link_to 'Next', page_productdetails_path(page: @current_page + 1, q: params[:q]&.to_unsafe_h), class: "page-link" %>
+
+      <% end %>
+    </li>
+  </ul>
+</nav>  
+<nav aria-label="Pagination">
+  <ul class="pagination pagination-horizontal justify-content-center">
+    <% if @current_page > 1 %>
+      <li class="page-item">
+        <%= link_to 'Previous', productdetails_path(page: @current_page - 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
+      </li>
+    <% end %>
+
+    <% (1..@total_search_pages).each do |page| %>
+      <li class="page-item <%= 'active' if page == @current_page %>">
+        <%= link_to page, productdetails_path(page: page, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <% if @current_page < @total_search_pages %>
+      <li class="page-item">
+        <%= link_to 'Next', productdetails_path(page: @current_page + 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
+      </li>
+    <% end %>
+  </ul>
+</nav>
+<div class="item-count" style="margin-top: 9px; margin-left: 11px; color: #1d1ddf;">
+  Displaying total items: <%= @total_items %>, current page: <%= @current_page %>
+</div>
+
+  

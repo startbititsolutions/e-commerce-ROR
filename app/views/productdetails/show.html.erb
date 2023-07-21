@@ -1,0 +1,94 @@
+ <span><%= link_to edit_productdetail_path,class: 'btn btn-sucess float-right mt-1 mr-1' do %>
+            <i class="fas fa-edit"></i>
+          <% end %></span>
+<section class="content">
+  <div class="card card-solid">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <h3 class="d-inline-block d-sm-none"><%= @productdetails.product_title %></h3>
+          <div class="col-12">
+            <div class="carousel-container">
+              <!-- Carousel -->
+              <div id="productCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <% @productdetails.images.each_with_index do |image, index| %>
+                    <li data-target="#productCarousel" data-slide-to="<%= index %>" <%= 'class="active"' if index == 0 %>></li>
+                  <% end %>
+                </ol>
+
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                  <% @productdetails.images.each_with_index do |image, index| %>
+                    <div class="carousel-item <%= 'active' if index == 0 %>">
+                      <%= image_tag image.variant(resize_to_limit: [700, 700]), class: 'd-block w-100',style:" height:600px;" %>
+                    </div>
+                  <% end %>
+                </div>
+
+                <!-- Carousel controls -->
+                <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image Gallery for Thumbnails -->
+          <div class="image-gallery d-flex flex-row  flex-wrap mt-2">
+            <% @productdetails.images.each_with_index do |image, index| %>
+              <div class="gallery-image ml-3">
+                <%= image_tag image.variant(resize_to_limit: [100, 100]), class: 'gallery-thumbnail', 'data-slide_to' => index.to_s, style:"width:75px; height:100px; margin-top:5px;" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+          <h3 class="my-3"><%= @productdetails.product_title %></h3>
+          <% @productdetails.attributes.each do |attr, value| %>
+            <% if attr.to_sym == :image %>
+              <% next %>
+            <% end %>
+            <% if attr.to_sym == :feature_image_id  %>
+      <% next %>
+    <% end %>
+      <% if attr.to_sym == :currency  %>
+      <% next %>
+    <% end %>
+    <% if attr.to_sym == :vendor  %>
+      <% next %>
+    <% end %>
+            <p><strong><%= attr.to_s.humanize %>:</strong> <%= value %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(document).ready(function() {
+    $('#productCarousel').carousel();
+
+    $('#productCarousel').on('slide.bs.carousel', function(event) {
+      var newIndex = $(event.relatedTarget).index();
+      // newIndex represents the index of the newly active slide
+
+      // You can perform any additional actions based on the newIndex value here
+    });
+  });
+</script>
+
+<style>
+  .gallery-image:hover {
+    border: 2px solid pink;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+</style>

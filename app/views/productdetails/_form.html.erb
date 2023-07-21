@@ -1,0 +1,80 @@
+<%= form_with(model: productdetail), html: { multipart: true } do |form| %>
+  <% if productdetail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(productdetail.errors.count, "error") %> prohibited this productdetail from being saved:</h2>
+
+      <ul>
+        <% productdetail.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :product_title %>
+    <%= form.text_field :product_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :brand %>
+    <%= form.text_field :brand %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price %>
+    <%= form.text_field :price %>
+  </div>
+
+  <div class="field">
+    <%= form.label :list_price %>
+    <%= form.text_field :list_price %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :sku %>
+    <%= form.text_field :sku %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tags %>
+    <%= form.text_area :tags %>
+  </div>
+
+  <div class="field">
+    <%= form.label :product_type %>
+    <%= form.text_field :product_type %>
+  </div>
+    <div class="field">
+    <%= form.label :images %>
+    <%= form.file_field :images,multiple: true %>
+  </div>
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.check_box :status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :meta_title %>
+    <%= form.text_field :meta_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :meta_description %>
+    <%= form.text_area :meta_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vendor_id %>
+    <%= form.collection_select :vendor_id, @vendors, :id, :first_name, prompt: "Select Vendor" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

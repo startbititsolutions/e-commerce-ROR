@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Filterbaseproduct</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+
+  <!-- Only include the javascript_pack_tag once -->
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <!-- Other scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+</head>
+<body>
+  <%= render 'layouts/navbar' %>
+  <%= yield %>
+</body>
+</html>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script>
+        document.addEventListener('DOMContentLoaded', function() {
+         
+          const deleteButtons = document.querySelectorAll(".delete-button");
+    const deleteForms = document.querySelectorAll(".delete-form");
+
+    deleteButtons.forEach(button => {
+      button.addEventListener("click", function(e) {
+        e.preventDefault();
+        const confirmMessage = this.dataset.confirm || "Are you sure?";
+        if (confirm(confirmMessage)) {
+          const deleteForm = document.querySelector(`.delete-form[data-image-id="${this.dataset.imageId}"]`);
+          deleteForm.submit();
+        }
+      });
+    });
+
+    // document.querySelector("form.form").addEventListener("submit", function(e) {
+    //   deleteForms.forEach(form => form.style.display = "block");
+    // });
+          $('.feature-checkbox').on('change', function() {
+        if ($(this).prop('checked')) {
+        
+          $('.feature-checkbox').not(this).prop('checked', false);
+        }
+      });
+        
+        $('.dropdown-toggle').on('click', function() {
+          $(this).siblings('.dropdown-menu').toggle();
+        });
+
+        $('#carouselExampleControls').carousel();
+
+        $('#carouselExampleControls').on('slide.bs.carousel', function(event) {
+          var newIndex = $(event.relatedTarget).index();
+          // newIndex represents the index of the newly active slide
+
+          // You can perform any additional actions based on the newIndex value here
+        });
+         $('.gallery-thumbnail').click(function() {
+   var slideTo = $(this).data('slide_to');
+        console.log($(this))
+    $('#productCarousel').carousel(parseInt(slideTo));
+  });
+
+        $('.btn-tool').click(function() {
+          var card = $(this).closest('.card');
+          var cardBody = card.find('.card-body');
+          
+          if (cardBody.is(':visible')) {
+            cardBody.slideUp();
+            $(this).find('i').removeClass('fa-minus').addClass('fa-plus');
+          } else {
+            cardBody.slideDown();
+            $(this).find('i').removeClass('fa-plus').addClass('fa-minus');
+          }
+        });
+
+        var currencySelect = document.getElementById('currency-select');
+        var prices = document.querySelectorAll('.product-price');
+        var conversionRates = {
+          'USD': 1,
+          'EUR': 0.9,
+          'GBP': 0.8
+        };
+        var currencySymbols = {
+          'USD': '$',
+          'EUR': '€',
+          'GBP': '£',
+          '': '₹' 
+        };
+
+        function convertPrices(currency) {
+          var conversionRate = conversionRates[currency];
+          var currencySymbol = currencySymbols[currency];
+
+          prices.forEach(function(price) {
+            var originalPrice = parseFloat(price.getAttribute('data-original-price'));
+            var convertedPrice;
+
+            if (currency === '') {
+              convertedPrice = originalPrice;
+            } else {
+              convertedPrice = originalPrice * conversionRate;
+            }
+
+            price.textContent = currencySymbol + convertedPrice.toFixed(2);
+          });
+        }
+
+        // currencySelect.addEventListener('change', function() {
+        //   var selectedCurrency = this.value;
+        //   convertPrices(selectedCurrency);
+        // });
+
+      //   var selectedCurrency = currencySelect.value;
+      //   convertPrices(selectedCurrency);
+      });
+        
+  </script>
+  
+
+
