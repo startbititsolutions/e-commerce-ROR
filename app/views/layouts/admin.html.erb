@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Filterbaseproduct</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Panel - My App</title>
+  <!-- Add your common CSS and meta tags here -->
+  <%#= stylesheet_link_tag 'admin', media: 'all' %>
+  <%#= javascript_include_tag 'admin' %>
   <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-
-  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
  
- 
-  
-
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
- 
-  <!-- Other scripts -->
-  
 </head>
-
 <body>
+ 
+  <header>
+    <nav>
+    <%= render 'layouts/navbar' %>
+    </nav>
+  </header>
 
   
   <%= yield %>
+
+  <!-- Add your common footer, scripts, etc., for admin views -->
+  <footer>
+   
+  </footer>
+  
   <% if flash[:notice].present? %>
   <div class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -32,22 +35,5 @@
   </div>
 <% end %>
 
-
 </body>
 </html>
-
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
-  
-
-
-
-

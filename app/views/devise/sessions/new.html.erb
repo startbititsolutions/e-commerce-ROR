@@ -1,5 +1,12 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-<p id="notice"><%= alert %></p>
+    <% if flash[:alert].present? %>
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<p id="notice" style="color:red"><%= alert %></p>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% end %>
     <section class="vh-100" style="background-color: #9A616D;">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">

@@ -61,14 +61,20 @@ class ProductdetailsController < ApplicationController
  
   def update
     @productdetail = Productdetail.find(params[:id])
-    new_images = params[:productdetail][:images]
-   
-    featured_image_id = params[:productdetail][:feature_image_id]
-
-    if  featured_image_id.present?
-     @productdetail.feature_image_id = featured_image_id
+    
+    # Check if params[:productdetail] is present before accessing its keys
+    if params[:productdetail].present?
+      new_images = params[:productdetail][:images] || {}
+      featured_image_id = params[:productdetail][:feature_image_id]
+    else
+      new_images = {}
+      featured_image_id = nil
     end
   
+    # Set the featured_image_id if present
+    @productdetail.feature_image_id = featured_image_id if featured_image_id.present?
+  
+    # Attach new images if present
     if new_images.present?
       new_images.each do |index, image_file|
         next unless image_file.present?
@@ -76,14 +82,15 @@ class ProductdetailsController < ApplicationController
         if @productdetail.images[index.to_i].present?
           @productdetail.images[index.to_i].purge
           @productdetail.images.attach(image_file)
-  
+        else
+          @productdetail.images.attach(image_file)
         end
       end
     end
   
     respond_to do |format|
       if @productdetail.update(productdetail_params)
-        format.html { redirect_to productdetail_url(@productdetail), notice: "Product detail was successfully updated." }
+        format.html { redirect_to admin_productdetail_url(@productdetail), notice: "Product detail was successfully updated." }
         format.json { render :show, status: :ok, location: @productdetail }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -91,12 +98,15 @@ class ProductdetailsController < ApplicationController
       end
     end
   end
+  
+  
+
   def delete_image
     @productdetail = Productdetail.find(params[:id])
     image = @productdetail.images.find(params[:image_id])
     image.purge # This will delete the image file from storage and the record from the database.
    
-    redirect_to edit_productdetail_path(@productdetail), notice: "Image deleted successfully."
+    redirect_to  edit_admin_productdetail_path(@productdetail), notice: "Image deleted successfully."
 
   end
 
@@ -108,7 +118,7 @@ class ProductdetailsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def productdetail_params
-      params.require(:productdetail).permit(:product_title ,:brand, :price,  :list_price, :description, :sku, :tags, :product_type, :status, :meta_title, :meta_description, :vendor_id, :currency, images: [])
+      params.require(:productdetail).permit(:product_title ,:brand, :price,  :list_price, :description, :sku, :tags, :product_type, :status, :meta_title, :meta_description, :vendor_id, :currency, :inventory, images: [])
     end
     def apply_filters
       if params[:product_title_or_vendor_first_name_cont].present?

@@ -1,4 +1,11 @@
- <span><%= link_to edit_productdetail_path,class: 'btn btn-sucess float-right mt-1 mr-1' do %>
+<% if flash[:notice].present? %>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p id="notice"><%= flash[:notice] %></p>
+  </div>
+<% end %>
+ 
+ <span><%= link_to edit_admin_productdetail_path,class: 'btn btn-sucess float-right mt-1 mr-1' do %>
             <i class="fas fa-edit"></i>
           <% end %></span>
 <section class="content">
@@ -52,39 +59,34 @@
 
         <div class="col-12 col-sm-6">
           <h3 class="my-3"><%= @productdetails.product_title %></h3>
+          
           <% @productdetails.attributes.each do |attr, value| %>
-            <% if attr.to_sym == :image %>
+            <% if attr.to_sym == :image || attr.to_sym == :feature_image_id || attr.to_sym == :description || attr.to_sym == :currency || attr.to_sym == :vendor_id %>
               <% next %>
             <% end %>
-            <% if attr.to_sym == :feature_image_id  %>
-      <% next %>
-    <% end %>
-      <% if attr.to_sym == :currency  %>
-      <% next %>
-    <% end %>
-    <% if attr.to_sym == :vendor  %>
-      <% next %>
-    <% end %>
-            <p><strong><%= attr.to_s.humanize %>:</strong> <%= value %></p>
+          
+            <p>
+              <strong><%= attr.to_s.humanize %>:</strong>
+              <% if attr.to_sym == :status %>
+                <%= value ? 'Active' : 'Draft' %>
+              <% else %>
+                <%= value %>
+              <% end %>
+            </p>
+       
+          
+          
+           
           <% end %>
+          <p> Description:
+          <%= @productdetails.description.body.to_s.html_safe %>
+          </p>
         </div>
+        
       </div>
     </div>
   </div>
 </section>
-
-<script>
-  $(document).ready(function() {
-    $('#productCarousel').carousel();
-
-    $('#productCarousel').on('slide.bs.carousel', function(event) {
-      var newIndex = $(event.relatedTarget).index();
-      // newIndex represents the index of the newly active slide
-
-      // You can perform any additional actions based on the newIndex value here
-    });
-  });
-</script>
 
 <style>
   .gallery-image:hover {

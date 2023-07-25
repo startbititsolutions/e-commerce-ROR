@@ -1,9 +1,17 @@
-<p id="notice"><%= notice %></p>
+
+
+<% if flash[:notice].present? %>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p id="notice"><%= flash[:notice] %></p>
+  </div>
+<% end %>
+
 
 <h1>Products</h1>
 
 
-<%= form_tag productdetails_path, method: :get, remote: true, html: { id: 'search-form' } do %>
+<%= form_tag admin_productdetails_path, method: :get, remote: true, html: { id: 'search-form' } do %>
         <div class="form-group d-flex">
           <%= text_field_tag :product_title_or_vendor_first_name_cont, params[:product_title_or_vendor_first_name_cont], placeholder: 'Search by Product Title ', class: 'search form-control mr-2' %>
           <%= select_tag :vendor_first_name_eq, options_for_select([['All Vendors', '']] + Vendor.distinct.pluck(:first_name).map { |name| [name, name] }, selected: params[:vendor_first_name_eq]), class: 'search form-control mr-2',style:'width:140px' %>
@@ -41,7 +49,7 @@
 
           <%#= select_tag :currency, options_for_select([['Select Currency', ''], ['USD', 'USD'], ['EUR', 'EUR'], ['GBP', 'GBP']], selected: params[:currency]), class: 'search form-control mr-2', id: 'currency-select' %>
           
-            <%= submit_tag nil, class: 'btn btn-primary', style: 'margin-right: 36px;' do %>
+            <%= submit_tag  "bu",class: 'btn btn-primary', style: 'margin-right: 36px;' do %>
               <i class="fa fa-search"></i> Search
             <% end %>
 
@@ -111,12 +119,12 @@
 
           <td><%= productdetail.vendor.first_name %></td>
           
-        <td><%= link_to productdetail_path(productdetail) do %>
+        <td><%= link_to admin_productdetail_path(productdetail) do %>
             <i class="fas fa-eye"></i>
           <% end %></td>
 
          
-          <td><%= link_to edit_productdetail_path(productdetail) do %>
+          <td><%= link_to edit_admin_productdetail_path(productdetail) do %>
             <i class="fas fa-edit"></i>
           <% end %></td>
 
@@ -135,19 +143,19 @@
     <% if @current_page > 1 %>
       <li class="page-item">
         
-        <%= link_to 'Previous', productdetails_path(page: @current_page - 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
+        <%= link_to 'Previous', admin_productdetails_path(page: @current_page - 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
       </li>
     <% end %>
 
     <% (1..@total_search_pages).each do |page| %>
       <li class="page-item <%= 'active' if page == @current_page %>">
-        <%= link_to page, productdetails_path(page: page, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: 'page-link' %>
+        <%= link_to page, admin_productdetails_path(page: page, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: 'page-link' %>
       </li>
     <% end %>
 
     <% if @current_page < @total_search_pages %>
       <li class="page-item">
-        <%= link_to 'Next', productdetails_path(page: @current_page + 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
+        <%= link_to 'Next', admin_productdetails_path(page: @current_page + 1, q: params[:q], vendor_first_name_eq: params[:vendor_first_name_eq], s: params[:s], currency: params[:currency]), class: "page-link" %>
       </li>
     <% end %>
      <div class="item-count" style="margin-top:9px; margin-left:11px; color:#1d1ddf;">
