@@ -16,7 +16,7 @@ ActiveStorage.start()
 require("trix")
 require("@rails/actiontext")
 
-// import './admin/custom';
+import './admin/custom';
 
-// console.log("aditya")
+console.log("aditya")
 

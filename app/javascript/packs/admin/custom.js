@@ -94,4 +94,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // If currencySelect element doesn't exist, convert with an empty currency
     convertPrices("");
   }
+  // const deleteForms = $(".delete-form");
 });
