@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   
   
   #resources :vendors
-  resources :admin_users, only: [:edit, :update,:show]
+  #resources :admin_users, only: [:edit, :update,:show]
 
 devise_for :users
   #resources :productdetails
@@ -13,7 +13,7 @@ devise_for :users
 
   root to: "home#index"
   namespace :admin do
-   
+    resources :admin_users, only: [:edit, :update,:show]
     resources :vendors
     root to: 'admin#index' 
     resources :productdetails, only: [:index, :show, :edit, :update] do

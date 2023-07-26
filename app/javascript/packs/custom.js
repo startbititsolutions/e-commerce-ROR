@@ -1,4 +1,4 @@
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
   // Use jQuery to select elements consistently
   const deleteButtons = $(".delete-button");
   const deleteForms = $(".delete-form");
