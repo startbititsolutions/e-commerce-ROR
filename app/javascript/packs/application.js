@@ -16,6 +16,7 @@ ActiveStorage.start()
 require("trix")
 require("@rails/actiontext")
 
+// import './customer/jquery-3.3.1.min.js'
 // import './admin/custom';
 
 // console.log("aditya")
