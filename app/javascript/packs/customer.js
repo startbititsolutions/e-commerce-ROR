@@ -24,7 +24,7 @@ import './customer/jbquery-ui.min.js'
 import './customer/jquery.slicknav.js' 
 // import './customer/mabowl.carousel.min.js'
 import './customer/main.js'
-
+// this code for the feature search
 document.addEventListener('DOMContentLoaded', () => {
   $(".loader").fadeOut();
   $("#preloder").delay(200).fadeOut("slow");
