@@ -61,4 +61,7 @@ gem "rolify"
 gem 'ckeditor'
 gem 'jquery-rails'
 
+gem 'will_paginate'
+  
+gem 'ransack'
 

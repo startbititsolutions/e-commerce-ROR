@@ -18,7 +18,7 @@
     validates :meta_description, presence: true
     has_rich_text :description
     #has_rich_text :meta_description
-  
+    
     def feature_image
       images.find_by(id: feature_image_id)
     end

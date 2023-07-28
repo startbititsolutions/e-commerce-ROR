@@ -12,6 +12,7 @@ devise_for :users
   
 
   root to: "home#index"
+  get '/products', to: 'products#index'
   namespace :admin do
     resources :admin_users, only: [:edit, :update,:show]
     resources :vendors

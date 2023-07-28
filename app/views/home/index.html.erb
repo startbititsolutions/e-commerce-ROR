@@ -263,8 +263,8 @@
                 </div>
             </div>
             <div class="row featured__filter">
-            <div class="row featured__filter">
-            <% @productdetails.includes(:vendor).each do |productdetail| %>
+            
+             <% @productdetails.includes(:vendor).each do |productdetail| %>
               <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                 <div class="featured__item">
                   <% if productdetail.images.attached? && productdetail.feature_image.present? %>
@@ -290,8 +290,8 @@
                   </div>
                 </div>
               </div>
-            <% end %>
-          </div>
+             <% end %>
+            </div>
           
           
                 
