@@ -233,44 +233,46 @@
                             </ul>
                         </div>
                         <!-- Price Range Filter -->
-<div class="sidebar__item">
-  <h4>Price Range</h4>
-  <div class="price-range-wrap">
-    <!-- Your price range slider implementation goes here -->
-  </div>
-  <div class="range-slider">
-  <%= form_tag products_path, method: :get do %>
-    <div class="price-input">
-      <%= text_field_tag 'q[price_gteq]', params[:q]&.dig(:price_gteq), placeholder: 'Min Price' %>
-      <%= text_field_tag 'q[price_lteq]', params[:q]&.dig(:price_lteq), placeholder: 'Max Price' %>
-    </div>
- 
-  <% end %>
-  </div>
-</div>
-
-<!-- Vendor Name Filter -->
-<!-- Vendor Name Filter with Radio Buttons (Two Names per Row) -->
-<div class="sidebar__item">
-  <h4>Vendor Name</h4>
-  <div class="sidebar__item__vendor">
-  <%= form_tag products_path, method: :get do %>
-    <% @vendors.each_slice(2) do |vendors_slice| %>
-      <div class="vendor-row">
-        <% vendors_slice.each do |vendor| %>
-          <label>
-            <%= radio_button_tag 'q[vendor_id_eq]', vendor.id, params.dig(:q, :vendor_id_eq) == vendor.id.to_s %>
-            <%= vendor.first_name %>
-          </label>
-        <% end %>
-      </div>
-    <% end %>
-    <%= submit_tag 'Apply Filter' %>
-  <% end %>
-  
-  </div>
-</div>
-
+                        <%= form_tag products_path, method: :get do %>
+                            <div class="sidebar__item">
+                              <h4>Price Range</h4>
+                              <div class="price-range-wrap">
+                                <!-- Your price range slider implementation goes here -->
+                              </div>
+                              <div class="range-slider">
+                                <div class="price-input">
+                                  <%= text_field_tag 'q[price_gteq]', params.dig(:q, :price_gteq), placeholder: 'Min Price' %>
+                                  <%= text_field_tag 'q[price_lteq]', params.dig(:q, :price_lteq), placeholder: 'Max Price' %>
+                                </div>
+                              </div>
+                            </div>
+                          
+                            <!-- Vendor Name Filter -->
+                            <!-- Vendor Name Filter with Radio Buttons (Two Names per Row) -->
+                            <div class="sidebar__item">
+                              <h4>Vendor Name</h4>
+                              <div class="sidebar__item__vendor">
+                                <label>
+                                  <%= radio_button_tag 'q[vendor_id_eq]', '', params.dig(:q, :vendor_id_eq).blank? %>
+                                  All Vendors
+                                </label>
+                                <% @vendors.each_slice(2) do |vendors_slice| %>
+                                  <div class="vendor-row">
+                                    <% vendors_slice.each do |vendor| %>
+                                      <label>
+                                        <%= radio_button_tag 'q[vendor_id_eq]', vendor.id, params.dig(:q, :vendor_id_eq) == vendor.id.to_s %>
+                                        <%= vendor.first_name %>
+                                      </label>
+                                    <% end %>
+                                  </div>
+                                <% end %>
+                              </div>
+                            </div>
+                          
+                            <%= submit_tag 'Apply Filter' %>
+                            <%= button_tag 'Clear Filters', type: :button, id: 'clear-filters' %>
+                          <% end %>
+                          
 
 <!-- Existing code for Colors and Popular Size filters... -->
 
@@ -352,12 +354,12 @@
                         <div class="col-lg-4 col-md-5">
                         <div class="filter__sort">
                         <%= search_form_for @q, url: products_path, html: { method: :get } do |f| %>
-                            <span>Sort By</span>
-                            <%= f.select :s, options_for_select({ "price desc" => "Price: High to Low", "price asc" => "Price: Low to High" }, params.dig(:q, :s)), {}, class: "sort-dropdown" %>
-                            <%= f.submit 'Apply Filter' %>
-                          <% end %>
-                          
-                        </div>
+                          <span>Sort By</span>
+                          <%= f.select :s, options_for_select({ "product_title asc" => "Product Title: A to Z", "product_title desc" => "Product Title: Z to A", "price desc" => "Price: High to Low", "price asc" => "Price: Low to High" }, params.dig(:q, :s)), {}, class: "sort-dropdown" %>
+                          <%= f.submit 'Apply Filter' %>
+                        <% end %>
+                      </div>
+                      
                       </div>
                       
 
@@ -586,6 +588,7 @@
             autoHeight: false,
             autoplay: true
         });
+       
       
         $(window).on('load', function () {
          
