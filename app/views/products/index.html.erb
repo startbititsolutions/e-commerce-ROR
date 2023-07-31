@@ -32,8 +32,9 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./shop-grid.html">Shop</a></li>
+            <li class="active"><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
+
+                <li>< <%= link_to "Products", products_path, data: { turbolinks: false } %>/li>
                 <li><a href="#">Pages</a>
                     <ul class="header__menu__dropdown">
                         <li><a href="./shop-details.html">Shop Details</a></li>
@@ -110,8 +111,8 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop-grid.html">Shop</a></li>
+                            <li><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
+                            <li class="active"><%= link_to "Products", products_path, data: { turbolinks: false } %></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="./shop-details.html">Shop Details</a></li>
@@ -154,7 +155,12 @@
               </div>
               <ul>
                 <% @vendors.each do |vendor| %>
-                  <li><a href="#"><%= vendor.first_name %></a></li>
+                
+                  <li>
+                  <%= link_to vendor.first_name, product_vendor_path(vendor) %>
+                </li>
+                
+
                 <% end %>
               </ul>
             </div>
@@ -233,7 +239,7 @@
                             </ul>
                         </div>
                         <!-- Price Range Filter -->
-                        <%= form_tag products_path, method: :get do %>
+                        <%= form_tag products_path, method: :get, id: 'filter-form' do %>
                             <div class="sidebar__item">
                               <h4>Price Range</h4>
                               <div class="price-range-wrap">
@@ -268,9 +274,9 @@
                                 <% end %>
                               </div>
                             </div>
-                          
-                            <%= submit_tag 'Apply Filter' %>
-                            <%= button_tag 'Clear Filters', type: :button, id: 'clear-filters' %>
+                            <%= submit_tag 'Apply Filter', class: "btn btn-primary" %>
+
+                            <%= button_tag 'Clear Filters', type: :button, id: 'clear-filters', class: "btn btn-danger" %>
                           <% end %>
                           
 
@@ -287,7 +293,7 @@
                                 <% @productdetails.includes(:vendor).limit(6).each_slice(3) do |products_row| %>
                                     <div class="latest-prdouct__slider__item">
                                     <% products_row.each do |product| %>
-                                        <a href="#" class="latest-product__item">
+                                        <a href="<%= product_path(product) %>" class="latest-product__item" data-turbolinks="false">
                                         <div class="latest-product__item__pic">
                                             <% if product.images.attached? %>
                                             <%= image_tag product.images.first.variant(resize_to_limit: [100, 100]), style: "width:70px; height:100px;" %>
@@ -328,13 +334,20 @@
                                                 <% image_url = asset_path('avtar1.png') %>
                                                 <% end %>
                                         <% end %>
+                                       
+                                      
                                             <div class="product__discount__item__pic set-bg"
                                             data-setbg="<%= image_url %>">
                                                 <div class="product__discount__percent">-20%</div>
                                                 <ul class="product__item__pic__hover">
                                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                     <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                                   
+                                                    <% if productdetail.images.attached? %>
+                                                    <li><%= link_to product_path(productdetail) , data: { turbolinks: false }  do %>
+                                                      <i class="fa fa-shopping-cart"></i>
+                                                    <% end %></li>
+                                                  <% end %>
                                                 </ul>
                                             </div>
                                             <div class="product__discount__item__text">
@@ -342,7 +355,8 @@
                                                 <h5><a href="#"> <%= productdetail.product_title %> </a></h5>
                                                 <div class="product__item__price"> <span>$</span><%= productdetail.price %> </div>
                                             </div>
-                                        </div>
+                                         </div>
+                                     
                                     </div>
                                 <% end %>    
                                
@@ -353,12 +367,23 @@
                         <div class="row">
                         <div class="col-lg-4 col-md-5">
                         <div class="filter__sort">
-                        <%= search_form_for @q, url: products_path, html: { method: :get } do |f| %>
+                        <%= search_form_for @q, url: products_path, html: { method: :get, id: 'sorting-form' } do |f| %>
                           <span>Sort By</span>
-                          <%= f.select :s, options_for_select({ "product_title asc" => "Product Title: A to Z", "product_title desc" => "Product Title: Z to A", "price desc" => "Price: High to Low", "price asc" => "Price: Low to High" }, params.dig(:q, :s)), {}, class: "sort-dropdown" %>
-                          <%= f.submit 'Apply Filter' %>
+                          <%= f.select :s, options_for_select(
+                            {
+                              "Product Title: A to Z" => "product_title asc",
+                              "Product Title: Z to A" => "product_title desc",
+                              "Price: High to Low" => "price desc",
+                              "Price: Low to High" => "price asc"
+                            },
+                            params.dig(:q, :s)
+                          ),
+                          {}, class: "sort-dropdown", id: 'sorting-dropdown' %>
+                          
+                          <%= f.submit 'Apply Filter', style: 'display: none;' %>
                         <% end %>
                       </div>
+                      
                       
                       </div>
                       
@@ -395,7 +420,11 @@
                                             <ul class="product__item__pic__hover">
                                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                                <% if productdetail.images.attached? %>
+                                                <li><%= link_to product_path(productdetail) do %>
+                                                  <i class="fa fa-shopping-cart"></i>
+                                                <% end %></li>
+                                              <% end %>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
@@ -419,7 +448,8 @@
                         
                         
                     </div>
-                    <%= will_paginate @productdetails %>
+                    <%= will_paginate @productdetails, data: { turbolinks: false } %>
+
                     <div class="product__pagination">
                    
                        
@@ -588,6 +618,18 @@
             autoHeight: false,
             autoplay: true
         });
+
+        function clearFilters() {
+            $('#filter-form :input').each(function() {
+              $(this).val('');
+            });
+            $('#filter-form').submit();
+          }
+      
+          // Event listener for the "Clear Filters" button
+          $('#clear-filters').click(function() {
+            clearFilters();
+          });
        
       
         $(window).on('load', function () {
@@ -597,4 +639,4 @@
     
        
     </script>
-   
+  

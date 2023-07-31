@@ -13,7 +13,10 @@ devise_for :users
 
   root to: "home#index"
   get '/products', to: 'products#index'
-  get '/products/:id', to: 'products#show'
+  get '/products/:id', to: 'products#show', as: :product
+  get 'product_vendor/:vendor_id', to: 'products#product_vendor', as: 'product_vendor'
+
+
   namespace :admin do
     resources :admin_users, only: [:edit, :update,:show]
     resources :vendors
