@@ -208,7 +208,7 @@
                                               <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                               <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                               <% if product.images.attached? %>
-                                              <li><%= link_to product_path(product) do %>
+                                              <li><%= link_to product_path(product), data: { turbolinks: false } do %>
                                                 <i class="fa fa-shopping-cart"></i>
                                               <% end %></li>
                                             <% end %>

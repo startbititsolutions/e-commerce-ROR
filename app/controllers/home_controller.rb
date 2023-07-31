@@ -4,6 +4,7 @@ class HomeController < ApplicationController
  
     def index
         @productdetails = Productdetail.all
+        @vendors = Vendor.all
     end
 end
   

@@ -1,8 +1,7 @@
-<h1> work in progress </h1>
 
-<p id="notice"><%= alert %></p>
+
 <!-- Page Preloder -->
-
+<p id="notice"><%= alert %></p>
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
@@ -34,8 +33,9 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./shop-grid.html">Shop</a></li>
+            <li class="active"><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
+
+            <li>< <%= link_to "Products", products_path, data: { turbolinks: false } %>/li>
                 <li><a href="#">Pages</a>
                     <ul class="header__menu__dropdown">
                         <li><a href="./shop-details.html">Shop Details</a></li>
@@ -113,8 +113,8 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="./shop-grid.html">Shop</a></li>
+                        <li><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
+                        <li class="active"><%= link_to "Products", products_path, data: { turbolinks: false } %></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="./shop-details.html">Shop Details</a></li>
@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="humberger__open">
-                <i class="fa fas-bars"></i>
+            <i class="fa fa-bars"></i>
             </div>
         </div>
     </header>
@@ -156,18 +156,15 @@
                             <span>All departments</span>
                         </div>
                         <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
-                        </ul>
+                        <% @vendors.each do |vendor| %>
+                        
+                          <li>
+                          <%= link_to vendor.first_name, product_vendor_path(vendor) %>
+                        </li>
+                        
+        
+                        <% end %>
+                      </ul>
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -253,11 +250,7 @@
                     </div>
                     <div class="featured__controls">
                         <ul>
-                            <li class="active" data-filter="*">All</li>
-                            <li data-filter=".oranges">Oranges</li>
-                            <li data-filter=".fresh-meat">Fresh Meat</li>
-                            <li data-filter=".vegetables">Vegetables</li>
-                            <li data-filter=".fastfood">Fastfood</li>
+                           
                         </ul>
                     </div>
                 </div>
@@ -280,13 +273,19 @@
                     <ul class="featured__item__pic__hover">
                       <li><a href="#"><i class="fa fa-heart"></i></a></li>
                       <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                      <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                     
+                      <% if productdetail.images.attached? %>
+                      <li><%= link_to product_path(productdetail) , data: { turbolinks: false }  do %>
+                        <i class="fa fa-shopping-cart"></i>
+                      <% end %></li>
+                    <% end %>
+
                     </ul>
                   </div>
                   <div class="featured__item__text">
                     <h6><%= productdetail.product_title %></h6>
-                    <h5>$30.00</h5>
-                    <h5 class="product-price" data-original-price="<%= productdetail.price %>"><%= productdetail.price %> </h5>
+                  
+                    <h5 class="product-price" data-original-price="<%= productdetail.price %>"> $<%= productdetail.price %> </h5>
                   </div>
                 </div>
               </div>
@@ -335,7 +334,7 @@
                             <% @productdetails.includes(:vendor).limit(6).each_slice(3) do |products_row| %>
                                 <div class="latest-prdouct__slider__item">
                                 <% products_row.each do |product| %>
-                                <a href="#" class="latest-product__item">
+                                    <a href="<%= product_path(product) %>" class="latest-product__item" data-turbolinks="false">
                                     <div class="latest-product__item__pic">
                                         <% if product.images.attached? && product.feature_image.present? %>
                                          <%= image_tag product.feature_image.variant(resize_to_limit: [100, 100]), style:"width:70px; height:100px;" %>
@@ -367,7 +366,7 @@
                     <% @productdetails.includes(:vendor).limit(6).each_slice(3) do |products_row| %>
                       <div class="latest-prdouct__slider__item">
                         <% products_row.each do |product| %>
-                          <a href="#" class="latest-product__item">
+                            <a href="<%= product_path(product) %>" class="latest-product__item" data-turbolinks="false">
                             <div class="latest-product__item__pic">
                               <% if product.images.attached? %>
                                 <%= image_tag product.images.first.variant(resize_to_limit: [100, 100]), style: "width:70px; height:100px;" %>
@@ -393,7 +392,7 @@
                             <% @productdetails.includes(:vendor).limit(6).each_slice(3) do |products_row| %>
                                 <div class="latest-prdouct__slider__item">
                                 <% products_row.each do |product| %>
-                                    <a href="#" class="latest-product__item">
+                                    <a href="<%= product_path(product) %>" class="latest-product__item" data-turbolinks="false">
                                     <div class="latest-product__item__pic">
                                         <% if product.images.attached? %>
                                         <%= image_tag product.images.first.variant(resize_to_limit: [100, 100]), style: "width:70px; height:100px;" %>

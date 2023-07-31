@@ -1,4 +1,4 @@
-<h1> working </h1>
+    
 <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -32,8 +32,9 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./shop-grid.html">Shop</a></li>
+            <li class="active"><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
+
+            <li>< <%= link_to "Products", products_path, data: { turbolinks: false } %>/li>
                 <li><a href="#">Pages</a>
                     <ul class="header__menu__dropdown">
                         <li><a href="./shop-details.html">Shop Details</a></li>
@@ -110,8 +111,8 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop-grid.html">Shop</a></li>
+                        <li><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
+                        <li class="active"><%= link_to "Products", products_path, data: { turbolinks: false } %></li>
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
                                     <li><a href="./shop-details.html">Shop Details</a></li>
