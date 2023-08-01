@@ -3,8 +3,15 @@ class HomeController < ApplicationController
     layout 'frontend'
  
     def index
-        @productdetails = Productdetail.all
+        @q = Productdetail.ransack(params[:q])
+        @productdetails = @q.result(distinct: true)
         @vendors = Vendor.all
+      end
+        
+    private
+
+    def home_params
+      params.require(:q).permit(:product_title_cont)
     end
 end
   

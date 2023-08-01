@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :customers
   mount Ckeditor::Engine => '/ckeditor'
   
   
@@ -15,6 +16,8 @@ devise_for :users
   get '/products', to: 'products#index'
   get '/products/:id', to: 'products#show', as: :product
   get 'product_vendor/:vendor_id', to: 'products#product_vendor', as: 'product_vendor'
+  get '/blog', to: 'products#blog'
+  get '/contact', to: 'products#contact'
 
 
   namespace :admin do

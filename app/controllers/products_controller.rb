@@ -15,13 +15,22 @@ class ProductsController < ApplicationController
     def show
       @vendors = Vendor.all
       @productdetail = Productdetail.find(params[:id])
+      @q = Productdetail.ransack(params[:q])
+      @productdetails = @q.result(distinct: true)
       @related_products = find_related_products_with_same_vendor(@productdetail)
 
     end
     def product_vendor
       @vendors = Vendor.all
       @vendor = Vendor.find(params[:vendor_id])
-    @products = @vendor.productdetail
+      @q = @vendor.productdetail.ransack(params[:q])
+      @products = @q.result(distinct: true)
+    end
+    def blog
+
+    end
+    def contact
+      
     end
   
       
