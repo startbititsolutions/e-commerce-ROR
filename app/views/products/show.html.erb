@@ -1,4 +1,15 @@
 
+  <% if flash[:notice].present? %>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p id="notice"><%= flash[:notice] %></p>
+  </div>
+<% end %>
+  
+  
+  
+  
+  
 <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -228,27 +239,44 @@
                         </div>
                         <div class="product__details__price">$<%= @productdetail.price %></div>
                         <p><%= @productdetail.description %>.</p>
+                        <% @cart.line_items.each do |line_item| %>
+                            
+                                
+                          <% if line_item.productdetail_id == @productdetail.id %>
+                        
+                           
                         <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </div>
+                        <div class="quantity">
+                       
+                          <div class="pro-qty">
+                        
+                          <a href="#" class="increase-btn" data-line-item-id="<%= line_item.id %>">+</a>
+                          <input type="text" id="quantity-input-<%= line_item.id %>" value="<%= line_item.quantity %>" disabled>
+                          <a href="#" class="decrease-btn" data-line-item-id="<%= line_item.id %>">-</a>
+                           
+                     
                         </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
+                      </div>
+                      </div>
+                      <% end %>
+                      <% end %>
+                       
+                   
+                       
+                               
+                        <%= form_with(url: line_items_path, method: :post, data: { turbo: false }) do |form| %>
+                            <%= form.hidden_field :productdetail_id, value: @productdetail.id %>
+                            <%= form.submit "Add to cart", class: "primary-btn" %>
+                          <% end %>
+                          
+                       
+
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         <ul>
                             <li><b>Availability</b> <span><%= @productdetail.status %></span></li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
                             <li><b>Weight</b> <span>0.5 kg</span></li>
-                            <li><b>Share on</b>
-                                <div class="share">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                </div>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -471,11 +499,13 @@
         });
        
       
+          
+          
         $(window).on('load', function () {
          
         });
     });
     
-       
+    
     </script>
-   
+  

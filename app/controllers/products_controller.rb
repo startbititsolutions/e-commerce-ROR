@@ -12,14 +12,15 @@ class ProductsController < ApplicationController
       
       @productdetails = @q.result(distinct: true).includes(:vendor).paginate(page: params[:page], per_page: 10)
     end
-    def show
-      @vendors = Vendor.all
-      @productdetail = Productdetail.find(params[:id])
-      @q = Productdetail.ransack(params[:q])
-      @productdetails = @q.result(distinct: true)
-      @related_products = find_related_products_with_same_vendor(@productdetail)
+      def show
+        @cart = @current_cart
+        @vendors = Vendor.all
+        @productdetail = Productdetail.find(params[:id])
+        @q = Productdetail.ransack(params[:q])
+        @productdetails = @q.result(distinct: true)
+        @related_products = find_related_products_with_same_vendor(@productdetail)
 
-    end
+      end
     def product_vendor
       @vendors = Vendor.all
       @vendor = Vendor.find(params[:vendor_id])
@@ -30,7 +31,7 @@ class ProductsController < ApplicationController
 
     end
     def contact
-      
+
     end
   
       

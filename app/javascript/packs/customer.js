@@ -42,5 +42,64 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(containerEl)
   }
 });
+$(document).on("click", ".increase-btn", function(event) {
+    event.preventDefault();
+    var lineItemId = $(this).data("line-item-id");
+    updateQuantity(lineItemId, 1); // Increment quantity by 1
+  });
+  
+  $(document).on("click", ".decrease-btn", function(event) {
+    event.preventDefault();
+    var lineItemId = $(this).data("line-item-id");
+    updateQuantity(lineItemId, -1); // Decrement quantity by 1
+  });
+  
+  function updateQuantity(lineItemId, change) {
+    var inputField = $("#quantity-input-" + lineItemId);
+    var newValue = parseInt(inputField.val()) + change;
+    if (newValue < 1) return; // Prevent negative quantity
+  
+    $.ajax({
+      url: "/line_items/" + lineItemId,
+      type: "POST",
+      dataType: "json",
+      data: { quantity: newValue },
+      success: function(data) {
+        inputField.val(data.quantity); 
+        updateSubtotal(lineItemId, data.total_price); 
+        updateCartTotal(data.cart_total); 
+        updateTotalPrice(data.total_price, lineItemId);
+      },
+      error: function(error) {
+        console.error("Error updating quantity:", error);
+      }
+    });
+  }
+  
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  } 
+  function updateTotalPrice(newTotalPrice, lineItemId) {
+    var totalPriceElement = $(".total-price[data-line-item-id='" + lineItemId + "']");
+    var currencySymbol = "$";
+    var formattedTotalPrice = formatCurrency(newTotalPrice);
+    totalPriceElement.text(formattedTotalPrice);
+  } 
+  function updateSubtotal(lineItemId, newSubtotal) {
+
+    var subtotalElement = $("#line-item-subtotal-" + lineItemId);
+    var currencySymbol = "$";
+      var formattedTotalPrice = formatCurrency(newSubtotal);
+    subtotalElement.text(formattedTotalPrice);
+  }
+  
+  function updateCartTotal(newCartTotal) {
+
+    var cartTotalElement = $(".shoping__checkout li:last-child span");
+    var currencySymbol = "$";
+    var formattedTotalPrice = formatCurrency(newCartTotal);
+    cartTotalElement.text(formattedTotalPrice);
+  }
+  
  console.log("aditya")
  

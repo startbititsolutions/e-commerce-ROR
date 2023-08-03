@@ -4,6 +4,7 @@
     
     has_many_attached :images, dependent: :destroy
     belongs_to :vendor
+    has_many :line_items, dependent: :destroy
     
     validates :product_title, presence: true
     validates :brand, presence: true
