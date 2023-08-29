@@ -36,8 +36,71 @@
 <%= f.label :alternateMobile %><br>
 <%= f.number_field :alternate_mobile %>
 </p>
-<li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
+<li> sub Total for products <span><%= number_to_currency(@cart.sub_total) %></span></li>
+<li>Total including shipping amount: <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></li>
     <p>
       <%= f.submit %>
     </p>
   <% end %>
+  <%= form_for(@order) do |f| %>
+    <div class="checkout__form">
+      <h4>Billing Details</h4>
+      <div class="row">
+        <div class="col-lg-8 col-md-6">
+          <!-- Name Fields -->
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="checkout__input">
+                <%= f.label :name, 'First Name<span>*</span>'.html_safe %>
+                <%= f.text_field :name, required: true %>
+              </div>
+            </div>
+            
+          </div>
+          <!-- Other Fields -->
+          <div class="checkout__input">
+            <%= f.label :country, 'Country<span>*</span>'.html_safe %>
+            <%= f.text_field :country %>
+          </div>
+          <div class="checkout__input">
+          <%= f.label :City, 'City<span>*</span>'.html_safe %>
+          <%= f.text_field :city %>
+        </div>
+        <div class="checkout__input">
+        <%= f.label :Address, 'Address<span>*</span>'.html_safe %>
+        <%= f.text_field :address %>
+      </div>
+      <div class="checkout__input">
+      <%= f.label :Address, 'Postal/zip code<span>*</span>'.html_safe %>
+      <%= f.text_field :pincode %>
+    </div>
+    <div class="checkout__input">
+    <%= f.label :Address, 'Phone<span>*</span>'.html_safe %>
+    <%= f.text_field :mobile %>
+  </div>
+          <!-- Other Fields ... -->
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <!-- Order Summary -->
+          <div class="checkout__order">
+            <h4>Your Order</h4>
+            <div class="checkout__order__products">Products <span>Total</span></div>
+            <ul>
+              <% @cart.line_items.each do |item| %>
+                <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
+              <% end %>
+            </ul>
+            <div class="checkout__order__subtotal">Subtotal <span><%= number_to_currency(@cart.sub_total) %></span></div>
+            <div class="checkout__order__total">Total incluing shipping <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></div>
+          </div>
+          <!-- Payment Methods -->
+          
+          <!-- Other Fields ... -->
+          
+          
+          <%= f.submit 'PLACE ORDER', class: 'site-btn' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  

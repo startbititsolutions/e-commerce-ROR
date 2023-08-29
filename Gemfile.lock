@@ -88,6 +88,10 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     erubi (1.12.0)
     ffi (1.15.5)
     globalid (1.1.0)
@@ -135,6 +139,8 @@ GEM
     nokogiri (1.15.3-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    pay (6.8.0)
+      rails (>= 6.0.0)
     pg (1.5.3)
     public_suffix (5.0.1)
     puma (5.6.6)
@@ -215,6 +221,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    stripe (9.0.0)
     thor (1.2.2)
     tilt (2.2.0)
     timeout (0.4.0)
@@ -257,10 +264,12 @@ DEPENDENCIES
   capybara (>= 3.26)
   ckeditor
   devise (~> 4.9)
+  dotenv-rails
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   jquery-rails
   listen (~> 3.3)
+  pay
   pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
@@ -270,6 +279,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver (>= 4.0.0.rc1)
   spring
+  stripe
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)
