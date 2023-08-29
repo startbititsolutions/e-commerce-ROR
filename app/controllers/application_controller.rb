@@ -14,27 +14,30 @@ class ApplicationController < ActionController::Base
 
   private
   def current_cart
-
-    if session[:cart_id]
-      @current_cart = Cart.find_by(id: session[:cart_id])
-      session[:cart_id] = nil unless @current_cart
-    end
+    if current_customer
+      @current_cart ||= current_customer.cart || current_customer.create_cart
+    else
+      if session[:cart_id]
+        @current_cart = Cart.find_by(id: session[:cart_id])
+        session[:cart_id] = nil unless @current_cart
+      end
   
-    unless @current_cart
-      @current_cart = Cart.create
-      session[:cart_id] = @current_cart.id
+      unless @current_cart
+        @current_cart = Cart.create
+        session[:cart_id] = @current_cart.id
+      end
     end
   
     @current_cart
-  end 
-    
+  end
+  
  
     protected
     
     def after_sign_out_path_for(resource_or_scope)
       new_user_session_path
     end
-
+    
   def after_confirmation_path_for(resource_name, resource)
     UserMailer.send_confirmation_instructions(resource).deliver_now
     

@@ -10,6 +10,7 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
+    @cart = current_customer.cart
   end
   def create
     @order = Order.new(order_params)
