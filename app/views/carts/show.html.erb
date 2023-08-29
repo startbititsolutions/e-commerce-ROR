@@ -297,7 +297,7 @@
                     <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
 
                 </ul>
-                <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                <%= link_to "Proceed to checkout", new_order_path %><br>
             </div>
         </div>
     </div>

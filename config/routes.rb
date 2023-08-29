@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
 
-  get 'orders/index'
-  get 'orders/show'
-  get 'orders/new'
-  get 'carts/show'
+  resources :orders
+
   devise_for :customers
   mount Ckeditor::Engine => '/ckeditor'
   

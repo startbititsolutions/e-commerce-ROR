@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_01_114008) do
+ActiveRecord::Schema.define(version: 2023_08_29_084555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 2023_08_01_114008) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "customer_id"
+    t.index ["customer_id"], name: "index_carts_on_customer_id"
   end
 
   create_table "ckeditor_assets", force: :cascade do |t|
@@ -87,6 +89,8 @@ ActiveRecord::Schema.define(version: 2023_08_01_114008) do
     t.integer "cart_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "order_id"
+    t.index ["order_id"], name: "index_line_items_on_order_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -95,6 +99,18 @@ ActiveRecord::Schema.define(version: 2023_08_01_114008) do
     t.text "address"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "customer_id", null: false
+    t.float "order_number"
+    t.float "tax"
+    t.float "shipping_amount"
+    t.boolean "status"
+    t.string "note"
+    t.string "country"
+    t.string "city"
+    t.string "pincode"
+    t.string "alternate_mobile"
+    t.string "mobile"
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
   create_table "productdetails", force: :cascade do |t|
@@ -147,6 +163,14 @@ ActiveRecord::Schema.define(version: 2023_08_01_114008) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
+  create_table "shippings", force: :cascade do |t|
+    t.string "tracking_number"
+    t.datetime "actual_delivery_date"
+    t.string "shipping_method"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -188,6 +212,9 @@ ActiveRecord::Schema.define(version: 2023_08_01_114008) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "carts", "customers"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "orders", "customers"
   add_foreign_key "productdetails", "vendors"
   add_foreign_key "products", "vendors"
 end

@@ -1,6 +1,7 @@
 class LineItemsController < ApplicationController
+  before_action :current_cart
     def create
-    
+  
         chosen_product = Productdetail.find(params[:productdetail_id])
        
         current_cart = @current_cart
@@ -12,6 +13,7 @@ class LineItemsController < ApplicationController
        
           @line_item.quantity = (@line_item.quantity || 0) + 1
         else
+    
           @line_item = LineItem.new
           @line_item.cart = current_cart
           @line_item.productdetail = chosen_product
@@ -20,6 +22,7 @@ class LineItemsController < ApplicationController
       
 
         @line_item.save
+     
         flash[:notice] = "✓ Item added to cart successfully."
 
 
