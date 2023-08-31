@@ -3,7 +3,7 @@ class CartsController < ApplicationController
   def show
     @cart = @current_cart
     @vendors = Vendor.all
-    @productdetail = Productdetail.find(params[:id])
+  
     @q = Productdetail.ransack(params[:q])
     @productdetails = @q.result(distinct: true)
   end

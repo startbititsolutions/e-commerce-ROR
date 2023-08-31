@@ -6,6 +6,11 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
+  <script src="https://js.stripe.com/v3"></script>
+
+
+
+
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   
  
@@ -17,17 +22,30 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   
   <%= javascript_pack_tag 'customer', 'data-turbolinks-track': 'reload' %>
-  <!-- Replace the local inclusion with the CDN link -->
+
+
+
+  <script>
+    var publishableKey = 'pk_test_51NkQmqBmFMBRRena9mxy9ubEOxWw9K4W2Eh69WThTYmzuqMckHBEjiDNirTOWKH5gjDiWx0cuDXFyok2XjthTCBb00L2RKuAKX';
+    console.log('Publishable Key:', publishableKey);
+    var stripe = Stripe(publishableKey);
+  </script>
+  
+  
+  
+
+
  
   <!-- Owl Carousel 2.2.1 -->
   <!-- Owl Carousel 2.3.4 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+  
 
 
 
  
-  <!-- Other scripts -->
+
   
 </head>
 
@@ -41,6 +59,7 @@
     <p id="notice"><%= flash[:notice] %></p>
   </div>
 <% end %>
+
 
 
 </body>

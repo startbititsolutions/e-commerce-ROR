@@ -8,8 +8,11 @@
   <p>Line Items: </p>
   <ul>
     <% order.line_items.each do |item| %>
-    <li><%= item.quantity %> x <%= item.productdetail.product_title %></li>
-    
+      <li>
+        <%= item.quantity %> x <%= item.productdetail.product_title %>
+        - Total: <%= number_to_currency(item.quantity * item.productdetail.price) %>
+      </li>
     <% end %>
+    <li>Total including shipping amount: <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></li>
   </ul>
 <% end %>

@@ -1,0 +1,46 @@
+
+<h1>Orders#index</h1>
+<p>Find me in app/views/orders/index.html.erb</p>
+<h2>All Orders</h2>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Order No</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price per Item</th>
+        <th>Total Price</th>
+        <th> Total Item </th>
+      </tr>
+    </thead>
+    <tbody>
+    <% total_items = 0 %>
+      <% @orders.each do |order| %>
+        <tr>
+          <td rowspan="<%= order.line_items.size + 1 %>"><%= order.id %></td>
+          <td rowspan="<%= order.line_items.size + 1 %>"><%= order.name %></td>
+          <td rowspan="<%= order.line_items.size + 1 %>"><%= order.email %></td>
+        </tr>
+        <% order.line_items.each do |item| %>
+          <tr>
+          <% total_items += item.quantity %>
+            <td><%= item.productdetail.product_title %></td>
+            <td><%= item.quantity %></td>
+            <td><%= number_to_currency(item.productdetail.price) %></td>
+            <td><%= number_to_currency(item.quantity * item.productdetail.price) %></td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="5" align="right"><strong>Subtotal:</strong></td>
+          <td colspan="2"><%= number_to_currency(order.line_items.sum { |item| item.quantity * item.productdetail.price }) %></td>
+          <td>Total Items: <%= total_items %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

@@ -1,9 +1,10 @@
-
+module Admin
 class OrdersController < ApplicationController
 
   before_action :current_cart
-
-
+  before_action :authenticate_user!  
+ 
+  layout 'admin'
   def index
     @orders = Order.all
     @cart = current_customer.cart
@@ -45,4 +46,5 @@ class OrdersController < ApplicationController
     def order_params
       params.require(:order).permit(:name, :email, :address,:customer_id)
     end
+end
 end

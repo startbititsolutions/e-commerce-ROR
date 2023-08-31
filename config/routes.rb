@@ -29,11 +29,15 @@ post 'line_items', to: 'line_items#create'
 get 'line_items/:id', to: 'line_items#show', as: "line_item"
 delete 'line_items/:id', to: 'line_items#destroy'
 post  'line_items/:id', to: 'line_items#update_quantity'
-
+ get 'checkout', to: 'checkouts#show'
+ get 'success', to: 'checkouts#success'
+ get   'failuer', to: 'checkouts#failuer'
+ get     'billing', to: 'billing#show'
 
   namespace :admin do
     resources :admin_users, only: [:edit, :update,:show]
     resources :vendors
+    resources :orders
     root to: 'admin#index' 
     resources :productdetails, only: [:index, :show, :edit, :update] do
       get 'page/:page', action: :index, on: :collection, as: 'page'

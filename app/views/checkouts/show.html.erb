@@ -1,0 +1,14 @@
+<h1>Checkout</h1>
+<%= render partial: 'pay/stripe/checkout_button', locals: {
+    session: @checkout_session,
+    title: "Checkout"
+} %>
+
+<script> 
+var stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>");
+stripe.redirectToCheckout({
+  sessionId: '<%=  @checkout_session.id %>'
+}).then(function (result) {
+  console.log(result.error.message);
+});
+</script>
