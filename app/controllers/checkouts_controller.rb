@@ -1,5 +1,7 @@
 class CheckoutsController < ApplicationController
     layout 'frontend'
+
+  before_action :current_cart
     def show
         current_customer.set_payment_processor :stripe
         Stripe.api_key = ENV['STRIPE_SECRET_KEY']
@@ -36,10 +38,16 @@ class CheckoutsController < ApplicationController
     end
 
     def success
-
+       
+        @order = Order.last
+    
+         @order.update(status: "paid")
+         @order.update(fullfillment: "Unfullfilled")
+         @cart = current_customer.cart
+         @shipping_amount=40
     end
     def failuer
 
     end
-
+   
 end

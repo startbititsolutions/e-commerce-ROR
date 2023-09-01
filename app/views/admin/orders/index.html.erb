@@ -1,46 +1,129 @@
 
-<h1>Orders#index</h1>
-<p>Find me in app/views/orders/index.html.erb</p>
-<h2>All Orders</h2>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <%= search_form_for @search, url: admin_orders_path,  method: :get do |f| %>
+        <div class="form-group">
+          <%= f.label :name_cont, "Order Number" %>
+          <div class="input-group">
+            <%= f.search_field :name_cont,placeholder:"enter customer name", class: "form-control" %>
+            <div class="input-group-append">
+  <%= f.button class: "btn btn-primary", type: "submit" do %>
+    <i class="fas fa-search"></i>
+  <% end %>
+</div>
+
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="background-color:#f7f7f7;border-radius: 13px; width:1100px; overflow: scroll;">
+<h2>orders</h2>
 
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Order No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Price per Item</th>
-        <th>Total Price</th>
-        <th> Total Item </th>
+      <th style='min-width: 150px;'> order number</th>
+
+      <th style='min-width: 150px;'>
+      <%= sort_link(@search, :name) do %>
+        <span style='color: black;'>Name</span>
+      <% end %>
+    </th>
+    
+    <th style='min-width: 200px;'>
+      <%= sort_link(@search, :created_at) do %>
+        <span style='color: black;'>Created At</span>
+      <% end %>
+    </th>
+    
+        <th>Total</th>
+        <th>Items</th>
+        
+        <th style='min-width: 150px;'>
+  <%= sort_link(@search, :status) do %>
+    <span style='color: blue;'>Status</span>
+  <% end %>
+</th>
+
+        <th style='min-width:190px'>Fullfillment Status</th>
+        <th > Action </th>
       </tr>
     </thead>
     <tbody>
-    <% total_items = 0 %>
       <% @orders.each do |order| %>
+        <% total_items = 0 %>
+        <% total_products = 0 %>
         <tr>
-          <td rowspan="<%= order.line_items.size + 1 %>"><%= order.id %></td>
-          <td rowspan="<%= order.line_items.size + 1 %>"><%= order.name %></td>
-          <td rowspan="<%= order.line_items.size + 1 %>"><%= order.email %></td>
+          
+          <td>
+         
+          <%= order.id %>
+        </td>
+        
+          <td><%= order.name %></td>
+      
+          <td><%= order.created_at.localtime.strftime("%A, %e %B %Y %I:%M %p") %></td>
+
+
+          <td>
+          <%= link_to admin_order_path(order), style: "color: green;" do %>
+            <%= number_to_currency(order.line_items.sum { |item| item.quantity * item.productdetail.price }) %>
+          <% end %>
+        </td>
+        
+        <td>
+  <% total_items = 0 %>
+  <% total_products = 0 %>
+  <% order.line_items.each do |item| %>
+    <% total_items += item.quantity %>
+    <% total_products += 1 %>
+  <% end %>
+
+  <%= "#{total_items} " %>
+  <%= link_to "#", class: "text-red", data: { toggle: "modal", target: "#orderDetailsModal#{order.id}" } do %>
+    <i class='fas fa-arrow-up'></i>
+  <% end %>
+
+
+</td>
+
+        
+            <td style="color: <%= order.status ? 'green' : 'red' %>;">
+            <%= order.status ? 'Paid' : 'Unpaid' %>
+            </td>
+
+          <td> <%= order.fullfillment %> </td>
+          <th>
+          <%= link_to admin_order_path(order), class: "btn btn-sm btn-info" do %>
+            <i class="fas fa-eye"></i> View
+          <% end %>
+        </th>
+        <th>
+          <%= link_to edit_admin_order_path(order), class: "btn btn-sm btn-warning" do %>
+            <i class="fas fa-edit"></i> Edit
+          <% end %>
+        </th>
+        <th>
+          <%= link_to admin_order_path(order), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: 'Are you sure you want to delete this order?' } do %>
+            <i class="fas fa-trash-alt"></i> Delete
+          <% end %>
+        </th>
+        
+    
+
+
+
         </tr>
-        <% order.line_items.each do |item| %>
-          <tr>
-          <% total_items += item.quantity %>
-            <td><%= item.productdetail.product_title %></td>
-            <td><%= item.quantity %></td>
-            <td><%= number_to_currency(item.productdetail.price) %></td>
-            <td><%= number_to_currency(item.quantity * item.productdetail.price) %></td>
-          </tr>
-        <% end %>
-        <tr>
-          <td colspan="5" align="right"><strong>Subtotal:</strong></td>
-          <td colspan="2"><%= number_to_currency(order.line_items.sum { |item| item.quantity * item.productdetail.price }) %></td>
-          <td>Total Items: <%= total_items %></td>
-        </tr>
+        <%= render 'order_details', order: order %>
       <% end %>
     </tbody>
   </table>
 </div>
+</div>
+
 

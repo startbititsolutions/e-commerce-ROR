@@ -1,50 +1,7 @@
-<%= form_for(@order) do |f| %>
-    <p>
-      <%= f.label :name %><br>
-      <%= f.text_field :name, required: true, autofocus: true %>
-    </p>
-    <p>
-      <%= f.label :email %><br>
-      <%= f.email_field :email %>
-    </p>
-    <p>
-      <%= f.label :address %><br>
-      <%= f.text_area :address %>
-    </p>
-    <p>
-    <%= f.label :city %><br>
-    <%= f.text_field :city %>
-  </p>
-  <p>
-  <%= f.label :country %><br>
-  <%= f.text_field :country %>
-</p>
-<p>
-  <%= f.label :pincode %><br>
-  <%= f.number_field :pincode %>
-</p>
 
-<p>
-<%= f.label :note %><br>
-<%= f.text_area :note %>
-</p>
-<p>
-<%= f.label :mobile %><br>
-<%= f.number_field :mobile %>
-</p>
-<p>
-<%= f.label :alternateMobile %><br>
-<%= f.number_field :alternate_mobile %>
-</p>
-<li> sub Total for products <span><%= number_to_currency(@cart.sub_total) %></span></li>
-<li>Total including shipping amount: <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></li>
-    <p>
-      <%= f.submit %>
-    </p>
-  <% end %>
   <%= form_for(@order) do |f| %>
     <div class="checkout__form">
-      <h4>Billing Details</h4>
+      <h4></h4>
       <div class="row">
         <div class="col-lg-8 col-md-6">
           <!-- Name Fields -->
@@ -74,10 +31,19 @@
       <%= f.label :Address, 'Postal/zip code<span>*</span>'.html_safe %>
       <%= f.text_field :pincode %>
     </div>
+    
     <div class="checkout__input">
     <%= f.label :Address, 'Phone<span>*</span>'.html_safe %>
     <%= f.text_field :mobile %>
   </div>
+  <div class="checkout__input">
+    <%= f.label :Address, 'Alternate Phone<span>*</span>'.html_safe %>
+    <%= f.text_field :alternate_mobile %>
+  </div>
+  <div class="checkout__input">
+  <%= f.label :Address, 'Note*</span>'.html_safe %>
+  <%= f.text_field :note %>
+</div>
           <!-- Other Fields ... -->
         </div>
         <div class="col-lg-4 col-md-6">
@@ -98,7 +64,7 @@
           <!-- Other Fields ... -->
           
           
-          <%= f.submit 'PLACE ORDER', class: 'site-btn' %>
+          <%= f.submit 'Placed order', class: 'site-btn' %>
         </div>
       </div>
     </div>

@@ -75,6 +75,10 @@
       <%= f.text_field :pincode %>
     </div>
     <div class="checkout__input">
+    <%= f.label :Note, 'Postal/zip code<span>*</span>'.html_safe %>
+    <%= f.text_field :pincode %>
+  </div>
+    <div class="checkout__input">
     <%= f.label :Address, 'Phone<span>*</span>'.html_safe %>
     <%= f.text_field :mobile %>
   </div>

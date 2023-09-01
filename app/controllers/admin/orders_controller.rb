@@ -6,13 +6,18 @@ class OrdersController < ApplicationController
  
   layout 'admin'
   def index
-    @orders = Order.all
+    @search = Order.ransack(params[:q])
+    @orders = @search.result.paginate(page: params[:page], per_page: 10)
+   
+    
     @cart = current_customer.cart
     @shipping_amount=40
   end
 
   def show
     @order = Order.find(params[:id])
+    @cart = current_customer.cart
+    @shipping_amount=40
   end
 
   def new
@@ -38,13 +43,21 @@ class OrdersController < ApplicationController
       render :new  
     end
   end
-  
+  def destroy
+    @order =Order.find(params[:id])
+    @order.destroy
+    redirect_to admin_orders_path, notice: "order deleted successfully."
+
+  end
   
   
   
   private
     def order_params
       params.require(:order).permit(:name, :email, :address,:customer_id)
+    end
+    def ransack_params
+      params[:q] ||= {}
     end
 end
 end

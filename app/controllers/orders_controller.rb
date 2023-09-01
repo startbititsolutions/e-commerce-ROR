@@ -19,20 +19,28 @@ class OrdersController < ApplicationController
     @cart = current_customer.cart
     @shipping_amount=40
   end
+  def edit
+    @order = Order.find(params[:id])
+  
+
+  end
   def create
     @order = Order.new(order_params)
     @order.customer = current_customer
     @current_cart.line_items.each do |item|
       @order.line_items << item
-      item.cart_id = nil  # Disassociate the line item from the cart
+    
     end
   
     if @order.save
       # Create a new cart for the user
-      new_cart = Cart.create
-      session[:cart_id] = new_cart.id
+      @current_cart.line_items.each do |item|
+        item.update(order_id: @order.id)  # Associate the line item with the order
+     
+      end
+      redirect_to checkout_path 
   
-      redirect_to root_path, notice: 'Order was successfully created.'
+     
     else
       render :new  
     end
@@ -43,6 +51,6 @@ class OrdersController < ApplicationController
   
   private
     def order_params
-      params.require(:order).permit(:name, :email, :address,:customer_id)
+      params.require(:order).permit(:name, :email, :address,:customer_id,:note,:city,:country,:pincode,:alternate_mobile,:mobile)
     end
 end
