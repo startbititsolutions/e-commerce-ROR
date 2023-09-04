@@ -6,6 +6,14 @@ class HomeController < ApplicationController
         @q = Productdetail.ransack(params[:q])
         @productdetails = @q.result(distinct: true)
         @vendors = Vendor.all
+        if customer_signed_in?
+          @cart = current_customer.cart
+        else
+          @cart = current_cart
+         
+        end
+     
+        @shipping_amount=40
       end
         
     private

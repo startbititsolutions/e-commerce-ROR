@@ -9,11 +9,13 @@
      
         </div>
         <div class="humberger__menu__cart">
-            <ul>
-                <li><i class="fa fa-heart"></i></a></li>
-                <li><i class="fa fa-shopping-bag"></i> </a></li>
-            </ul>
-            <div class="header__cart__price">item: <span>$150.00</span></div>
+        <ul>
+                                  
+                                    <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"><span></span></i><% end %></li>
+
+        
+       </ul>
+            <div class="header__cart__price">item:     <div class="header__cart__price">item: <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></div></div>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
@@ -58,6 +60,11 @@
             <li><i class="fa fa-envelope"></i> <%= current_customer.email %></li>
           <% else %>
             <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+            <div class="header__top__right__auth">
+            <% if current_customer %>
+              <li><%= link_to "My Orders", my_orders_path, style: "color: black;" %></li>
+            <% end %>
+        </div>
           <% end %>
           <!-- Additional list items if needed -->
         </ul>
@@ -79,6 +86,11 @@
                         <% else %>
                           <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
                         <% end %>
+                        <div class="header__top__right__auth">
+                        <% if current_customer %>
+                          <li><%= link_to "My Orders", my_orders_path, style: "color: black;" %></li>
+                        <% end %>
+                    </div>
                         <!-- Additional list items if needed -->
                       </ul>
                         </div>
@@ -132,11 +144,14 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> </a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> </a></li>
-                        </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
+                    <ul>
+                
+                    <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"><span></span></i><% end %></li>
+
+                    
+                </ul>
+                        <div class="header__cart__price">item: <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></div>
+                       
                     </div>
                 </div>
             </div>

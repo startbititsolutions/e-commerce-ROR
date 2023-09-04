@@ -88,6 +88,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-guests (0.8.1)
+      devise
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -266,6 +268,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   ckeditor
   devise (~> 4.9)
+  devise-guests
   dotenv-rails
   faker
   image_processing (~> 1.2)

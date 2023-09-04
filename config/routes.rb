@@ -13,7 +13,8 @@ devise_for :users
   #resources :productdetails
   #resources :products
   
-
+ resources :customer_profile, only: [:edit,:update,:show]
+ get 'my_orders', to: 'orders#index_for_current_customer', as: 'my_orders'
   root to: "home#index"
   get '/products', to: 'products#index'
   get '/products/:id', to: 'products#show', as: :product

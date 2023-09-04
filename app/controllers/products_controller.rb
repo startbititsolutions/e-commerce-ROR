@@ -11,6 +11,14 @@ class ProductsController < ApplicationController
 
       
       @productdetails = @q.result(distinct: true).includes(:vendor).paginate(page: params[:page], per_page: 10)
+      if customer_signed_in?
+        @cart = current_customer.cart
+      else
+        @cart = current_cart
+       
+      end
+   
+      @shipping_amount=40
     end
       def show
         @cart = @current_cart

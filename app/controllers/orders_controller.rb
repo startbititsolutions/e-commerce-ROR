@@ -47,7 +47,15 @@ class OrdersController < ApplicationController
       render :new  
     end
   end
-  
+  def index_for_current_customer
+ 
+    @orders = current_customer.orders
+    @cart = current_customer.cart
+    @shipping_amount = 40
+
+    # Render the view for displaying orders
+    render 'index_for_current_customer' 
+  end
   
   
   
