@@ -15,31 +15,36 @@ class ApplicationController < ActionController::Base
   private
   def current_cart
     if current_customer
-      # If the customer is logged in, associate the cart with the customer if it's not already associated.
-      @current_cart ||= current_customer.cart || current_customer.create_cart
-    else
+      # If the customer is logged in, associate their cart with their customer account.
       if session[:cart_id]
-        # If there is a cart ID in the session, attempt to retrieve it.
         @current_cart = Cart.find_by(id: session[:cart_id])
-  
-        # If the cart is found and not associated with any customer, associate it with the logged-in customer.
-        if @current_cart && !@current_cart.customer
-          @current_cart.update(customer: current_customer)
-        end
-  
-        # Clear the session cart ID if it's not found.
-        session[:cart_id] = nil unless @current_cart
+        @current_cart.update(customer: current_customer) if @current_cart && @current_cart.customer.blank?
       end
   
-      unless @current_cart
-        # If no cart is found, create a new one and associate it with the logged-in customer if available.
-        @current_cart = Cart.create(customer: current_customer)
+      # If the customer has an existing cart, use it; otherwise, create a new cart.
+      @current_cart ||= current_customer.cart || Cart.create(customer: current_customer)
+    else
+      # If the user is not logged in, use the session cart 
+      if session[:cart_id]
+        cart = Cart.find_by(id: session[:cart_id])
+        if cart.present?
+          @current_cart = cart
+        else
+          session[:cart_id] = nil # 
+        end
+      end
+  
+      if session[:cart_id].nil?
+        @current_cart = Cart.create
         session[:cart_id] = @current_cart.id
       end
     end
   
     @current_cart
   end
+  
+
+  
   
   
  
