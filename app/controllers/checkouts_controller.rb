@@ -37,15 +37,26 @@ class CheckoutsController < ApplicationController
       
     end
 
-    def success
-       
-        @order = Order.last
-    
-         @order.update(status: "paid")
-         @order.update(fullfillment: "Unfullfilled")
-         @cart = current_customer.cart
-         @shipping_amount=40
-    end
+        def success
+        
+            @order = Order.last
+        
+            @order.update(status: "paid")
+            @order.update(fullfillment: "Unfullfilled")
+         
+            @shipping_amount=40
+             @current_cart.line_items.each do |item|
+        item.update(order_id: @order.id)  # Associate the line item with the order
+     
+     
+      end
+            @cart = @current_cart
+            @cart.destroy
+            session[:cart_id] = nil
+            
+          
+        end
+
     def failuer
 
     end

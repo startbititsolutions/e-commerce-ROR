@@ -20,28 +20,26 @@
             </div>
 
             <div class="mx-n5 px-5 py-4" style="background-color: #f2f2f2;">
-              <div class="row">
+            <% @order.line_items.each do |item| %>
+              <div class="row mb-3">
                 <div class="col-md-8 col-lg-9">
-                  <p> <% @order.line_items.each do |item| %>
-                    <%= item.productdetail.product_title %>
-                  X <%= item.quantity %><br>    
-               
+                  <p><%= item.productdetail.product_title %> x <%= item.quantity %></p>
                 </div>
                 <div class="col-md-4 col-lg-3">
                   <p><%= number_to_currency(item.quantity * item.productdetail.price) %></p>
                 </div>
-                <% end %> </p>  
               </div>
-              <div class="row">
-                <div class="col-md-8 col-lg-9">
-                  <p class="mb-0">Shipping</p>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                  <p class="mb-0">$40.00</p>
-                </div>
+            <% end %>
+            <div class="row">
+              <div class="col-md-8 col-lg-9">
+                <p class="mb-0">Shipping</p>
+              </div>
+              <div class="col-md-4 col-lg-3">
+                <p class="mb-0">$40.00</p>
               </div>
             </div>
-
+          </div>
+          
             <div class="row my-4">
               <div class="col-md-6 offset-md-8 col-lg-7 offset-lg-9">
                 <p class="lead fw-bold mb-0" style="color: #f37a27; margin-left:-43px"><span>Total:<%= number_to_currency(@order.line_items.sum { |item| item.quantity * item.productdetail.price } + @shipping_amount) %></span></p>

@@ -3,7 +3,7 @@
     #has_one_attached :image
     
     has_many_attached :images, dependent: :destroy
-    belongs_to :vendor
+    belongs_to :vendor,dependent: :destroy
     has_many :line_items, dependent: :destroy
     
     validates :product_title, presence: true

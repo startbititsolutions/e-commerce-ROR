@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
   layout 'admin'
   def index
     @search = Order.ransack(params[:q])
-    @orders = @search.result.paginate(page: params[:page], per_page: 10)
+    @orders = @search.result
    
     
     @cart = current_customer.cart
@@ -26,6 +26,7 @@ class OrdersController < ApplicationController
     @shipping_amount=40
   end
   def create
+    byebug
     @order = Order.new(order_params)
     @order.customer = current_customer
     @current_cart.line_items.each do |item|

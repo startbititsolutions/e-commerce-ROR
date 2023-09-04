@@ -31,13 +31,15 @@ class OrdersController < ApplicationController
       @order.line_items << item
     
     end
-  
+
     if @order.save
-      # Create a new cart for the user
       @current_cart.line_items.each do |item|
         item.update(order_id: @order.id)  # Associate the line item with the order
      
+     
       end
+    
+     
       redirect_to checkout_path 
   
      

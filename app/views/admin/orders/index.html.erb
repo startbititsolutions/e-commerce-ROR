@@ -2,9 +2,9 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <%= search_form_for @search, url: admin_orders_path,  method: :get do |f| %>
+    <%= search_form_for @search, url: admin_orders_path, method: :get, html: { style: "margin-top: 18px;" } do |f| %>
         <div class="form-group">
-          <%= f.label :name_cont, "Order Number" %>
+  
           <div class="input-group">
             <%= f.search_field :name_cont,placeholder:"enter customer name", class: "form-control" %>
             <div class="input-group-append">
@@ -27,7 +27,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
-      <th style='min-width: 150px;'> order number</th>
+      <th style='min-width: 150px;'> Order Number</th>
 
       <th style='min-width: 150px;'>
       <%= sort_link(@search, :name) do %>
@@ -86,7 +86,7 @@
 
   <%= "#{total_items} " %>
   <%= link_to "#", class: "text-red", data: { toggle: "modal", target: "#orderDetailsModal#{order.id}" } do %>
-    <i class='fas fa-arrow-up'></i>
+    <i class='fas fa-eye'></i>
   <% end %>
 
 
