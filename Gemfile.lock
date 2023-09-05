@@ -80,6 +80,7 @@ GEM
     ckeditor (5.1.1)
       orm_adapter (~> 0.5.0)
     concurrent-ruby (1.2.2)
+    coupons (0.0.0)
     crass (1.0.6)
     date (3.3.3)
     devise (4.9.2)
@@ -267,6 +268,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   ckeditor
+  coupons
   devise (~> 4.9)
   devise-guests
   dotenv-rails

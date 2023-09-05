@@ -23,8 +23,7 @@ devise_for :users
   get '/contact', to: 'products#contact'
   get 'carts/:id', to: 'carts#show', as:"cart"
   delete 'carts/:id', to: 'carts#destroy'
- 
-  get 'line_items/:id/add', to: 'line_items#add_quantity', as: "line_item_add"
+ get 'line_items/:id/add', to: 'line_items#add_quantity', as: "line_item_add"
 get 'line_items/:id/reduce', to: 'line_items#reduce_quantity', as: "line_item_reduce"
 post 'line_items', to: 'line_items#create'
 get 'line_items/:id', to: 'line_items#show', as: "line_item"
@@ -34,6 +33,7 @@ post  'line_items/:id', to: 'line_items#update_quantity'
  get 'success', to: 'checkouts#success'
  get   'failuer', to: 'checkouts#failuer'
  get     'billing', to: 'billing#show'
+
 
   namespace :admin do
     resources :admin_users, only: [:edit, :update,:show]

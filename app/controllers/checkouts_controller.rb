@@ -30,6 +30,7 @@ class CheckoutsController < ApplicationController
     @checkout_session = current_customer.payment_processor.checkout(
         payment_method_types: ['card'],
         line_items: line_items_for_stripe,
+        allow_promotion_codes: true,
         mode: 'payment',
         success_url: success_url,
         cancel_url: checkout_url
@@ -38,7 +39,7 @@ class CheckoutsController < ApplicationController
     end
 
         def success
-        
+            @total_amount_paid = StripeService.calculate_total_amount_paid
             @order = Order.last
         
             @order.update(status: "paid")
