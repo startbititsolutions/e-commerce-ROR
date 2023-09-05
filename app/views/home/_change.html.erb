@@ -11,16 +11,17 @@
         <div class="humberger__menu__cart">
         <ul>
                                   
-                        <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"><span></span></i><% end %></li>
+                                    <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"><span></span></i><% end %></li>
 
         
        </ul>
-           
+            <div class="header__cart__price">item:     <div class="header__cart__price">item: <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></div></div>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
                 <img src="img/language.png" alt="">
-          
+                <div>English</div>
+                <span class="arrow_carrot-down"></span>
                
             </div>
             <div class="header__top__right__auth">
@@ -150,7 +151,11 @@
                     
                 </ul>
                
-               
+                <% if @current_cart.present? && @current_cart.line_items.any? %>
+                <div class="header__cart__price">item: 
+                  <span><%= number_to_currency(@current_cart.sub_total) %></span>
+                </div>
+              <% end %>
               
            
                        

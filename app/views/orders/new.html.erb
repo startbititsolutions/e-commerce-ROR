@@ -1,4 +1,4 @@
-
+<div class="container">
   <%= form_for(@order) do |f| %>
     <div class="checkout__form">
       <h4></h4>
@@ -52,12 +52,12 @@
             <h4>Your Order</h4>
             <div class="checkout__order__products">Products <span>Total</span></div>
             <ul>
-              <% @cart.line_items.each do |item| %>
+              <% @current_cart.line_items.each do |item| %>
                 <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
               <% end %>
             </ul>
             <div class="checkout__order__subtotal">Subtotal <span><%= number_to_currency(@cart.sub_total) %></span></div>
-            <div class="checkout__order__total">Total incluing shipping <span><%= number_to_currency(@cart.sub_total + @shipping_amount) %></span></div>
+            <div class="checkout__order__total">Total  <span><%= number_to_currency(@cart.sub_total) %></span></div>
           </div>
           <!-- Payment Methods -->
           
@@ -69,4 +69,5 @@
       </div>
     </div>
   <% end %>
+  </div>
   

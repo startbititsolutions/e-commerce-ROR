@@ -24,13 +24,13 @@ class ApplicationController < ActionController::Base
       # If the customer has an existing cart, use it; otherwise, create a new cart.
       @current_cart ||= current_customer.cart || Cart.create(customer: current_customer)
     else
-      # If the user is not logged in, use the session cart 
+      # If the user is not logged in, use the session cart logic you've implemented.
       if session[:cart_id]
         cart = Cart.find_by(id: session[:cart_id])
         if cart.present?
           @current_cart = cart
         else
-          session[:cart_id] = nil # 
+          session[:cart_id] = nil
         end
       end
   
