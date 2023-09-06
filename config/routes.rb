@@ -38,6 +38,7 @@ post  'line_items/:id', to: 'line_items#update_quantity'
 
 
   namespace :admin do
+    resources :coupons
     resources :admin_users, only: [:edit, :update,:show]
     resources :vendors
     resources :orders
