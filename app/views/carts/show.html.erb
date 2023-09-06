@@ -332,23 +332,53 @@
         </div>
         <div class="col-lg-6">
             <div class="shoping__checkout">
-                <h5>Cart Total</h5>
-                <ul>
-               
-               
-                    </span></li>
-                    <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
-
-                </ul>
-                <% if current_customer %>
+            <h5>Cart Total</h5>
+            <ul>
+                <!-- Cart total items here -->
+                <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
+            </ul>
+            <% if current_customer %>
                 <%= link_to "Proceed to checkout", new_order_path, class: "site-btn" %>
-
-              <% else %>
+            <% else %>
                 <%= link_to "Sign Up", new_customer_registration_path %>
-              <% end %>
+            <% end %>
             </div>
+      </div>
+  
+        <div class="col-lg-6">
+        <h4>Offers</h4>
+        <div id="couponCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <% @coupons.each_with_index do |coupon, index| %>
+              <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+                <div class="carousel-content ">
+                  <div class="coupon-details text-center ">
+                    <p>Get <%= coupon.percent_off %> percent off your order with code:</p>
+                 
+                  </div>
+                  <ul class="promotion-codes text-center">
+                    <% @promotion_codes[coupon.id].each do |promotion_code| %>
+                      <li><%= promotion_code.code %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <a class="carousel-control-prev" href="#couponCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#couponCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
-    </div>
+     </div>
+     </div>
+      
+      
+  
 </div>
 </section>
 <!-- Shoping Cart Section End -->
@@ -419,3 +449,26 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </div>
 </div>
 </footer>
+<style>
+  .carousel-control-prev,
+  .carousel-control-next {
+    background-color: #749525; 
+    opacity: 0.7; /* Optional: 
+    width: 32px;
+    height:51px;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    background-color: transparent; 
+    border: 1px solid white; /* Optional: Add a white border to the icon */
+    width: 32px;
+    height:51px;
+  }
+
+  /* Optional: Style the icon color */
+  .carousel-control-prev-icon::before,
+  .carousel-control-next-icon::before {
+    color: white;
+  }
+</style>

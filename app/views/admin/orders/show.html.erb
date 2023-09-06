@@ -30,14 +30,7 @@
                 </div>
               </div>
             <% end %>
-            <div class="row">
-              <div class="col-md-8 col-lg-9">
-                <p class="mb-0">Shipping</p>
-              </div>
-              <div class="col-md-4 col-lg-3">
-                <p class="mb-0">$40.00</p>
-              </div>
-            </div>
+           
           </div>
 
             <div class="row my-4">
@@ -64,15 +57,29 @@
                         class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">
                     </li>
                     <li class="list-inline-item items-list">
-                      <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">Shipped</p
-                        class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">
-                    </li>
+                    <% if @order.shipped %>
+                      <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">Shipped</p>
+                    <% else %>
+                      <p class="py-1 px-2 rounded "> Shipped</p>
+                    <% end %>
+                  </li>
+                  
                     <li class="list-inline-item items-list">
+                    <% if @order.way %>
                       <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">On the way
                       </p>
+                      <% else %>
+                      <p class="py-1 px-2 rounded ">On The Way</p>
+                      <% end %>
                     </li>
                     <li class="list-inline-item items-list text-end" style="margin-right: 8px;">
-                      <p style="margin-right: -8px;">Delivered</p>
+                    <% if @order.delivered %>
+                    <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">Delivered
+                    </p>
+                    <% else %>
+                    <p style="margin-right: -8px;">Delivered</p>
+                    <% end %>
+                    
                     </li>
                   </ul>
 

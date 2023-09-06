@@ -1,1 +1,19 @@
-<h1> edit </h1>
+<%= form_for @order, url: admin_order_path(@order), method: :patch do |f| %>
+    <div class="form-group">
+      <%= f.label :shipped, 'Shipped' %>
+      <%= f.check_box :shipped %>
+    </div>
+  
+    <div class="form-group">
+      <%= f.label :delivered, 'Delivered' %>
+      <%= f.check_box :delivered %>
+    </div>
+  
+    <div class="form-group">
+      <%= f.label :way, 'Way' %>
+      <%= f.check_box :way %>
+    </div>
+  
+    <%= f.submit 'Update Order', class: 'btn btn-primary' %>
+  <% end %>
+  

@@ -1,0 +1,68 @@
+<div class="row">
+<div class="col-lg-12">
+    <div class="shoping__cart__btns">
+    <a href="<%= root_path %>" class="primary-btn cart-btn" data-turbolinks="false">CONTINUE SHOPPING</a>
+
+        <a href="<%= cart_path(@current_cart) %>" class="primary-btn cart-btn cart-btn-right" data-method="delete" data-confirm="Are you sure?">
+        <span class="icon_loading"></span>
+        Empty Cart
+      </a>
+     
+
+    </div>
+</div>
+<div class="col-lg-6">
+    <div class="shoping__continue">
+        
+    </div>
+</div>
+<div class="col-lg-6">
+<h5>Offers</h5>
+<div id="couponCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <% @coupons.each_with_index do |coupon, index| %>
+      <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+        <div class="carousel-content">
+          <div class="coupon-details">
+            <p>Get <%= coupon.percent_off %> off your order with code:</p>
+            <h6><%= coupon.name %></h6>
+          </div>
+          <ul class="promotion-codes">
+            <% @promotion_codes[coupon.id].each do |promotion_code| %>
+              <li><%= promotion_code.code %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <a class="carousel-control-prev" href="#couponCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#couponCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+</div>
+
+<div class="col-lg-6">
+    <div class="shoping__checkout">
+        <h5>Cart Total</h5>
+        <ul>
+       
+       
+            </span></li>
+            <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
+
+        </ul>
+        <% if current_customer %>
+        <%= link_to "Proceed to checkout", new_order_path, class: "site-btn" %>
+
+      <% else %>
+        <%= link_to "Sign Up", new_customer_registration_path %>
+      <% end %>
+    </div>
+</div>
+</div>

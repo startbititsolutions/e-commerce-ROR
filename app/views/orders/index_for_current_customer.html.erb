@@ -168,7 +168,7 @@
         <% @orders.each do |order| %>
           <li class="list-group-item mb-4">
             <div class="d-flex justify-content-between align-items-center">
-              <h2 class="mb-0">Order ID: <%= order.id %></h2>
+              <h2 class="mb-0">Shipping ID: <%= order.id %></h2>
               <p class="mb-0"><strong>Name:</strong> <%= order.name %></p>
             </div>
     
@@ -196,9 +196,84 @@
               </tbody>
             </table>
     
-            <p class="text-right"><strong>Total:</strong> <%= number_to_currency(order.line_items.sum { |item| item.quantity * item.productdetail.price }) %></p>
+          
+            <p class="text-right"><strong>Paid :</strong> <%= order.total_amount %>$</p>
+
           </li>
+          <p class="lead fw-bold mb-4 pb-2" style="color: #f37a27;">Tracking Order</p>
+
+            <div class="row">
+              <div class="col-lg-12">
+
+                <div class="horizontal-timeline">
+
+                  <ul class="list-inline items d-flex justify-content-between">
+                    <li class="list-inline-item items-list">
+                      <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">Ordered</p
+                        class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">
+                    </li>
+                    <li class="list-inline-item items-list">
+                    <% if order.shipped %>
+                      <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">Shipped</p>
+                    <% else %>
+                      <p class="py-1 px-2 rounded "> Shipped</p>
+                    <% end %>
+                  </li>
+                  
+                    <li class="list-inline-item items-list">
+                    <% if order.way %>
+                      <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">On the way
+                      </p>
+                      <% else %>
+                      <p class="py-1 px-2 rounded ">On The Way</p>
+                      <% end %>
+                    </li>
+                    <li class="list-inline-item items-list text-end" style="margin-right: 8px;">
+                    <% if order.delivered %>
+                    <p class="py-1 px-2 rounded text-white" style="background-color: #f37a27;">Delivered
+                    </p>
+                    <% else %>
+                    <p style="margin-right: -8px;">Delivered</p>
+                    <% end %>
+                    
+                    </li>
+                  </ul>
+
+                </div>
+
+              </div>
+            </div>
         <% end %>
       </ul>
     </div>
-    
+    <style>
+@media (min-width: 1025px) {
+.h-custom {
+height: 100vh !important;
+}
+}
+
+.horizontal-timeline .items {
+border-top: 2px solid #ddd;
+}
+
+.horizontal-timeline .items .items-list {
+position: relative;
+margin-right: 0;
+}
+
+.horizontal-timeline .items .items-list:before {
+content: "";
+position: absolute;
+height: 8px;
+width: 8px;
+border-radius: 50%;
+background-color: #ddd;
+top: 0;
+margin-top: -5px;
+}
+
+.horizontal-timeline .items .items-list {
+padding-top: 15px;
+}
+</style>

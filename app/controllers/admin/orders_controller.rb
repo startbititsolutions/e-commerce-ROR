@@ -12,6 +12,9 @@ class OrdersController < ApplicationController
    
     @shipping_amount=40
   end
+  def edit
+    @order = Order.find(params[:id])
+  end
 
   def show
     @order = Order.find(params[:id])
@@ -52,12 +55,20 @@ class OrdersController < ApplicationController
     redirect_to admin_orders_path, notice: "order deleted successfully."
 
   end
-  
+  def update
+    @order = Order.find(params[:id])
+
+    if @order.update(order_params) 
+      redirect_to admin_order_path(@order), notice: 'Order was successfully updated.'
+    else
+      render :edit
+    end
+  end
   
   
   private
     def order_params
-      params.require(:order).permit(:name, :email, :address,:customer_id)
+      params.require(:order).permit(:name, :email, :address,:customer_id,:shipped,:delivered,:way)
     end
     def ransack_params
       params[:q] ||= {}

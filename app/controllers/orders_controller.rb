@@ -47,8 +47,9 @@ class OrdersController < ApplicationController
       render :new  
     end
   end
+  
   def index_for_current_customer
- 
+    @total_amount_paid = StripeService.calculate_total_amount_paid
     @orders = current_customer.orders
     @cart = current_customer.cart
     @shipping_amount = 40

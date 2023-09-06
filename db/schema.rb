@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_05_112832) do
+ActiveRecord::Schema.define(version: 2023_09_06_104211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,24 +103,27 @@ ActiveRecord::Schema.define(version: 2023_09_05_112832) do
   end
 
   create_table "orders", force: :cascade do |t|
-      t.string "name"
-      t.string "email"
-      t.text "address"
-      t.datetime "created_at", precision: 6, null: false
-      t.datetime "updated_at", precision: 6, null: false
-      t.bigint "customer_id", null: false
-      t.float "order_number"
-      t.float "tax"
-      t.float "shipping_amount"
-      t.boolean "status"
-      t.string "note"
-      t.string "country"
-      t.string "city"
-      t.string "pincode"
-      t.string "alternate_mobile"
-      t.string "mobile"
-      t.string "fullfillment"
-      t.string "total_amount"
+    t.string "name"
+    t.string "email"
+    t.text "address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "customer_id", null: false
+    t.float "order_number"
+    t.float "tax"
+    t.float "shipping_amount"
+    t.boolean "status"
+    t.string "note"
+    t.string "country"
+    t.string "city"
+    t.string "pincode"
+    t.string "alternate_mobile"
+    t.string "mobile"
+    t.string "fullfillment"
+    t.string "total_amount"
+    t.boolean "shipped", default: false
+    t.boolean "delivered", default: false
+    t.boolean "way", default: false
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
