@@ -25,7 +25,8 @@
             </li>
           <% end %>
         </ul>
-        <p class="text-right mt-3"><strong>Total:</strong> <%= number_to_currency(order.line_items.sum { |item| item.quantity * item.productdetail.price }) %></p>
+        
+        <p class="text-right mt-3"><strong>Total:</strong> <%= order.total_amount %></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

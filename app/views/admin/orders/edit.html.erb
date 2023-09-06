@@ -1,19 +1,18 @@
 <%= form_for @order, url: admin_order_path(@order), method: :patch do |f| %>
     <div class="form-group">
       <%= f.label :shipped, 'Shipped' %>
-      <%= f.check_box :shipped %>
+      <%= f.check_box :shipped, id: 'shipped-checkbox' %>
     </div>
-  
-    <div class="form-group">
-      <%= f.label :delivered, 'Delivered' %>
-      <%= f.check_box :delivered %>
-    </div>
-  
-    <div class="form-group">
+    <div class="form-group" id="way-group" >
       <%= f.label :way, 'Way' %>
       <%= f.check_box :way %>
+    </div>
+    <div class="form-group" id="delivered-group" >
+      <%= f.label :delivered, 'Delivered' %>
+      <%= f.check_box :delivered %>
     </div>
   
     <%= f.submit 'Update Order', class: 'btn btn-primary' %>
   <% end %>
   
+

@@ -248,6 +248,7 @@
 <!-- Breadcrumb Section End -->
 
 <!-- Shoping Cart Section Begin -->
+<% if @cart.line_items.present? %>
 <section class="shoping-cart spad">
 <div class="container">
     <div class="row">
@@ -302,6 +303,13 @@
                               <%= number_to_currency(line_item.total_price) %>
                             </span>
                           </td>
+                          <td>
+                          <%= link_to line_item_path(line_item), method: :delete, data: { confirm: "Are you sure you want to delete this item?" }, class: "btn btn-danger btn-sm" do %>
+                            <i class="fas fa-trash-alt"></i> 
+                          <% end %>
+                        </td>
+                        
+                        
                             
                         </tr>
                         <% end %>
@@ -381,6 +389,12 @@
   
 </div>
 </section>
+<% else %>
+<div class="empty-cart-message">
+  <h2 style="text-align: center;">Your cart is empty please add item  for offer  </h5>
+</div>
+
+<% end %>
 <!-- Shoping Cart Section End -->
 
 <!-- Footer Section Begin -->
