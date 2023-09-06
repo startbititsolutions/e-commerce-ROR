@@ -7,7 +7,7 @@ class CheckoutsController < ApplicationController
         Stripe.api_key = ENV['STRIPE_SECRET_KEY']
       
      
-        cart = current_customer.cart
+        cart = @current_cart
     line_items = cart.line_items.includes(:productdetail)
 
     line_items_for_stripe = line_items.map do |line_item|
@@ -30,6 +30,7 @@ class CheckoutsController < ApplicationController
     @checkout_session = current_customer.payment_processor.checkout(
         payment_method_types: ['card'],
         line_items: line_items_for_stripe,
+       
         allow_promotion_codes: true,
         mode: 'payment',
         success_url: success_url,
@@ -40,10 +41,13 @@ class CheckoutsController < ApplicationController
 
         def success
             @total_amount_paid = StripeService.calculate_total_amount_paid
+         
+
             @order = Order.last
         
             @order.update(status: "paid")
             @order.update(fullfillment: "Unfullfilled")
+            @order.update(total_amount: @total_amount_paid)
          
             @shipping_amount=40
              @current_cart.line_items.each do |item|

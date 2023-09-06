@@ -44,8 +44,8 @@
 
             <div class="row my-4">
               <div class="col-md-6 offset-md-8 col-lg-7 offset-lg-9">
-                <p class="lead fw-bold mb-0" style="color: #f37a27; margin-left:-43px"><span>Total:<%= number_to_currency(@order.line_items.sum { |item| item.quantity * item.productdetail.price } + @shipping_amount) %></span></p>
-                <p class="lead fw-bold mb-0" style="color: #f37a27; margin-left:-43px"><span>Total Amount Paid: <%= @total_amount_paid %></span></p>
+              <p class="lead fw-bold mb-0" style="color: #f37a27; margin-left:-43px"><span>Discount:<%= number_to_currency(@order.line_items.sum { |item| item.quantity * item.productdetail.price } - @total_amount_paid) %></span></p>
+                <p class="lead fw-bold mb-0" style="color: #f37a27; margin-left:-43px"><span>Total: $<%= @total_amount_paid %></span></p>
               </div>
             </div>
 

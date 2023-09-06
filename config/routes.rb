@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   #resources :admin_users, only: [:edit, :update,:show]
 
 devise_for :users
+resources :coupons
+
   #resources :productdetails
   #resources :products
   

@@ -3,7 +3,7 @@
     <div class="checkout__form">
       <h4></h4>
       <div class="row">
-        <div class="col-lg-8 col-md-6">
+        <div class="col-lg-6 col-md-6">
           <!-- Name Fields -->
           <div class="row">
             <div class="col-lg-6">
@@ -17,36 +17,36 @@
           <!-- Other Fields -->
           <div class="checkout__input">
             <%= f.label :country, 'Country<span>*</span>'.html_safe %>
-            <%= f.text_field :country %>
+            <%= f.text_field :country,required: true  %>
           </div>
           <div class="checkout__input">
           <%= f.label :City, 'City<span>*</span>'.html_safe %>
-          <%= f.text_field :city %>
+          <%= f.text_field :city,required: true  %>
         </div>
         <div class="checkout__input">
         <%= f.label :Address, 'Address<span>*</span>'.html_safe %>
-        <%= f.text_field :address %>
+        <%= f.text_field :address,required: true  %>
       </div>
       <div class="checkout__input">
       <%= f.label :Address, 'Postal/zip code<span>*</span>'.html_safe %>
-      <%= f.text_field :pincode %>
+      <%= f.text_field :pincode,required: true  %>
     </div>
     
     <div class="checkout__input">
     <%= f.label :Address, 'Phone<span>*</span>'.html_safe %>
-    <%= f.text_field :mobile %>
+    <%= f.text_field :mobile,required: true  %>
   </div>
   <div class="checkout__input">
-    <%= f.label :Address, 'Alternate Phone<span>*</span>'.html_safe %>
+    <%= f.label :Address, 'Alternate Phone<span></span>'.html_safe %>
     <%= f.text_field :alternate_mobile %>
   </div>
   <div class="checkout__input">
-  <%= f.label :Address, 'Note*</span>'.html_safe %>
+  <%= f.label :Address, 'Note</span>'.html_safe %>
   <%= f.text_field :note %>
 </div>
           <!-- Other Fields ... -->
         </div>
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-6 col-md-6">
           <!-- Order Summary -->
           <div class="checkout__order">
             <h4>Your Order</h4>
@@ -56,12 +56,10 @@
                 <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
               <% end %>
             </ul>
-            <div class="checkout__order__subtotal">Subtotal <span><%= number_to_currency(@cart.sub_total) %></span></div>
-            <div class="checkout__order__total">Total  <span><%= number_to_currency(@cart.sub_total) %></span></div>
+            <div class="checkout__order__subtotal">Subtotal <span><%= number_to_currency(@current_cart.sub_total) %></span></div>
+            <div class="checkout__order__total">Total  <span><%= number_to_currency(@current_cart.sub_total) %></span></div>
           </div>
-          <!-- Payment Methods -->
           
-          <!-- Other Fields ... -->
           
           
           <%= f.submit 'Placed order', class: 'site-btn' %>
@@ -69,5 +67,5 @@
       </div>
     </div>
   <% end %>
+
   </div>
-  
