@@ -4,7 +4,8 @@ class Order < ApplicationRecord
   
 
    
-
+    validates :mobile, presence: true, format: { with: /\A\d{10}\z/, message: "should be a 10-digit number" }
+    validates :pincode, presence: true, format: { with: /\A\d{6}\z/, message: "should be a 6-digit number" }
 
 
  

@@ -1,3 +1,14 @@
+
+
+<% if flash[:message].present? %>
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <p id="message"><%= flash[:message] %></p>
+</div>
+<% end %>
+
+
+
 <div class="container">
   <%= form_for(@order) do |f| %>
     <div class="checkout__form">
