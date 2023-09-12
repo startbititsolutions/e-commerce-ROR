@@ -19,12 +19,13 @@ class CheckoutsController < ApplicationController
           
           },
           unit_amount: (line_item.productdetail.price * 100).to_i
+      
         },
         quantity: line_item.quantity
       }
     end
 
-    total_amount = line_items.sum(&:total_price) * 100  # Total amount in 
+    total_amount = line_items.sum(&:total_price) * 100  
 
 
     @checkout_session = current_customer.payment_processor.checkout(
@@ -54,7 +55,7 @@ class CheckoutsController < ApplicationController
         item.update(order_id: @order.id)  # Associate the line item with the order
      
      
-      end
+          end
             @cart = @current_cart
             @cart.destroy
             session[:cart_id] = nil

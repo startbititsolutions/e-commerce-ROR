@@ -25,6 +25,8 @@ import './customer/jquery.slicknav.js'
 // import './customer/mabowl.carousel.min.js'
 import './customer/main.js'
 // this code for the feature search
+
+
 document.addEventListener('DOMContentLoaded', () => {
   $(".loader").fadeOut();
   $("#preloder").delay(200).fadeOut("slow");
@@ -101,5 +103,7 @@ $(document).on("click", ".increase-btn", function(event) {
     cartTotalElement.text(formattedTotalPrice);
   }
   
+ 
+
  console.log("aditya")
  

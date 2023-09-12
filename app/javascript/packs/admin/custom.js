@@ -95,4 +95,5 @@ document.addEventListener('DOMContentLoaded', function() {
     convertPrices("");
   }
   // const deleteForms = $(".delete-form");
+ 
 });

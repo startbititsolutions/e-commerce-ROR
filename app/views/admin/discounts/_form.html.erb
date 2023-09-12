@@ -1,0 +1,439 @@
+<div class="container mt-4 mb-5">
+<%= form_with(model: discount, url: admin_discounts_path) do |form| %>
+  <% if discount.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(discount.errors.count, "error") %> prohibited this discount from being saved:</h2>
+
+      <ul>
+        <% discount.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row justify-content-center mb-3">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Discount Type</h5>
+      </div>
+      <div class="card-body">
+        <%= form.label :discount_type %>
+        <%= form.select :discount_type, [['Amount of Product', 'amount_on_product'], ['Amount of Order', 'amount_on_order']], { prompt: "Select discount type" }, class: "form-control", id: 'discount-type-dropdown'  %>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="row justify-content-center mb-3">
+  <div class="col-md-6">
+    <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Title</h5>
+    </div>
+    <div class="card-body">
+      <div class="form-group">
+        <%= form.label :title %>
+        <%= form.text_field :title, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+  
+   <div class="row justify-content-center mb-3">
+  <div class="col-md-6">
+<div class="card">
+<div class="card-header">
+  <h5 class="card-title">Code</h5>
+</div>
+<div class="card-body">
+  <div class="form-group">
+    <%= form.label :code %>
+    <%= form.text_field :code, class: "form-control" %>
+  </div>
+</div>
+</div>
+
+</div>
+  </div>
+  
+  <div class="row justify-content-center mb-3">
+  <div class="col-md-6">
+<div class="card">
+<div class="card-header">
+  <h5 class="card-title">Value</h5>
+</div>
+<div class="card-body">
+  <div class="form-group">
+  <%= form.label :amount_type %>
+     
+  <%= form.select :amount_type, [['Amount', 'amount'], ['Percentage', 'percentage']], { prompt: "Select discount type" }, class: 'form-control', id: 'amount-type-dropdown' %>
+  </div>
+  <div class="form-group" id="amount-field">
+  <%= form.label :amount, 'Amount' %>
+  <%= form.number_field :amount, class: 'form-control' %>
+</div>
+<div class="form-group" id="percentage-field">
+<%= form.label :percentage, 'Percentage' %>
+<%= form.number_field :percentage, class: 'form-control' %>
+</div>
+</div>
+</div>
+</div>
+</div>
+  
+<div class="row justify-content-center mb-3"  >
+<div class="col-md-6">
+<div class="card" id="orderproduct">
+<div class="card-header">
+  <h5 class="card-title">Applied To</h5>
+</div>
+  <div class="card-body">
+    
+    
+    <div class="form-check">
+      <input type="radio" name="selection_option" id="vendor-option" class="form-check-input">
+      <label for="vendor-option" class="form-check-label">Specific Vendor</label>
+    </div>
+    
+    <div class="form-check">
+      <input type="radio" name="selection_option" id="product-option" class="form-check-input">
+      <label for="product-option" class="form-check-label">Specific Product</label>
+    </div>
+    
+    <div id="vendor-field">
+      <%= form.label :vendor_id %>
+      <%= form.select(
+  :vendor_id,
+  Vendor.all.map { |vendor| [vendor.first_name, vendor.id] }, 
+  { prompt: "All Vendors" },
+  {
+    class: "selectize", 
+    id: "vendor-dropdown",
+    multiple: true, 
+    data: { filter_url: filter_by_vendor_admin_productdetails_path }
+  }
+) %>
+
+    </div>
+
+    <div id="productdetail-field">
+      <%= form.label :productdetail_id %>
+      <%= form.select(
+        :productdetail_id,
+        Productdetail.all.map { |pd| [pd.product_title, pd.id] }, 
+        { prompt: "Select a product detail" },
+        {
+          class: "selectize", 
+          id: "productdetail-dropdown",
+          multiple: true, 
+        }
+      ) %>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+
+<div class="row justify-content-center mb-3">
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+  <h5 class="card-title">Minium Purchage Requirment</h5>
+</div>
+<div class="card-body">
+
+
+ 
+  <div class="form-check">
+    <input type="radio" name="min_purchase_option" id="amount-option" class="form-check-input">
+    <label for="amount-option" class="form-check-label">Minimum Purchase Amount</label>
+  </div>
+
+  <div class="form-check">
+    <input type="radio" name="min_purchase_option" id="quantity-option" class="form-check-input">
+    <label for="quantity-option" class="form-check-label">Minimum Purchase Quantity of item</label>
+  </div>
+
+
+  <div id="amount1-field" style="display: none;">
+    <%= form.label :min_purchase_amount %>
+    <%= form.number_field :min_purchase_amount, class: "form-control" %>
+  </div>
+
+
+  <div id="quantity-field" style="display: none;">
+    <%= form.label :min_purchase_quantity %>
+    <%= form.number_field :min_purchase_quantity, class: "form-control" %>
+  </div>
+</div>
+</div>
+   
+   </div>
+   </div>
+
+
+
+  
+  
+  
+   
+
+ <div class="row justify-content-center mb-3">
+ <div class="col-md-6">
+ <div class="card">
+ <div class="card-header">
+   <h5 class="card-title">Maximum discount uses</h5>
+ </div>
+ <div class="card-body">
+   <div class="form-group">
+  
+     <div class="form-check">
+       <input type="checkbox" name="min-use-option" id="min-use-option" class="form-check-input">
+       <label for="min-use-option" class="form-check-label">Minimum Number of Uses</label>
+     </div>
+
+     <div class="form-group" id="min-use-field" style="display: none;">
+       <%= form.label :min_use, class: "control-label" %>
+       <%= form.number_field :min_use, class: "form-control" %>
+     </div>
+
+     <div class="form-check">
+       <input type="checkbox" name="limit-per-user-option" id="limit-per-user-option" class="form-check-input">
+       <label for="limit-per-user-option" class="form-check-label">Limit Per User</label>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+</div>
+
+   
+
+
+<div class="row justify-content-center mb-3">
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+  <h5 class="card-title">Customer Selection</h5>
+</div>
+<div class="card-body">
+  <div class="form-group">
+    <label>Select Option:</label>
+    <div class="form-check">
+      <input type="radio" name="customer-selection" id="all-customer-option" class="form-check-input" checked>
+      <label for="all-customer-option" class="form-check-label">All Customers</label>
+    </div>
+    <div class="form-check">
+      <input type="radio" name="customer-selection" id="customer-segment-option" class="form-check-input">
+      <label for="customer-segment-option" class="form-check-label">Customer Segment</label>
+    </div>
+  </div>
+
+  <div class="form-group" id="customer-selection-field">
+    <%= form.label :customer_id %>
+    <%= form.collection_select(:customer_id, Customer.all, :id, :id, { prompt: "Select a customer" }, class: "form-control") %>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<div class="row justify-content-center mb-3">
+   <div class="col-md-6">
+   <div class="card">
+   <div class="card-header">
+  <h5 class="card-title">Active Date</h5>
+</div>
+   <div class="card-body">
+    
+     
+     <div class="form-group">
+       <%= form.label :start_date, class: "control-label" %>
+       <div class="input-group date" data-provide="datepicker">
+  <%= form.date_select :start_date,
+                      class: "form-control",
+                      start_year: Date.current.year,
+                      end_year: 2045,
+                      default: { day: Date.current.day, month: Date.current.month, year: Date.current.year },
+                      order: [:day, :month, :year],
+                      input_html: { data: { datepicker_min_date: Date.current.strftime('%d/%m/%Y') } } %>
+  <div class="input-group-append">
+    <span class="input-group-text">
+      <i class="far fa-calendar"></i>
+    </span>
+  </div>
+</div>
+
+     </div>
+     
+     <div class="form-check">
+       <input type="checkbox" id="end-date-checkbox" class="form-check-input">
+       <label for="end-date-checkbox" class="form-check-label">Set End Date</label>
+     </div>
+     
+     <div class="form-group" id="end-date-field" style="display: none;">
+       <%= form.label :end_date, class: "control-label" %>
+       <div class="input-group date" data-provide="datepicker">
+         <%= form.date_select :end_date,
+                             class: "form-control",
+                             start_year: Date.current.year,
+                             end_year: 2045,
+                             default: { day: 31, month: 12, year: 2045 },
+                             order: [:day, :month, :year] %>
+         <div class="input-group-append">
+           <span class="input-group-text">
+             <i class="far fa-calendar"></i>
+           </span>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ </div>
+ </div>
+  
+    <div class="form-group">
+      <%= form.submit "Create Discount", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+  
+
+</div>
+
+</div>
+
+<script>
+const discountTypeSelect = document.getElementById('discount-type-dropdown');
+const amountTypeSelect = document.getElementById('amount-type-dropdown');
+const vendorField = document.getElementById('vendor-field');
+const productdetailField = document.getElementById('productdetail-field');
+const orderproductField = document.getElementById('orderproduct');
+const amountField = document.getElementById('amount-field');
+const percentageField = document.getElementById('percentage-field');
+const vendorOption = document.getElementById('vendor-option');
+const productOption = document.getElementById('product-option');
+const amountField1 = document.getElementById('amount1-field');
+const quantityField = document.getElementById('quantity-field');
+const amountOption = document.getElementById('amount-option');
+const quantityOption = document.getElementById('quantity-option');
+const endDateCheckbox = document.getElementById('end-date-checkbox');
+const endDateField = document.getElementById('end-date-field');
+
+endDateCheckbox.addEventListener('change', function () {
+  if (this.checked) {
+    endDateField.style.display = 'block';
+  } else {
+    endDateField.style.display = 'none';
+  }
+});
+ 
+
+
+vendorField.style.display = 'none';
+productdetailField.style.display = 'none';
+amountOption.addEventListener('change', function () {
+    if (this.checked) {
+      amountField1.style.display = 'block';
+      quantityField.style.display = 'none';
+    }
+  });
+
+  quantityOption.addEventListener('change', function () {
+    if (this.checked) {
+      amountField1.style.display = 'none';
+      quantityField.style.display = 'block';
+    }
+  });
+vendorOption.addEventListener('change', function () {
+    if (this.checked) {
+      vendorField.style.display = 'block';
+      productdetailField.style.display = 'none';
+    }
+  });
+
+  productOption.addEventListener('change', function () {
+    if (this.checked) {
+      vendorField.style.display = 'none';
+      productdetailField.style.display = 'block';
+    }
+  });
+
+amountTypeSelect.addEventListener('change', function () {
+ 
+    if (amountTypeSelect.value === 'amount') {
+
+        amountField.style.display = 'block';
+        percentageField.style.display = 'none';
+    
+
+    } else if (amountTypeSelect.value === 'percentage') {
+       
+        amountField.style.display = 'none';
+        percentageField.style.display = 'block';
+      
+    } else {
+    
+        amountField.style.display = 'none';
+        percentageField.style.display = 'none';
+
+    }
+
+});
+  discountTypeSelect.addEventListener('change', function () {
+ 
+    if (discountTypeSelect.value === 'amount_on_product') {
+
+      vendorField.style.display = 'block';
+      productdetailField.style.display = 'block';
+      orderproductField.style.display = 'block';
+    
+
+    } else if (discountTypeSelect.value === 'amount_on_order') {
+       
+    vendorField.style.display = 'none';
+    productdetailField.style.display = 'none';
+    orderproductField.style.display = 'none';
+      
+    } else {
+    
+    vendorField.style.display = 'none';
+    productdetailField.style.display = 'none';
+   
+    }
+
+});
+const minUseOption = document.getElementById('min-use-option');
+  minUseOption.addEventListener('change', function () {
+    if (this.checked) {
+      document.getElementById('min-use-field').style.display = 'block';
+    } else {
+      document.getElementById('min-use-field').style.display = 'none';
+    }
+  });
+
+  const limitPerUserOption = document.getElementById('limit-per-user-option');
+  limitPerUserOption.addEventListener('change', function () {
+    if (this.checked) {
+      document.getElementById('limit-per-user-field').style.display = 'none';
+    } else {
+      document.getElementById('limit-per-user-field').style.display = 'none';
+    }
+  });
+  const allCustomerOption = document.getElementById('all-customer-option');
+  const customerSegmentOption = document.getElementById('customer-segment-option');
+  const customerSelectionField = document.getElementById('customer-selection-field');
+  customerSelectionField.style.display = 'none';
+  allCustomerOption.addEventListener('change', function () {
+    if (this.checked) {
+      customerSelectionField.style.display = 'none';
+    }
+  });
+
+  
+</script>
+
+

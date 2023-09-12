@@ -343,7 +343,17 @@
             <h5>Cart Total</h5>
             <ul>
                 <!-- Cart total items here -->
+                <% if @cart.u == true %>
+                
+                <li>Total amount <span class="strikethrough-text"><%= number_to_currency(@cart.all_total) %></span></li>
+
+                <li>Total with discount <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                <% else %>
                 <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                <% end %>
+         
+              
+                
             </ul>
             <% if current_customer %>
                 <%= link_to "Proceed to checkout", new_order_path, class: "site-btn" %>
@@ -352,39 +362,49 @@
             <% end %>
             </div>
       </div>
-  
-        <div class="col-lg-6">
-        <h4>Offers</h4>
-        <div id="couponCarousel" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            <% @coupons.each_with_index do |coupon, index| %>
-              <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
-                <div class="carousel-content ">
-                  <div class="coupon-details text-center ">
-                    <p>Get <%= coupon.percent_off %> percent off your order with code:</p>
-                 
-                  </div>
-                  <ul class="promotion-codes text-center">
-                    <% @promotion_codes[coupon.id].each do |promotion_code| %>
-                      <li><%= promotion_code.code %></li>
-                    <% end %>
-                  </ul>
-                </div>
-              </div>
-            <% end %>
-          </div>
-          <a class="carousel-control-prev" href="#couponCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#couponCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
-     </div>
-     </div>
+      <%= form_with(url: apply_discount_path(@cart), method: :post) do |form| %>
+        <%= form.text_field :discount_code, placeholder: "Enter discount code" %>
+        <%= form.submit "Apply Discount" %>
+      <% end %>
       
+          <div class="col-lg-6">
+          
+            <h4>Offers</h4>
+            <div id="couponCarousel" class="carousel slide" data-ride="carousel">
+               
+                <div class="carousel-inner">
+                <% @cart.line_items.each do |line_item| %>
+                    <% matching_discounts = @discount.where(productdetail_id: line_item.productdetail_id) %>
+                    <% if matching_discounts.any? %>
+                
+                    <% matching_discounts.each_with_index do |discount, index| %>
+                    <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+                        <div class="carousel-content">
+                        <div class="coupon-details text-center">
+                            <p>Get <%= discount.status %> percent off your order with code:</p>
+                        </div>
+                        <ul class="promotion-codes text-center">
+                            <li><%= discount.code %></li>
+                        </ul>
+                        </div>
+                    </div>
+                    <% end %>
+                    <% end %>
+                    <% end %>
+                </div>
+                <a class="carousel-control-prev" href="#couponCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#couponCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+              
+            </div>
+            
+          </div>
+    
       
   
 </div>
@@ -464,6 +484,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 </div>
 </footer>
 <style>
+.strikethrough-text {
+  text-decoration: line-through;
+}
   .carousel-control-prev,
   .carousel-control-next {
     background-color: #749525; 

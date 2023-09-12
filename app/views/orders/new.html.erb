@@ -67,8 +67,21 @@
                 <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
               <% end %>
             </ul>
-            <div class="checkout__order__subtotal">Subtotal <span><%= number_to_currency(@current_cart.sub_total) %></span></div>
+         
+             
+            <% if @cart.u == true %>
+           
+            <div class="checkout__order__subtotal">
+            Subtotal
+            <span style="text-decoration: line-through;">
+              <%= number_to_currency(@cart.all_total) %>
+            </span>
+          </div>
+          
+           <div class="checkout__order__subtotal">Total with discount <span><%= number_to_currency(@current_cart.sub_total) %></span></div>
+            <% else %>
             <div class="checkout__order__total">Total  <span><%= number_to_currency(@current_cart.sub_total) %></span></div>
+            <% end %>
           </div>
           
           

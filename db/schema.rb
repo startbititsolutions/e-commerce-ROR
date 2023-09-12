@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_06_104211) do
+ActiveRecord::Schema.define(version: 2023_09_08_130944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,13 @@ ActiveRecord::Schema.define(version: 2023_09_06_104211) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "customer_id"
+    t.float "item_price"
+    t.float "total_item"
+    t.float "total"
+    t.boolean "u", default: false
+    t.float "all_total"
+    t.string "discount_name"
+    t.string "discount_type"
     t.index ["customer_id"], name: "index_carts_on_customer_id"
   end
 
@@ -90,6 +97,30 @@ ActiveRecord::Schema.define(version: 2023_09_06_104211) do
     t.string "image"
     t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
+  end
+
+  create_table "discounts", force: :cascade do |t|
+    t.string "title"
+    t.boolean "status"
+    t.string "discount_type"
+    t.float "used"
+    t.string "code"
+    t.float "amount"
+    t.float "percentage"
+    t.float "min_purchase_amount"
+    t.float "min_purchase_quantity"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "min_use"
+    t.bigint "vendor_id"
+    t.bigint "productdetail_id"
+    t.bigint "customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "amount_type"
+    t.index ["customer_id"], name: "index_discounts_on_customer_id"
+    t.index ["productdetail_id"], name: "index_discounts_on_productdetail_id"
+    t.index ["vendor_id"], name: "index_discounts_on_vendor_id"
   end
 
   create_table "line_items", force: :cascade do |t|
@@ -313,6 +344,9 @@ ActiveRecord::Schema.define(version: 2023_09_06_104211) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "carts", "customers"
+  add_foreign_key "discounts", "customers"
+  add_foreign_key "discounts", "productdetails"
+  add_foreign_key "discounts", "vendors"
   add_foreign_key "line_items", "orders"
   add_foreign_key "orders", "customers"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"

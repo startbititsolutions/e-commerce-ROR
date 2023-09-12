@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+  <h1>Discounts</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Discount type</th>
+        <th>Used</th>
+        <th>Code</th>
+       
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @discounts.each do |discount| %>
+        <tr>
+          <td><%= discount.title %></td>
+          <td><%= discount.status %></td>
+          <td><%= discount.discount_type %></td>
+          <td><%= discount.used %></td>
+          <td><%= discount.code %></td>
+          
+          <td><%= link_to 'Show', admin_discount_path(discount) %></td>
+          <td><%= link_to 'Edit', edit_admin_discount_path(discount) %></td>
+          <td><%#= link_to 'Destroy', discount, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'New Discount', new_admin_discount_path, class: 'btn btn-primary' %>
+</div>

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  
   resources :orders
 
   devise_for :customers
@@ -25,6 +26,7 @@ resources :coupons
   get '/contact', to: 'products#contact'
   get 'carts/:id', to: 'carts#show', as:"cart"
   delete 'carts/:id', to: 'carts#destroy'
+  post 'apply_discount', to: 'carts#apply_discount'
  get 'line_items/:id/add', to: 'line_items#add_quantity', as: "line_item_add"
 get 'line_items/:id/reduce', to: 'line_items#reduce_quantity', as: "line_item_reduce"
 post 'line_items', to: 'line_items#create'
@@ -42,13 +44,17 @@ post  'line_items/:id', to: 'line_items#update_quantity'
     resources :admin_users, only: [:edit, :update,:show]
     resources :vendors
     resources :orders
+    resources :discounts
     root to: 'admin#index' 
     resources :productdetails, only: [:index, :show, :edit, :update] do
+      get 'filter_by_vendor', on: :collection
       get 'page/:page', action: :index, on: :collection, as: 'page'
   
       delete 'delete_image/:image_id', action: :delete_image, on: :member, as: :delete_image
-      
+    
     end
-  end
+
+
+  end 
  
 end

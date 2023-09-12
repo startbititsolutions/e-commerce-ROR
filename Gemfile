@@ -70,3 +70,5 @@ gem 'pay'
 gem 'faker'
 gem 'devise-guests'
 gem 'coupons'
+# gem 'select2-rails'
+gem "selectize-rails"

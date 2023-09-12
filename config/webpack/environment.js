@@ -7,6 +7,7 @@ environment.plugins.append("Provide", new webpack.ProvidePlugin({
 $: 'jquery',
 
 jQuery: 'jquery',
+selectize: 'selectize',
 
 Popper: ['popper.js', 'default']
 

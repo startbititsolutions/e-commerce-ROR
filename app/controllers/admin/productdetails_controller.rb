@@ -2,7 +2,19 @@ module Admin
   class ProductdetailsController < ApplicationController
     layout 'admin'
     before_action :authenticate_user!  
-    before_action :check_admin_role   
+    before_action :check_admin_role  
+
+    def filter_by_vendor
+      
+      selected_vendors = params[:vendors] || [] 
+      products = Productdetail.where(vendor_id: selected_vendors) 
+  
+
+      filtered_products = products.map { |product| { id: product.id, name: product.product_title } }
+    
+      render json: filtered_products
+     end
+ 
     def index
       items_per_page = 10
       @current_page = (params[:page] || 1).to_i
@@ -103,7 +115,7 @@ module Admin
       redirect_to  edit_admin_productdetail_path(@productdetail), notice: "Image deleted successfully."
 
     end
-
+     
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_productdetail
