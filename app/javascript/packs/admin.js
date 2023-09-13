@@ -52,37 +52,37 @@ $(document).on('turbolinks:load', function() {
   });
 
 
-const vendorSelectize = $('#vendor-dropdown')[0].selectize;
-const productSelectize = $('#productdetail-dropdown')[0].selectize;
-console.log(vendorSelectize);
-console.log(productSelectize);
+// const vendorSelectize = $('#vendor-dropdown')[0].selectize;
+// const productSelectize = $('#productdetail-dropdown')[0].selectize;
+// console.log(vendorSelectize);
+// console.log(productSelectize);
 
-vendorSelectize.on('change', function() {
-  const selectedVendors = vendorSelectize.getValue(); 
+// vendorSelectize.on('change', function() {
+//   const selectedVendors = vendorSelectize.getValue(); 
 
 
-  productSelectize.clearOptions();
+//   productSelectize.clearOptions();
 
-  if (selectedVendors.length > 0) {
+//   if (selectedVendors.length > 0) {
 
-    productSelectize.load(function(callback) {
-      $.ajax({
-        url: '/admin/productdetails/filter_by_vendor', 
-        data: { vendors: selectedVendors },
-        success: function(data) {
+//     productSelectize.load(function(callback) {
+//       $.ajax({
+//         url: '/admin/productdetails/filter_by_vendor', 
+//         data: { vendors: selectedVendors },
+//         success: function(data) {
         
-          callback(data);
-        },
-        error: function() {
+//           callback(data);
+//         },
+//         error: function() {
         
-        }
-      });
-    });
-  } else {
+//         }
+//       });
+//     });
+//   } else {
    
-    productSelectize.load();
-  }
-});
+//     productSelectize.load();
+//   }
+// });
 
 
 

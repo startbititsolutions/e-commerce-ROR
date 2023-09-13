@@ -16,6 +16,7 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
+    @discount = Discount.all
     @cart = current_customer.cart
     @shipping_amount=40
   end

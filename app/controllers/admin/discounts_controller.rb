@@ -25,7 +25,7 @@ module Admin
   # POST /discounts or /discounts.json
   def create
     @discount = Discount.new(discount_params)
-
+     byebug
     respond_to do |format|
       if @discount.save
         format.html { redirect_to admin_discount_path(@discount), notice: "Discount was successfully created." }
@@ -68,7 +68,7 @@ module Admin
 
     # Only allow a list of trusted parameters through.
     def discount_params
-      params.require(:discount).permit(:title, :status, :discount_type, :used, :code, :amount, :percentage, :min_purchase_amount, :min_purchase_quantity, :start_date, :end_date, :min_use, :vendor_id, :productdetail_id, :customer_id)
+      params.require(:discount).permit(:title, :status, :discount_type, :used, :code, :amount, :percentage, :min_purchase_amount, :min_purchase_quantity, :start_date, :end_date, :min_use, :customer_id, :vendor_id, :productdetail_id ,vendors1: [], productdetails1: [])
     end
  end
 end

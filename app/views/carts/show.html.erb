@@ -374,7 +374,8 @@
                
                 <div class="carousel-inner">
                 <% @cart.line_items.each do |line_item| %>
-                    <% matching_discounts = @discount.where(productdetail_id: line_item.productdetail_id) %>
+                    <% matching_discounts = @discount.where("productdetails1::text[] @> ARRAY[?]::text[]", [line_item.productdetail_id.to_s]) %>
+                  
                     <% if matching_discounts.any? %>
                 
                     <% matching_discounts.each_with_index do |discount, index| %>
@@ -389,7 +390,9 @@
                         </div>
                     </div>
                     <% end %>
+                    
                     <% end %>
+
                     <% end %>
                 </div>
                 <a class="carousel-control-prev" href="#couponCarousel" role="button" data-slide="prev">

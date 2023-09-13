@@ -48,10 +48,10 @@ class CartsController < ApplicationController
 
       new_sub_total = @cart.sub_total - matching_discount.amount
   
-      # Update the virtual sub_total attribute
+    
       @cart.sub_total = new_sub_total
 
-      # Update the cart's total and set u to true
+    
       @cart.update(total: new_sub_total, u: true,all_total: @cart.sub_total)
   
       flash[:success] = "Discount applied successfully!"

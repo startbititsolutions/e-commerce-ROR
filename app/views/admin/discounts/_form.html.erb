@@ -85,9 +85,11 @@
 
 </div>
 <div class="form-group" id="percentage-field" style="width: 150px;">
-<%= form.label :percentage, 'Percentage' %>
-<%= form.number_field :percentage, class: 'form-control',placeholder:"%" ,style: 'border-radius: 10px;'  %>
+  <%= form.label :percentage, 'Percentage' %>
+  <%= form.number_field :percentage, class: 'form-control', placeholder: "%", style: 'border-radius: 10px;', min: "0", max: "100", step: "0.01" %>
+  <p class="text-danger"><%= form.object.errors.full_messages_for(:percentage).first %></p>
 </div>
+
 </div>
 </div>
 </div>
@@ -122,7 +124,7 @@
     class: "selectize", 
     id: "vendor-dropdown",
     multiple: true, 
-    data: { filter_url: filter_by_vendor_admin_productdetails_path }
+    name: "discount[vendors1][]",
   }
 ) %>
 
@@ -138,6 +140,7 @@
           class: "selectize", 
           id: "productdetail-dropdown",
           multiple: true, 
+          name: "discount[productdetails1][]",
         }
       ) %>
     </div>
@@ -247,7 +250,7 @@
 
   <div class="form-group" id="customer-selection-field">
     <%= form.label :customer_id %>
-    <%= form.collection_select(:customer_id, Customer.all, :id, :id, { prompt: "Select a customer" }, class: "form-control") %>
+    <%= form.collection_select(:customer_id, Customer.all, :email, :id, { prompt: "Select a customer" }, class: "form-control") %>
   </div>
 </div>
 </div>
@@ -256,28 +259,26 @@
 <div class="row justify-content-center mb-3">
    <div class="col-md-6">
    <div class="card">
-   <div class="card-header">
-  <h5 class="card-title">Active Date</h5>
-</div>
+    <div class="card-header">
+      <h5 class="card-title">Active Date</h5>
+    </div>
    <div class="card-body">
     
      
-     <div class="form-group">
-       <%= form.label :start_date, class: "control-label" %>
-       <div class="input-group date" data-provide="datepicker">
-  <%= form.date_select :start_date,
-                      class: "form-control",
-                      start_year: Date.current.year,
-                      end_year: 2045,
-                      default: { day: Date.current.day, month: Date.current.month, year: Date.current.year },
-                      order: [:day, :month, :year],
-                      input_html: { data: { datepicker_min_date: Date.current.strftime('%d/%m/%Y') } } %>
-  <div class="input-group-append">
-    <span class="input-group-text">
-      <i class="far fa-calendar"></i>
-    </span>
-  </div>
-</div>
+          <div class="form-group">
+           <%= form.label :start_date, class: "control-label" %>
+           <div class="input-group">
+                       <%= form.text_field :start_date,
+                              class: "form-control datepicker",
+                              input_html: { readonly: true } %>
+             <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="far fa-calendar"></i>
+              </span>
+            </div>
+          </div>
+       
+ 
 
      </div>
      
@@ -286,22 +287,21 @@
        <label for="end-date-checkbox" class="form-check-label">Set End Date</label>
      </div>
      
-     <div class="form-group" id="end-date-field" style="display: none;">
-       <%= form.label :end_date, class: "control-label" %>
-       <div class="input-group date" data-provide="datepicker">
-         <%= form.date_select :end_date,
-                             class: "form-control",
-                             start_year: Date.current.year,
-                             end_year: 2045,
-                             default: { day: 31, month: 12, year: 2045 },
-                             order: [:day, :month, :year] %>
-         <div class="input-group-append">
-           <span class="input-group-text">
-             <i class="far fa-calendar"></i>
-           </span>
-         </div>
-       </div>
-     </div>
+    <div class="form-group" id="end-date-field" style="display: none;">
+  <%= form.label :end_date, class: "control-label" %>
+  <div class="input-group">
+    <%= form.text_field :end_date,
+                        class: "form-control datepicker",
+                        input_html: { readonly: true },
+                        id: "end-datepicker" %>
+                          
+    <div class="input-group-append">
+      <span class="input-group-text">
+        <i class="far fa-calendar"></i>
+      </span>
+    </div>
+  </div>
+</div>
    </div>
  </div>
  </div>
@@ -445,7 +445,24 @@ const minUseOption = document.getElementById('min-use-option');
       customerSelectionField.style.display = 'none';
     }
   });
-
+  document.addEventListener("DOMContentLoaded", function() {
+    var input = document.querySelector('.datepicker');
+    var endInput = document.querySelector('#end-datepicker');
+    var picker = new Pikaday({
+      field: input,
+      format: 'DD/MM/YYYY', 
+      yearRange: [2023, 2045], 
+      minDate: new Date(), 
+      showYearDropdown: true, 
+    });
+    var endPicker = new Pikaday({
+      field: endInput,
+      format: 'DD/MM/YYYY',
+      yearRange: [2023, 2045], 
+      minDate: new Date(), 
+      showYearDropdown: true,   
+    });
+  });
   
 </script>
 
