@@ -34,7 +34,8 @@
     <div class="card-body">
       <div class="form-group">
         <%= form.label :title %>
-        <%= form.text_field :title, class: "form-control" %>
+        <%= form.text_field :title, class: "form-control", placeholder: "Enter the name of discount", required: true %>
+
       </div>
     </div>
   </div>
@@ -49,10 +50,11 @@
   <h5 class="card-title">Code</h5>
 </div>
 <div class="card-body">
-  <div class="form-group">
-    <%= form.label :code %>
-    <%= form.text_field :code, class: "form-control" %>
-  </div>
+<div class="form-group">
+<%= form.label :code %>
+<%= form.text_field :code, class: "form-control", placeholder: "Enter the name of code for example Fav100", required: true %>
+</div>
+
 </div>
 </div>
 
@@ -69,15 +71,22 @@
   <div class="form-group">
   <%= form.label :amount_type %>
      
-  <%= form.select :amount_type, [['Amount', 'amount'], ['Percentage', 'percentage']], { prompt: "Select discount type" }, class: 'form-control', id: 'amount-type-dropdown' %>
+  <%= form.select :amount_type,
+               options_for_select([['Amount', 'amount'], ['Percentage', 'percentage']]),
+               { prompt: "Select discount type" },
+               class: 'form-control',
+               id: 'amount-type-dropdown' %>
+
   </div>
-  <div class="form-group" id="amount-field">
+  <div class="form-group" id="amount-field" style="width: 150px;">
+
   <%= form.label :amount, 'Amount' %>
-  <%= form.number_field :amount, class: 'form-control' %>
+  <%= form.number_field :amount, class: 'form-control', placeholder: "$ 0.0", style: 'border-radius: 10px;' %>
+
 </div>
-<div class="form-group" id="percentage-field">
+<div class="form-group" id="percentage-field" style="width: 150px;">
 <%= form.label :percentage, 'Percentage' %>
-<%= form.number_field :percentage, class: 'form-control' %>
+<%= form.number_field :percentage, class: 'form-control',placeholder:"%" ,style: 'border-radius: 10px;'  %>
 </div>
 </div>
 </div>
@@ -160,15 +169,17 @@
   </div>
 
 
-  <div id="amount1-field" style="display: none;">
-    <%= form.label :min_purchase_amount %>
-    <%= form.number_field :min_purchase_amount, class: "form-control" %>
-  </div>
+  <div id="amount1-field" style="display: none; width: 150px; border-radius: 20px;">
+  <%= form.label :min_purchase_amount %>
+  <%= form.number_field :min_purchase_amount, class: "form-control", placeholder: "$00.00",style: "border-radius: 10px;" %>
+</div>
 
 
-  <div id="quantity-field" style="display: none;">
+
+  <div id="quantity-field" style="display: none; width:150px;">
     <%= form.label :min_purchase_quantity %>
-    <%= form.number_field :min_purchase_quantity, class: "form-control" %>
+    <%= form.number_field :min_purchase_quantity, class: "form-control", style: "border-radius: 10px;" %>
+
   </div>
 </div>
 </div>
@@ -197,9 +208,9 @@
        <label for="min-use-option" class="form-check-label">Minimum Number of Uses</label>
      </div>
 
-     <div class="form-group" id="min-use-field" style="display: none;">
+     <div class="form-group" id="min-use-field" style="display: none; width: 150px; ">
        <%= form.label :min_use, class: "control-label" %>
-       <%= form.number_field :min_use, class: "form-control" %>
+       <%= form.number_field :min_use, class: "form-control",style: "border-radius: 10px;" %>
      </div>
 
      <div class="form-check">
@@ -296,9 +307,9 @@
  </div>
  </div>
   
-    <div class="form-group">
-      <%= form.submit "Create Discount", class: "btn btn-primary" %>
-    </div>
+ <div class="form-group text-right">
+ <%= form.submit "Create Discount", class: "btn btn-primary" %>
+</div>
   <% end %>
   
 
@@ -362,6 +373,8 @@ vendorOption.addEventListener('change', function () {
     }
   });
 
+  amountField.style.display = 'none';
+  percentageField.style.display = 'none';
 amountTypeSelect.addEventListener('change', function () {
  
     if (amountTypeSelect.value === 'amount') {

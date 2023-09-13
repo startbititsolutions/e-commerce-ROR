@@ -28,7 +28,7 @@ module Admin
 
     respond_to do |format|
       if @discount.save
-        format.html { redirect_to discount_url(@discount), notice: "Discount was successfully created." }
+        format.html { redirect_to admin_discount_path(@discount), notice: "Discount was successfully created." }
         format.json { render :show, status: :created, location: @discount }
       else
         format.html { render :new, status: :unprocessable_entity }

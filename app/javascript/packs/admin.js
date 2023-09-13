@@ -51,35 +51,39 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
-  const vendorSelectize = $('#vendor-dropdown');
-  const productSelectize = $('#productdetail-dropdown-selectized');
 
-  vendorSelectize.on('change', function () {
-    const selectedVendors = vendorSelectize.find(":selected").val();
-    console.log(selectedVendors);
+const vendorSelectize = $('#vendor-dropdown')[0].selectize;
+const productSelectize = $('#productdetail-dropdown')[0].selectize;
+console.log(vendorSelectize);
+console.log(productSelectize);
 
-    if (selectedVendors) {
-      const filterByVendorUrl = $('#vendor-dropdown').data('filter-url'); 
-      console.log(filterByVendorUrl);
+vendorSelectize.on('change', function() {
+  const selectedVendors = vendorSelectize.getValue(); 
 
+
+  productSelectize.clearOptions();
+
+  if (selectedVendors.length > 0) {
+
+    productSelectize.load(function(callback) {
       $.ajax({
-        url: filterByVendorUrl,
-        type: 'GET',
+        url: '/admin/productdetails/filter_by_vendor', 
         data: { vendors: selectedVendors },
-        success: function (data) {
-       
+        success: function(data) {
         
-          productSelectize.load(function (callback) {
-            callback(data);
-          });
+          callback(data);
         },
-        error: function () {
-          
-        },
-       
+        error: function() {
+        
+        }
       });
-    } 
-  });
+    });
+  } else {
+   
+    productSelectize.load();
+  }
+});
+
 
 
 
