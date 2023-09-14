@@ -50,11 +50,21 @@ class CartsController < ApplicationController
       l= matching_discount.percentage
       i= matching_discount.amount_type
       o= matching_discount.discount_type
+  
       byebug
       
     
     
-      @cart.update(u: true, dis_amt: p , dis_per: l, amt_type:i, discount_type: o)
+      @cart.update(
+        u: true,
+        dis_amt: p,
+        dis_per: l,
+        amt_type: i,
+        discount_type: o,
+        productdetails1: matching_discount.productdetails1
+      )
+      byebug
+      
    
       flash[:success] = "Discount applied successfully!"
     else

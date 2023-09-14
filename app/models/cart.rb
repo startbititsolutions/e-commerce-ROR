@@ -14,14 +14,15 @@ class Cart < ApplicationRecord
       
       if self.u
         if self.amt_type == "amount" && self.discount_type == "amount_on_order"
-   
-          applied_discount =   sum-self.dis_amt
-          
+          applied_discount = sum - self.dis_amt
           sum = applied_discount
-        else 
-          applied_discount =   sum - (sum * (self.dis / 100.0))
+        elsif self.amt_type == "percentage" && self.discount_type == "amount_on_order"
+          applied_discount = sum - (sum * (self.dis_per / 100.0))
           sum = applied_discount
+        else
+          return sum
         end
+        
       end
       return sum
     end

@@ -347,7 +347,7 @@
                 
                 
                
-                <li>Total with discount <span class="strikethrough-text"><%= number_to_currency(@cart.sub_total+ @cart.dis_amt) %></span></li>
+                <li>Total with discount <span class="strikethrough-text"><%= number_to_currency(@cart.sub_total) %></span></li>
                 <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
                 <% else %>
                 <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
