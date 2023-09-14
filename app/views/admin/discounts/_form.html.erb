@@ -24,6 +24,8 @@
     </div>
   </div>
   </div>
+  
+  <div class="aditya" id:"asw">
 
   <div class="row justify-content-center mb-3">
   <div class="col-md-6">
@@ -316,6 +318,7 @@
 </div>
 
 </div>
+</div>
 
 <script>
 const discountTypeSelect = document.getElementById('discount-type-dropdown');
@@ -333,6 +336,8 @@ const amountOption = document.getElementById('amount-option');
 const quantityOption = document.getElementById('quantity-option');
 const endDateCheckbox = document.getElementById('end-date-checkbox');
 const endDateField = document.getElementById('end-date-field');
+const aswDiv = document.getElementById('asw');
+
 
 endDateCheckbox.addEventListener('change', function () {
   if (this.checked) {
@@ -373,8 +378,7 @@ vendorOption.addEventListener('change', function () {
     }
   });
 
-  amountField.style.display = 'none';
-  percentageField.style.display = 'none';
+
 amountTypeSelect.addEventListener('change', function () {
  
     if (amountTypeSelect.value === 'amount') {
@@ -396,6 +400,8 @@ amountTypeSelect.addEventListener('change', function () {
     }
 
 });
+vendorField.style.display = 'none';
+productdetailField.style.display = 'none';
   discountTypeSelect.addEventListener('change', function () {
  
     if (discountTypeSelect.value === 'amount_on_product') {
@@ -463,6 +469,7 @@ const minUseOption = document.getElementById('min-use-option');
       showYearDropdown: true,   
     });
   });
+  
   
 </script>
 
