@@ -342,12 +342,13 @@
             <div class="shoping__checkout">
             <h5>Cart Total</h5>
             <ul>
-                <!-- Cart total items here -->
+               
                 <% if @cart.u == true %>
                 
-                <li>Total amount <span class="strikethrough-text"><%= number_to_currency(@cart.all_total) %></span></li>
-
-                <li>Total with discount <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                
+               
+                <li>Total with discount <span class="strikethrough-text"><%= number_to_currency(@cart.sub_total+ @cart.dis_amt) %></span></li>
+                <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
                 <% else %>
                 <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
                 <% end %>

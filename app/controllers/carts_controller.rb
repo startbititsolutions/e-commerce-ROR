@@ -43,17 +43,19 @@ class CartsController < ApplicationController
     matching_discount = @discount.find_by(code: discount_code)
   
     if matching_discount 
+      
 
-      @cart.update(total: 0, u: false,all_total: 0)
-
-      new_sub_total = @cart.sub_total - matching_discount.amount
-  
+      @cart.update(u: false, dis_amt: 0, dis_per: 0,amt_type: " ",discount_type: " ")
+      p= matching_discount.amount
+      l= matching_discount.percentage
+      i= matching_discount.amount_type
+      o= matching_discount.discount_type
+      byebug
+      
     
-      @cart.sub_total = new_sub_total
-
     
-      @cart.update(total: new_sub_total, u: true,all_total: @cart.sub_total)
-  
+      @cart.update(u: true, dis_amt: p , dis_per: l, amt_type:i, discount_type: o)
+   
       flash[:success] = "Discount applied successfully!"
     else
       flash[:error] = "Invalid discount code or product details."

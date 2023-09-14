@@ -21,7 +21,7 @@ class CheckoutsController < ApplicationController
           unit_amount: (line_item.productdetail.price * 100).to_i
       
         },
-        quantity: line_item.quantity
+        quantity: line_item.quantity  
       }
     end
 

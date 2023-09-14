@@ -68,7 +68,7 @@ module Admin
 
     # Only allow a list of trusted parameters through.
     def discount_params
-      params.require(:discount).permit(:title, :status, :discount_type, :used, :code, :amount, :percentage, :min_purchase_amount, :min_purchase_quantity, :start_date, :end_date, :min_use, :customer_id, :vendor_id, :productdetail_id ,vendors1: [], productdetails1: [])
+      params.require(:discount).permit(:title, :status, :discount_type, :amount_type, :used, :code, :amount, :percentage, :min_purchase_amount, :min_purchase_quantity, :start_date, :end_date, :min_use, :customer_id, :vendor_id, :productdetail_id ,vendors1: [], productdetails1: [])
     end
  end
 end

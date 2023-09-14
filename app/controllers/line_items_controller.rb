@@ -53,6 +53,7 @@ class LineItemsController < ApplicationController
     redirect_to cart_path(@current_cart)
     end
     def update_quantity
+    
         @line_item = LineItem.find(params[:id])
         new_quantity = params[:quantity].to_i
         if new_quantity > 0

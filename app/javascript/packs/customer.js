@@ -47,13 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
 $(document).on("click", ".increase-btn", function(event) {
     event.preventDefault();
     var lineItemId = $(this).data("line-item-id");
-    updateQuantity(lineItemId, 1); // Increment quantity by 1
+    updateQuantity(lineItemId, 1); 
   });
   
   $(document).on("click", ".decrease-btn", function(event) {
     event.preventDefault();
     var lineItemId = $(this).data("line-item-id");
-    updateQuantity(lineItemId, -1); // Decrement quantity by 1
+    updateQuantity(lineItemId, -1); 
   });
   
   function updateQuantity(lineItemId, change) {
@@ -67,6 +67,7 @@ $(document).on("click", ".increase-btn", function(event) {
       dataType: "json",
       data: { quantity: newValue },
       success: function(data) {
+        console.log(data)
         inputField.val(data.quantity); 
         updateSubtotal(lineItemId, data.total_price); 
         updateCartTotal(data.cart_total); 

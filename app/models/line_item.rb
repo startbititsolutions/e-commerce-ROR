@@ -9,6 +9,13 @@ class LineItem < ApplicationRecord
         else
           0
         end
+    end
+    def discount_price
+      if quantity && productdetail && productdetail.price
+        quantity * productdetail.price
+      else
+        0
       end
+    end
 end
 
