@@ -375,9 +375,9 @@
                 <div class="carousel-inner">
                 <% @cart.line_items.each do |line_item| %>
                     <% matching_discounts = @discount.where("productdetails1::text[] @> ARRAY[?]::text[]", [line_item.productdetail_id.to_s]) %>
-                  
-                    <% if matching_discounts.any? %>
-                
+               
+                    <% if matching_discounts.any? && matching_discounts.first.min_purchase_amount <= line_item.productdetail.price && matching_discounts.first.min_purchase_quantity <=line_item.quantity  %>
+                     
                     <% matching_discounts.each_with_index do |discount, index| %>
                     <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
                         <div class="carousel-content">

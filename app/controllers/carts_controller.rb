@@ -42,7 +42,7 @@ class CartsController < ApplicationController
   
     matching_discount = @discount.find_by(code: discount_code)
   
-    if matching_discount
+    if matching_discount 
 
       @cart.update(total: 0, u: false,all_total: 0)
 
