@@ -285,17 +285,27 @@
                             </td>
                             <% if @current_cart.u == true && @current_cart.discount_type == "amount_on_product" %>
                                <% if @current_cart.amt_type =="percentage" %>
-                               <td class="shoping__cart__price">
-                               <span class="original-price" style="text-decoration: line-through; color: #bf6d6d; font-size: 18px;">
-                               <%= number_to_currency(line_item.productdetail.price) %>
-                             </span>
-                             
-                             <span class="discounted-price">
-                             <i class="fas fa-tags" style="color: blue; font-size: 14px;"></i>
-                             <%= number_to_currency(line_item.productdetail.price - line_item.productdetail.price * @current_cart.dis_per/100) %>
-                             (Discount <%= @current_cart.dis_per %>%) 
-                           </span>
-                             </td>
+                                <td class="shoping__cart__price">
+                                    
+                                    <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                            
+
+                                    <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                            <span class="original-price" style="text-decoration: line-through; color: #bf6d6d; font-size: 18px;">
+                                            <%= number_to_currency(line_item.productdetail.price) %>
+                                            </span>
+                                            <span class="discounted-price">
+                                                <i class="fas fa-tags" style="color: blue; font-size: 14px;"></i>
+                                                <%= number_to_currency(line_item.productdetail.price - line_item.productdetail.price * @current_cart.dis_per/100) %>
+                                                (Discount <%= @current_cart.dis_per %>%) 
+                                            </span>
+                                    <% else %>
+                                    <span class="original-price">
+                                    <%= number_to_currency(line_item.productdetail.price) %>
+                                    </span>
+                                    <% end %>
+
+                                </td>
                                 <% else %>
                                     <td class="shoping__cart__price">
                                         <%= number_to_currency(line_item.productdetail.price - @current_cart.dis_amt) %>

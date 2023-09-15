@@ -5,6 +5,7 @@ class Cart < ApplicationRecord
     belongs_to :customer, optional: true
     attr_accessor :sub_total
     # LOGIC
+     
     def sub_total
       sum = 0
       self.line_items.each do |line_item|
