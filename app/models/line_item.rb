@@ -2,35 +2,83 @@ class LineItem < ApplicationRecord
     belongs_to :productdetail
     belongs_to :cart
     belongs_to  :order, optional: true
+    # def total_price
+    #   if cart.u == true 
+     
+    #     self.cart.line_items.each do |line_item|  
+      
+    #       productdetails1_ids = cart.productdetails1.map(&:to_i)
+ 
+    #       if productdetails1_ids.include?(line_item.productdetail.id)
+         
+    #           return (quantity * productdetail.price - cart.dis_per)
+            
+    #       else
+          
+    #         if quantity && productdetail && productdetail.price
+    #           return (quantity * productdetail.price)
+    #         else
+    #           0
+    #         end
+    #       end
+    #     end
+     
+    #   else
+    #     if quantity && productdetail && productdetail.price
+    #       return quantity * productdetail.price
+    #     else
+    #       return 0
+    #     end
+    #   end
+    # end
+
     def total_price
-      if cart.u == true 
-        total_price = 0
-        self.cart.line_items.each do |line_item|  
-          if cart.productdetails1.include?(line_item.productdetail)
-      byebug
-            if quantity && productdetail && productdetail.price
-              total_price += (quantity * productdetail.price - cart.dis_per)
-            else
-              total_price += 0
+      total_price = 0
+    
+      if cart.u == true
+        self.cart.line_items.each do |line_item|
+          
+          total_price = 0
+          productdetails1_ids = cart.productdetails1.map(&:to_i)
+       
+          if productdetails1_ids.include?(line_item.productdetail.id) 
+            if cart.amt_type =="percentage"
+
+            return quantity * ( productdetail.price - productdetail.price * cart.dis_per / 100.0)
+            else 
+              return (quantity * productdetail.price - cart.dis_amt)  
             end
           else
-            
             if quantity && productdetail && productdetail.price
-              total_price += (quantity * productdetail.price - cart.dis_per)
+              return (quantity * productdetail.price)
             else
-              total_price += 0
+             0
             end
-          end
+          end 
+          
         end
-        return total_price
       else
-        if quantity && productdetail && productdetail.price
-          return quantity * productdetail.price
-        else
-          return 0
-        end
+     
+          if quantity && productdetail && productdetail.price
+               return  (quantity * productdetail.price)
+          else
+            0
+          end
+       
       end
+    
     end
+    # end
+    def item_price
+      if quantity && productdetail && productdetail.price
+        return  (quantity * productdetail.price)
+   else
+     0
+   end
+    end
+ 
+  
+    
     
     
 end

@@ -66,7 +66,9 @@ class LineItemsController < ApplicationController
               quantity: @line_item.quantity,
               
               total_price: @line_item.total_price,
-              cart_total: @line_item.cart.sub_total
+              cart_total: @line_item.cart.sub_total,
+             
+              total_item_total: @line_item.cart.total_item_total
             }
           end
           format.html do

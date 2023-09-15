@@ -283,9 +283,34 @@
 
                                 <h5><%= line_item.productdetail.product_title %></h5>
                             </td>
-                            <td class="shoping__cart__price">
-                            <%= number_to_currency(line_item.productdetail.price) %>
-                            </td>
+                            <% if @current_cart.u == true && @current_cart.discount_type == "amount_on_product" %>
+                               <% if @current_cart.amt_type =="percentage" %>
+                               <td class="shoping__cart__price">
+                               <span class="original-price" style="text-decoration: line-through; color: #bf6d6d; font-size: 18px;">
+                               <%= number_to_currency(line_item.productdetail.price) %>
+                             </span>
+                             
+                             <span class="discounted-price">
+                             <i class="fas fa-tags" style="color: blue; font-size: 14px;"></i>
+                             <%= number_to_currency(line_item.productdetail.price - line_item.productdetail.price * @current_cart.dis_per/100) %>
+                             (Discount <%= @current_cart.dis_per %>%) 
+                           </span>
+                             </td>
+                                <% else %>
+                                    <td class="shoping__cart__price">
+                                        <%= number_to_currency(line_item.productdetail.price - @current_cart.dis_amt) %>
+                                        </td>
+                                <% end %>
+
+
+                               
+
+                            <% else %>
+                                <td class="shoping__cart__price">
+                                <%= number_to_currency(line_item.productdetail.price) %>
+                                </td>
+                            <% end %>
+
                             <td class="shoping__cart__quantity">
                             <div class="quantity">
                             <div class="pro-qty">
@@ -297,12 +322,30 @@
                           
                                
                             </td>
+                               <% if @current_cart.u == true && @current_cart.discount_type == "amount_on_product" %>
+                                  <% if @current_cart.amt_type =="percentage" %>
+                                        <td class="shoping__cart__total">
+                                        <span class="total-price" data-line-item-id="<%= line_item.id %>">
+                                        <%= number_to_currency(line_item.total_price) %>p
+                                        </span>
+                                        </td>
+                                   <% else %>
+                                    
+                                        <td class="shoping__cart__total">
+                                        <span class="total-price" data-line-item-id="<%= line_item.id %>">
+                                        <%= number_to_currency(line_item.total_price) %>t
+                                        </span>
+                                        </td>
+                                    <% end %>
 
-                            <td class="shoping__cart__total">
-                            <span class="total-price" data-line-item-id="<%= line_item.id %>">
-                              <%= number_to_currency(line_item.total_price) %>
-                            </span>
-                          </td>
+                                <% else %>
+
+                                        <td class="shoping__cart__total">
+                                        <span class="total-price" data-line-item-id="<%= line_item.id %>">
+                                        <%= number_to_currency(line_item.total_price) %>
+                                        </span>
+                                    </td>
+                                <% end %>
                           <td>
                           <%= link_to line_item_path(line_item), method: :delete, data: { confirm: "Are you sure you want to delete this item?" }, class: "btn btn-danger btn-sm" do %>
                             <i class="fas fa-trash-alt"></i> 
@@ -343,12 +386,18 @@
             <h5>Cart Total</h5>
             <ul>
                
-                <% if @cart.u == true %>
+                <% if @cart.u == true  %>
                 
                 
+                   <% if @cart.discount_type == "amount_on_product" %>
                
-                <li>Total with discount <span class="strikethrough-text"><%= number_to_currency(@cart.sub_total) %></span></li>
-                <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                <li>Total  <span class="strikethrough-text"><%= number_to_currency(@cart.total_item_total) %></span></li>
+                <li>Total with discount on product <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                <% else %>
+                <li>Total  <span class="strikethrough-text"><%= number_to_currency(@cart.total_item_total) %></span></li>
+                <li>Total with discount on order <span><%= number_to_currency(@cart.sub_total) %> </span></li>
+                <span>Discount on order of amount <%= @cart.dis_amt %> on order </span>
+                <% end %>
                 <% else %>
                 <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
                 <% end %>

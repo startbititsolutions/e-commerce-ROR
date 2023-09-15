@@ -72,6 +72,7 @@ $(document).on("click", ".increase-btn", function(event) {
         updateSubtotal(lineItemId, data.total_price); 
         updateCartTotal(data.cart_total); 
         updateTotalPrice(data.total_price, lineItemId);
+        updateTotalItemTotal(data.total_item_total);
       },
       error: function(error) {
         console.error("Error updating quantity:", error);
@@ -98,12 +99,18 @@ $(document).on("click", ".increase-btn", function(event) {
   
   function updateCartTotal(newCartTotal) {
 
-    var cartTotalElement = $(".shoping__checkout li:last-child span");
+    var cartTotalElement = $(".shoping__checkout li:nth-last-child(1) span");
     var currencySymbol = "$";
     var formattedTotalPrice = formatCurrency(newCartTotal);
     cartTotalElement.text(formattedTotalPrice);
   }
-  
+  function updateTotalItemTotal(newTotalItem)
+  {
+    var cartTotalElement1 = $(".shoping__checkout li:nth-last-child(2) span");
+    var currencySymbol = "$";
+    var formattedTotalPrice1 = formatCurrency(newTotalItem);
+    cartTotalElement1.text(formattedTotalPrice1);
+  }
  
 
  console.log("aditya")
