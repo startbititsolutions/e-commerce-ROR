@@ -431,9 +431,16 @@
                     <% matching_discounts.each_with_index do |discount, index| %>
                     <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
                         <div class="carousel-content">
-                        <div class="coupon-details text-center">
-                            <p>Get <%= discount.status %> percent off your order with code:</p>
-                        </div>
+                         <% if  @current_cart.amt_type == "amount" && @current_cart.discount_type =="amount_on_product" %>
+                            <div class="coupon-details text-center">
+                                <p>Get <%= discount.amount %>$  off your order with code:</p>
+                            </div>
+                            <% else %>
+                            <div class="coupon-details text-center">
+                                <p>Get <%= discount.percentage %>%  off your order with code:</p>
+                            </div>
+                            <% end %>
+
                         <ul class="promotion-codes text-center">
                             <li><%= discount.code %></li>
                         </ul>
