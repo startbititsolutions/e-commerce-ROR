@@ -1,7 +1,11 @@
 <p id="notice"><%= notice %></p>
+<div class="container">
+<%= link_to 'Back', admin_discounts_path, class: 'btn btn-secondary float-right', style: 'margin-bottom: 21px' %>
+
+</div>
 
 <div class="container">
-  <h1>Discounts</h1>
+  <h3>Discounts</h3>
 
   <table class="table table-striped">
     <thead>
@@ -18,17 +22,18 @@
     </thead>
 
     <tbody>
-      <% @discounts.each do |discount| %>
+    <% @discounts.sort_by { |discount| discount.title }.reverse_each do |discount| %>
         <tr>
           <td><%= discount.title %></td>
           <td>
           <% if discount.status %>
-            <span style="color: green;">Active</span>
-          <% else %>
-            <span style="color: red;">Deactive</span>
-          <% end %>
+          <span style="color: green;">Active</span>
+        <% else %>
+          <span style="color: red;">Deactive</span>
+        <% end %>
+        <%= link_to 'Active or deactive', toggle_status_admin_discount_path(discount), method: :post, class: 'btn btn-sm btn-outline-primary' %>
+
         </td>
-        
           <td><%= discount.discount_type %></td>
           <td><%= discount.used %></td>
           <td><%= discount.code %></td>

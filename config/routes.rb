@@ -44,7 +44,11 @@ post  'line_items/:id', to: 'line_items#update_quantity'
     resources :admin_users, only: [:edit, :update,:show]
     resources :vendors
     resources :orders
-    resources :discounts
+    resources :discounts do
+      member do
+        post 'toggle_status'
+      end
+    end
     root to: 'admin#index' 
     resources :productdetails, only: [:index, :show, :edit, :update] do
       get 'filter_by_vendor', on: :collection

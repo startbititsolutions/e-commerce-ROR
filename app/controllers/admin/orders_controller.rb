@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
     @shipping_amount=40
   end
   def create
-    byebug
+
     @order = Order.new(order_params)
     @order.customer = current_customer
     @current_cart.line_items.each do |item|

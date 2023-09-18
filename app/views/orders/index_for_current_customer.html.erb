@@ -8,7 +8,7 @@
     </div>
     <div class="humberger__menu__cart">
     <ul>
-    <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"> <span><%= @current_cart.total_quantity %> </span></i><% end %></li>
+   
    </ul>
        
     </div>
@@ -140,7 +140,7 @@
                 <div class="header__cart">
                 <ul>
             
-                <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"> <span><%= @current_cart.total_quantity %> </span></i><% end %></li>
+          
 
                 
             </ul>
@@ -162,10 +162,10 @@
       <h3 class="mb-4">My Orders</h3>
     
       <ul class="list-group">
-        <% @orders.each do |order| %>
+      <% @orders.sort_by { |order| order.created_at }.reverse_each do |order| %>
           <li class="list-group-item mb-4">
             <div class="d-flex justify-content-between align-items-center">
-              <h2 class="mb-0">Shipping ID: <%= order.id %></h2>
+              <h2 class="mb-0">Order Id: <%= order.id %></h2>
               <p class="mb-0"><strong>Name:</strong> <%= order.name %></p>
             </div>
     

@@ -20,15 +20,16 @@ module Admin
 
   # GET /discounts/1/edit
   def edit
+    @discounts = Discount.all
   end
 
   # POST /discounts or /discounts.json
   def create
     @discount = Discount.new(discount_params)
-     byebug
+    
     respond_to do |format|
       if @discount.save
-        format.html { redirect_to admin_discount_path(@discount), notice: "Discount was successfully created." }
+        format.html { redirect_to admin_discount_path, notice: "Discount was successfully created." }
         format.json { render :show, status: :created, location: @discount }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -41,7 +42,7 @@ module Admin
   def update
     respond_to do |format|
       if @discount.update(discount_params)
-        format.html { redirect_to discount_url(@discount), notice: "Discount was successfully updated." }
+        format.html { redirect_to admin_discount_path, notice: "Discount was successfully updated." }
         format.json { render :show, status: :ok, location: @discount }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,6 +59,12 @@ module Admin
       format.html { redirect_to admin_discounts_path, notice: "Discount was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+  def toggle_status
+    
+    @discount = Discount.find(params[:id])
+    @discount.update(status: !@discount.status)
+    redirect_back(fallback_location: admin_discounts_path)
   end
 
   private

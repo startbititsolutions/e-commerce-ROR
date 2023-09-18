@@ -9,24 +9,70 @@ class CheckoutsController < ApplicationController
      
         cart = @current_cart
     line_items = cart.line_items.includes(:productdetail)
-
-    line_items_for_stripe = line_items.map do |line_item|
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: line_item.productdetail.product_title
+    if cart.u
+  
+       if cart.discount_type == "amount_on_product" 
+        
+              line_items_for_stripe = line_items.map do |line_item|
+              
+                {
+                  price_data: {
+                    currency: 'usd',
+                    product_data: {
+                      name: line_item.productdetail.product_title
+                    
+                    },
+                    unit_amount: (line_item.total_price * 100).to_i
+                
+                  },
+                  quantity: 1
+                }
+              end
           
-          },
-          unit_amount: (line_item.total_price * 100).to_i
-         
+          total_amount = cart.sub_total * 100  
+        else
+            line_items_for_stripe = line_items.map do |line_item|
+        
+              {
+                price_data: {
+                  currency: 'usd',
+                  product_data: {
+                    name: line_item.productdetail.product_title
+                  
+                  },
+                  unit_amount: (line_item.total_price * 100).to_i,
+                  
+              
+                },
+                quantity: 1
+              }
+            end
+        
+          total_amount = cart.sub_total- cart.dis_amt * 100  
       
-        },
-        quantity: line_item.quantity  
-      }
+        end
+
+    else
+      line_items_for_stripe = line_items.map do |line_item|
+        
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: line_item.productdetail.product_title
+            
+            },
+            unit_amount: (line_item.productdetail.price * 100).to_i
+        
+          },
+          quantity: line_item.quantity
+        }
+      end
+  
+       total_amount = cart.sub_total * 100  
     end
 
-    total_amount = cart.sub_total * 100  
+
 
 
     @checkout_session = current_customer.payment_processor.checkout(
@@ -36,25 +82,30 @@ class CheckoutsController < ApplicationController
         allow_promotion_codes: true,
         mode: 'payment',
         success_url: success_url,
-        cancel_url: checkout_url
+        cancel_url: checkout_url,
+       
       )
       
     end
 
         def success
+      
             @total_amount_paid = StripeService.calculate_total_amount_paid
             @discount = Discount.all
-            matching_discount = @discount.find_by(code: applied_discount)
-            byebug
-            if matching_discount && @current_cart.u == "true"
-              byebug
-             p= matching_discount.used
-              matching_discount.update(used: p+1)
-            end
+            matching_discount = @discount.find_by(code: @current_cart.Applied_discount)
+           
+            if @current_cart.u 
+              
+            
+              p = matching_discount.used.to_i + 1
+
+           
+              matching_discount.update(used: p)
+            end 
 
 
             @order = Order.last
-        
+            
             @order.update(status: "paid")
             @order.update(fullfillment: "Unfullfilled")
             @order.update(total_amount: @total_amount_paid)
@@ -73,6 +124,7 @@ class CheckoutsController < ApplicationController
         end
 
     def failuer
+      byebug
 
     end
    
