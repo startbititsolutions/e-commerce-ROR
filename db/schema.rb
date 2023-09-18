@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_14_114703) do
+ActiveRecord::Schema.define(version: 2023_09_18_045012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,9 @@ ActiveRecord::Schema.define(version: 2023_09_14_114703) do
     t.string "amt_type"
     t.string "discount_type12"
     t.text "productdetails1", default: [], array: true
+    t.integer "total_quantity"
+    t.integer "min_use", default: 0
+    t.string "Applied_discount"
     t.index ["customer_id"], name: "index_carts_on_customer_id"
   end
 

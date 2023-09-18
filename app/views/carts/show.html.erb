@@ -4,7 +4,7 @@
     <div class="alert alert-<%= key == :notice ? 'success' : 'danger' %>">
       <%= value %>
     </div>
-  <% end %>
+<% end %>
   
   
   
@@ -37,13 +37,13 @@
           </div>
           <div class="header__top__right__auth">
           <% if customer_signed_in? %>
-          <%= link_to destroy_customer_session_path, method: :delete, data: { confirm: "Are you sure you want to log out?" } do %>
-              <i class="fa fa-sign-out"></i> Log Out
-            <% end %>
+                <%= link_to destroy_customer_session_path, method: :delete, data: { confirm: "Are you sure you want to log out?" } do %>
+                    <i class="fa fa-sign-out"></i> Log Out
+                <% end %>
           <% else %>
-            <%= link_to new_customer_session_path do %>
-              <i class="fa fa-user"></i> Login
-            <% end %>
+                <%= link_to new_customer_session_path do %>
+                <i class="fa fa-user"></i> Login
+                <% end %>
           <% end %>
         </div>
         
@@ -52,7 +52,7 @@
           <ul>
           <li class="active"><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
 
-          <li>< <%= link_to "Products", products_path, data: { turbolinks: false } %>/li>
+          <li> <%= link_to "Products", products_path, data: { turbolinks: false } %>/li>
               
           <li><%= link_to "Blog", blog_path, data: { turbolinks: false } %></li>
           <li><%= link_to "Contact", contact_path, data: { turbolinks: false } %></li>
@@ -75,7 +75,7 @@
           <% if current_customer %>
             <li><%= link_to "My Orders", my_orders_path, style: "color: black;" %></li>
           <% end %>
-      </div>
+          </div>
         <% end %>
         <!-- Additional list items if needed -->
       </ul>
@@ -118,9 +118,9 @@
                            
                           <div class="header__top__right__auth">
                           <% if customer_signed_in? %>
-                          <%= link_to destroy_customer_session_path, method: :delete, data: { confirm: "Are you sure you want to log out?" } do %>
-                              <i class="fa fa-user"></i> Log Out
-                            <% end %>
+                            <%= link_to destroy_customer_session_path, method: :delete, data: { confirm: "Are you sure you want to log out?" } do %>
+                                <i class="fa fa-user"></i> Log Out
+                                <% end %>
                           <% else %>
                             <%= link_to new_customer_session_path do %>
                               <i class="fa fa-user"></i> Login
@@ -157,7 +157,7 @@
                   <div class="header__cart">
                   <ul>
               
-                  <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"></i><% end %></li>
+                  <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"> <span><%= @current_cart.total_quantity %> </span></i><% end %></li>
 
                   
               </ul>
@@ -270,14 +270,14 @@
                        
                             <td class="shoping__cart__item">
                             <% if line_item.productdetail.images.attached? && line_item.productdetail.feature_image.present? %>
-                            <% image_url = url_for(line_item.productdetail.feature_image) %>
-                    <% else %>
-                            <% if line_item.productdetail.images.attached? %>
-                            <% image_url = url_for(line_item.productdetail.images.first) %>
+                                  <% image_url = url_for(line_item.productdetail.feature_image) %>
                             <% else %>
-                            <% image_url = asset_path('avtar1.png') %>
+                                    <% if line_item.productdetail.images.attached? %>
+                                        <% image_url = url_for(line_item.productdetail.images.first) %>
+                                    <% else %>
+                                           <% image_url = asset_path('avtar1.png') %>
+                                    <% end %>
                             <% end %>
-                    <% end %>
                                
                                 <img src="<%= image_url %>" alt="" style="width: 100px; height: 100px;">
 
@@ -285,27 +285,27 @@
                             </td>
                             <% if @current_cart.u == true && @current_cart.discount_type == "amount_on_product" %>
                                <% if @current_cart.amt_type =="percentage" %>
-                                <td class="shoping__cart__price">
-                                    
-                                    <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
-                            
+                                    <td class="shoping__cart__price">
+                                        
+                                        <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                                
 
-                                    <% if productdetails1_ids.include?(line_item.productdetail_id) %>
-                                            <span class="original-price" style="text-decoration: line-through; color: #bf6d6d; font-size: 18px;">
-                                            <%= number_to_currency(line_item.productdetail.price) %>
-                                            </span>
-                                            <span class="discounted-price">
-                                                <i class="fas fa-tags" style="color: blue; font-size: 14px;"></i>
-                                                <%= number_to_currency(line_item.productdetail.price - line_item.productdetail.price * @current_cart.dis_per/100) %>
-                                                (Discount <%= @current_cart.dis_per %>%) 
-                                            </span>
-                                    <% else %>
-                                    <span class="original-price">
-                                    <%= number_to_currency(line_item.productdetail.price) %>
-                                    </span>
-                                    <% end %>
+                                        <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                                <span class="original-price" style="text-decoration: line-through; color: #bf6d6d; font-size: 18px;">
+                                                <%= number_to_currency(line_item.productdetail.price) %>
+                                                </span>
+                                                <span class="discounted-price">
+                                                    <i class="fas fa-tags" style="color: blue; font-size: 14px;"></i>
+                                                    <%= number_to_currency(line_item.productdetail.price - line_item.productdetail.price * @current_cart.dis_per/100) %>
+                                                    (Discount <%= @current_cart.dis_per %>%) 
+                                                </span>
+                                        <% else %>
+                                        <span class="original-price">
+                                        <%= number_to_currency(line_item.productdetail.price) %>
+                                        </span>
+                                        <% end %>
 
-                                </td>
+                                    </td>
                                 <% else %>
                                     <td class="shoping__cart__price">
                                         <%= number_to_currency(line_item.productdetail.price - @current_cart.dis_amt) %>
@@ -336,14 +336,14 @@
                                   <% if @current_cart.amt_type =="percentage" %>
                                         <td class="shoping__cart__total">
                                         <span class="total-price" data-line-item-id="<%= line_item.id %>">
-                                        <%= number_to_currency(line_item.total_price) %>p
+                                        <%= number_to_currency(line_item.total_price) %>
                                         </span>
                                         </td>
                                    <% else %>
                                     
                                         <td class="shoping__cart__total">
                                         <span class="total-price" data-line-item-id="<%= line_item.id %>">
-                                        <%= number_to_currency(line_item.total_price) %>t
+                                        <%= number_to_currency(line_item.total_price) %>
                                         </span>
                                         </td>
                                     <% end %>
@@ -401,15 +401,15 @@
                 
                    <% if @cart.discount_type == "amount_on_product" %>
                
-                <li>Total  <span class="strikethrough-text"><%= number_to_currency(@cart.total_item_total) %></span></li>
-                <li>Total with discount on product <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                        <li>Total  <span class="strikethrough-text"><%= number_to_currency(@cart.total_item_total) %></span></li>
+                        <li>Total with discount on product <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                    <% else %>
+                            <li>Total  <span class="strikethrough-text"><%= number_to_currency(@cart.total_item_total) %></span></li>
+                            <li>Total with discount on order <span><%= number_to_currency(@cart.sub_total) %> </span></li>
+                            Discount on order of amount <%= @cart.dis_amt %> on order
+                    <% end %>
                 <% else %>
-                <li>Total  <span class="strikethrough-text"><%= number_to_currency(@cart.total_item_total) %></span></li>
-                <li>Total with discount on order <span><%= number_to_currency(@cart.sub_total) %> </span></li>
-                <span>Discount on order of amount <%= @cart.dis_amt %> on order </span>
-                <% end %>
-                <% else %>
-                <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
+                        <li>Total <span><%= number_to_currency(@cart.sub_total) %></span></li>
                 <% end %>
          
               
@@ -422,43 +422,48 @@
             <% end %>
             </div>
       </div>
-      <%= form_with(url: apply_discount_path(@cart), method: :post) do |form| %>
-        <%= form.text_field :discount_code, placeholder: "Enter discount code" %>
-        <%= form.submit "Apply Discount" %>
-      <% end %>
+                <%= form_with(url: apply_discount_path(@cart), method: :post) do |form| %>
+                            <div class="discount-form">
+                            <%= form.text_field :discount_code, placeholder: "Enter discount code", class: "discount-input" %>
+                            <%= form.submit "Apply Discount", class: "discount-button" %>
+                            </div>
+                <% end %>
+                
       
           <div class="col-lg-6">
+         
+
           
             <h4>Offers</h4>
             <div id="couponCarousel" class="carousel slide" data-ride="carousel">
                
                 <div class="carousel-inner">
-                <% @cart.line_items.each do |line_item| %>
-                    <% matching_discounts = @discount.where("productdetails1::text[] @> ARRAY[?]::text[]", [line_item.productdetail_id.to_s]) %>
-               
-                    <% if matching_discounts.any? && matching_discounts.first.min_purchase_amount <= line_item.productdetail.price && matching_discounts.first.min_purchase_quantity <=line_item.quantity  %>
-                     
-                    <% matching_discounts.each_with_index do |discount, index| %>
-                    <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
-                        <div class="carousel-content">
-                         <% if  @current_cart.amt_type == "amount" && @current_cart.discount_type =="amount_on_product" %>
-                            <div class="coupon-details text-center">
-                                <p>Get <%= discount.amount %>$  off your order with code:</p>
-                            </div>
-                            <% else %>
-                            <div class="coupon-details text-center">
-                                <p>Get <%= discount.percentage %>%  off your order with code:</p>
-                            </div>
-                            <% end %>
+                    <% @cart.line_items.each do |line_item| %>
+                        <% matching_discounts = @discount.where("productdetails1::text[] @> ARRAY[?]::text[]", [line_item.productdetail_id.to_s]) %>
+                
+                        <% if matching_discounts.any?  %>
+                            
+                            <% matching_discounts.each_with_index do |discount, index| %>
+                                <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
+                                    <div class="carousel-content">
+                                    <% if  @current_cart.amt_type == "amount" && @current_cart.discount_type =="amount_on_product" %>
+                                        <div class="coupon-details text-center">
+                                            <p>Get <%= discount.amount %>$  off your order with code:</p>
+                                        </div>
+                                    <% else %>
+                                        <div class="coupon-details text-center">
+                                            <p>Get <%= discount.percentage %>%  off your order with code:</p>
+                                        </div>
+                                    <% end %>
 
-                        <ul class="promotion-codes text-center">
-                            <li><%= discount.code %></li>
-                        </ul>
-                        </div>
-                    </div>
-                    <% end %>
-                    
-                    <% end %>
+                                    <ul class="promotion-codes text-center">
+                                        <li><%= discount.code %></li>
+                                    </ul>
+                                    </div>
+                                </div>
+                            <% end %>
+                            
+                        <% end %>
 
                     <% end %>
                 </div>
@@ -475,14 +480,16 @@
             
           </div>
     
-      
+             
+          
+          
   
 </div>
 </section>
 <% else %>
-<div class="empty-cart-message">
-  <h2 style="text-align: center;">Your cart is empty please add item  for offer  </h5>
-</div>
+                <div class="empty-cart-message">
+                <h2 style="text-align: center;">Your cart is empty please add item  for offer  </h5>
+                </div>
 
 <% end %>
 <!-- Shoping Cart Section End -->
@@ -578,4 +585,221 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
   .carousel-control-next-icon::before {
     color: white;
   }
+  .discount-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+}
+
+.discount-input {
+  flex-grow: 1;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.discount-button {
+  margin-left: 10px;
+  background-color: #7fad39;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+
+.discount-button:hover {
+  background-color: #0056b3;
+}
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

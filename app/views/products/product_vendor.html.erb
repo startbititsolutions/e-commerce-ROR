@@ -7,7 +7,8 @@
         <div class="humberger__menu__cart">
             <ul>
                 <li><a href="#"><i class="fa fa-heart"></i> <span></span></a></li>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span></span></a></li>
+                <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"> <span><%= @current_cart.total_quantity %> </span></i><% end %></li>
+
             </ul>
             <div class="header__cart__price"> <span></span></div>
         </div>
@@ -103,7 +104,8 @@
                     <div class="header__cart">
                         <ul>
                             <li><a href="#"><i class="fa fa-heart"></i> </a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> </a></li>
+                            <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"> <span><%= @current_cart.total_quantity %> </span></i><% end %></li>
+
                         </ul>
                         <div class="header__cart__price"></span></div>
                     </div>

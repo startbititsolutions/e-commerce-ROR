@@ -14,12 +14,16 @@ class Cart < ApplicationRecord
         
       
       if self.u
+     
         if self.amt_type == "amount" && self.discount_type == "amount_on_order"
+          
           applied_discount = sum - self.dis_amt
-          sum = applied_discount
+         
+           return applied_discount
+          
         elsif self.amt_type == "percentage" && self.discount_type == "amount_on_order"
           applied_discount = sum - (sum * (self.dis_per / 100.0))
-          sum = applied_discount
+         return applied_discount
         else
           return sum
         end
@@ -36,4 +40,11 @@ class Cart < ApplicationRecord
   return sum
 
  end
+    def total_quantity
+      p=0
+      self.line_items.each do |line_items|
+        p+= line_items.quantity
+      end
+      return p
+    end
 end

@@ -9,7 +9,7 @@ working
         <div class="humberger__menu__cart">
         <ul>
                                   
-                        <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"><span></span></i><% end %></li>
+        <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"> <span><%= @current_cart.total_quantity %> </span></i><% end %></li>ing-bag"><span></span></i><% end %></li>
 
         
        </ul>
@@ -143,9 +143,7 @@ working
                 <div class="col-lg-3">
                     <div class="header__cart">
                     <ul>
-                
-                    <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"></i><% end %></li>
-
+                    <li><%= link_to cart_path(@current_cart), data: { turbolinks: false } do %><i class="fa fa-shopping-bag"> <span><%= @current_cart.total_quantity %> </span></i><% end %></li>
                     
                 </ul>
                

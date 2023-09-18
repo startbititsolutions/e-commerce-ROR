@@ -1,5 +1,5 @@
 <div class="container mt-4 mb-5">
-<%= form_with(model: discount, url: admin_discounts_path) do |form| %>
+<%= form_with(model: discount, url: admin_discounts_path,id:'discount-form') do |form| %>
   <% if discount.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(discount.errors.count, "error") %> prohibited this discount from being saved:</h2>
@@ -18,9 +18,10 @@
         <h5 class="card-title">Discount Type</h5>
       </div>
       <div class="card-body">
-        <%= form.label :discount_type %>
-        <%= form.select :discount_type, [['Amount of Product', 'amount_on_product'], ['Amount of Order', 'amount_on_order']], { prompt: "Select discount type" }, class: "form-control", id: 'discount-type-dropdown'  %>
-      </div>
+      <%= form.label :discount_type %>
+      <%= form.select :discount_type, [['Amount of Product', 'amount_on_product'], ['Amount of Order', 'amount_on_order']], { prompt: "Select discount type" }, { class: "form-control", id: 'discount-type-dropdown', selected: 'amount_on_order' } %>
+    </div>
+    
     </div>
   </div>
   </div>
@@ -89,7 +90,7 @@
 </div>
 <div class="form-group" id="percentage-field" style="width: 150px;">
   <%= form.label :percentage, 'Percentage' %>
-  <%= form.number_field :percentage, class: 'form-control', placeholder: "%", style: 'border-radius: 10px;', min: "0", max: "100", step: "0.01", value: "0" %>
+  <%= form.number_field :percentage, class: 'form-control', placeholder: "%", style: 'border-radius: 10px;', min: "0", max: "100", step: "0.01" %>
   <p class="text-danger"><%= form.object.errors.full_messages_for(:percentage).first %></p>
 </div>
 
@@ -108,31 +109,13 @@
   <div class="card-body">
     
     
-    <div class="form-check">
-      <input type="radio" name="selection_option" id="vendor-option" class="form-check-input">
-      <label for="vendor-option" class="form-check-label">Specific Vendor</label>
-    </div>
     
     <div class="form-check">
       <input type="radio" name="selection_option" id="product-option" class="form-check-input">
       <label for="product-option" class="form-check-label">Specific Product</label>
     </div>
     
-    <div id="vendor-field">
-      <%= form.label :vendor_id %>
-      <%= form.select(
-  :vendor_id,
-  Vendor.all.map { |vendor| [vendor.first_name, vendor.id] }, 
-  { prompt: "All Vendors" },
-  {
-    class: "selectize", 
-    id: "vendor-dropdown",
-    multiple: true, 
-    name: "discount[vendors1][]",
-  }
-) %>
-
-    </div>
+    
 
     <div id="productdetail-field">
       <%= form.label :productdetail_id %>
@@ -163,7 +146,11 @@
 </div>
 <div class="card-body">
 
-
+ 
+<div class="form-check">
+  <input type="radio" name="min_purchase_option" id="minimum-opt" class="form-check-input" >
+  <label for="minimum-opt" class="form-check-label">No minimum requirement</label>
+</div>
  
   <div class="form-check">
     <input type="radio" name="min_purchase_option" id="amount-option" class="form-check-input">
@@ -330,11 +317,14 @@ const productdetailField = document.getElementById('productdetail-field');
 const orderproductField = document.getElementById('orderproduct');
 const amountField = document.getElementById('amount-field');
 const percentageField = document.getElementById('percentage-field');
-const vendorOption = document.getElementById('vendor-option');
+
 const productOption = document.getElementById('product-option');
 const amountField1 = document.getElementById('amount1-field');
 const quantityField = document.getElementById('quantity-field');
+
 const amountOption = document.getElementById('amount-option');
+const minimumOption = document.getElementById('minimum-opt');
+
 const quantityOption = document.getElementById('quantity-option');
 const endDateCheckbox = document.getElementById('end-date-checkbox');
 const endDateField = document.getElementById('end-date-field');
@@ -351,8 +341,13 @@ endDateCheckbox.addEventListener('change', function () {
  
 
 
-vendorField.style.display = 'none';
 productdetailField.style.display = 'none';
+minimumOption.addEventListener('change', function() {
+  if (minimumOption.checked) {  
+    amountField1.style.display = 'none';
+    quantityField.style.display = 'none';
+  }
+});
 amountOption.addEventListener('change', function () {
     if (this.checked) {
       amountField1.style.display = 'block';
@@ -366,16 +361,11 @@ amountOption.addEventListener('change', function () {
       quantityField.style.display = 'block';
     }
   });
-vendorOption.addEventListener('change', function () {
-    if (this.checked) {
-      vendorField.style.display = 'block';
-      productdetailField.style.display = 'none';
-    }
-  });
+
 
   productOption.addEventListener('change', function () {
     if (this.checked) {
-      vendorField.style.display = 'none';
+   
       productdetailField.style.display = 'block';
     }
   });
@@ -402,26 +392,25 @@ amountTypeSelect.addEventListener('change', function () {
     }
 
 });
-vendorField.style.display = 'none';
+
 productdetailField.style.display = 'none';
   discountTypeSelect.addEventListener('change', function () {
  
     if (discountTypeSelect.value === 'amount_on_product') {
 
-      vendorField.style.display = 'block';
       productdetailField.style.display = 'block';
       orderproductField.style.display = 'block';
     
 
     } else if (discountTypeSelect.value === 'amount_on_order') {
        
-    vendorField.style.display = 'none';
+
     productdetailField.style.display = 'none';
     orderproductField.style.display = 'none';
       
     } else {
     
-    vendorField.style.display = 'none';
+ 
     productdetailField.style.display = 'none';
    
     }
@@ -470,7 +459,14 @@ const minUseOption = document.getElementById('min-use-option');
       minDate: new Date(), 
       showYearDropdown: true,   
     });
+    console.log("aditya123")
+   
+    
+  
   });
+
+  
+
   
   
 </script>

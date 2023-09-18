@@ -42,31 +42,37 @@ class CartsController < ApplicationController
   
     matching_discount = @discount.find_by(code: discount_code)
   
-    if matching_discount 
-      
+    if matching_discount && matching_discount.status &&  matching_discount.start_date <= Date.today && matching_discount.end_date >= Date.today
+      if matching_discount.min_purchase_amount <= @current_cart.sub_total && 
+        (matching_discount.min_purchase_quantity.nil? || matching_discount.min_purchase_quantity <= @current_cart.total_quantity)
+           
 
-      @cart.update(u: false, dis_amt: 0, dis_per: 0,amt_type: " ",discount_type: " ")
-      p= matching_discount.amount
-      l= matching_discount.percentage
-      i= matching_discount.amount_type
-      o= matching_discount.discount_type
-  
-      byebug
-      
-    
-    
-      @cart.update(
-        u: true,
-        dis_amt: p,
-        dis_per: l,
-        amt_type: i,
-        discount_type: o,
-        productdetails1: matching_discount.productdetails1
-      )
-      byebug
-      
-   
-      flash[:success] = "Discount applied successfully!"
+                  @cart.update(u: false, dis_amt: 0, dis_per: 0,amt_type: " ",discount_type: " ",applied_discount: " ")
+                  p= matching_discount.amount
+                  l= matching_discount.percentage
+                  i= matching_discount.amount_type
+                  o= matching_discount.discount_type
+              
+                
+                  
+                
+                
+                  @cart.update(
+                    u: true,
+                    dis_amt: p,
+                    dis_per: l,
+                    amt_type: i,
+                    discount_type: o,
+                    applied_discount: matching_discount.code,
+                    productdetails1: matching_discount.productdetails1
+                  )
+                  
+                  
+              
+                  flash[:success] = "Discount applied successfully!"
+            else
+              flash[:error] = "Amount value is insuffecient"
+            end
     else
       flash[:error] = "Invalid discount code or product details."
     end

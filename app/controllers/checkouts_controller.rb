@@ -18,14 +18,15 @@ class CheckoutsController < ApplicationController
             name: line_item.productdetail.product_title
           
           },
-          unit_amount: (line_item.productdetail.price * 100).to_i
+          unit_amount: (line_item.total_price * 100).to_i
+         
       
         },
         quantity: line_item.quantity  
       }
     end
 
-    total_amount = line_items.sum(&:total_price) * 100  
+    total_amount = cart.sub_total * 100  
 
 
     @checkout_session = current_customer.payment_processor.checkout(
@@ -42,7 +43,15 @@ class CheckoutsController < ApplicationController
 
         def success
             @total_amount_paid = StripeService.calculate_total_amount_paid
-         
+            @discount = Discount.all
+            matching_discount = @discount.find_by(code: applied_discount)
+            byebug
+            if matching_discount && @current_cart.u == "true"
+              byebug
+             p= matching_discount.used
+              matching_discount.update(used: p+1)
+            end
+
 
             @order = Order.last
         
@@ -52,10 +61,10 @@ class CheckoutsController < ApplicationController
          
             @shipping_amount=40
              @current_cart.line_items.each do |item|
-        item.update(order_id: @order.id)  # Associate the line item with the order
+                    item.update(order_id: @order.id)  # Associate the line item with the order
      
      
-          end
+                end
             @cart = @current_cart
             @cart.destroy
             session[:cart_id] = nil
