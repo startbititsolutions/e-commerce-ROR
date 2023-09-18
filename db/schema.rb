@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_18_045012) do
+ActiveRecord::Schema.define(version: 2023_09_18_113555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(version: 2023_09_18_045012) do
     t.boolean "shipped", default: false
     t.boolean "delivered", default: false
     t.boolean "way", default: false
+    t.integer "discount_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 

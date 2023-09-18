@@ -26,16 +26,23 @@
         <tr>
           <td><%= discount.title %></td>
           <td>
-          <% if discount.status %>
-          <span style="color: green;">Active</span>
-        <% else %>
-          <span style="color: red;">Deactive</span>
-        <% end %>
-        <%= link_to 'Active or deactive', toggle_status_admin_discount_path(discount), method: :post, class: 'btn btn-sm btn-outline-primary' %>
-
+          <%= link_to toggle_status_admin_discount_path(discount), method: :post, class: 'btn btn-sm toggle-button' do %>
+            <i class="fas fa-power-off"></i>
+            <% if discount.status %>
+              <span class="status-text active text-success">Active</span>
+              <span class="status-text inactive d-none">Inactive</span>
+            <% else %>
+              <span class="status-text active d-none">Active</span>
+              <span class="status-text inactive text-danger">Inactive</span>
+            <% end %>
+          <% end %>
+          
         </td>
           <td><%= discount.discount_type %></td>
-          <td><%= discount.used %></td>
+
+          <td><%= discount.used.nil? || discount.used.zero? ? '0' : discount.used.to_i %></td>
+
+
           <td><%= discount.code %></td>
           
           <td><%#= link_to 'Show', admin_discount_path(discount) %></td>

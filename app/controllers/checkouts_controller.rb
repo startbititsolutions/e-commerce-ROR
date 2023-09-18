@@ -112,7 +112,7 @@ class CheckoutsController < ApplicationController
          
             @shipping_amount=40
              @current_cart.line_items.each do |item|
-                    item.update(order_id: @order.id)  # Associate the line item with the order
+                    item.update(order_id: @order.id)  
      
      
                 end

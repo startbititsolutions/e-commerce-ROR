@@ -50,9 +50,7 @@ class ApplicationController < ActionController::Base
  
     protected
     
-    def after_sign_out_path_for(resource_or_scope)
-    root_path
-    end
+    
     
   def after_confirmation_path_for(resource_name, resource)
     UserMailer.send_confirmation_instructions(resource).deliver_now

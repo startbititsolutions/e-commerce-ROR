@@ -66,6 +66,7 @@ class LineItemsController < ApplicationController
               quantity: @line_item.quantity,
               
               total_price: @line_item.total_price,
+              total_item:  @line_item.item_price,
               cart_total: @line_item.cart.sub_total,
               total_item_total: @line_item.cart.total_item_total
             }

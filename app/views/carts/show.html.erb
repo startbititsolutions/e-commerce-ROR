@@ -1,10 +1,16 @@
 
-
-<% flash.each do |key, value| %>
-    <div class="alert alert-<%= key == :notice ? 'success' : 'danger' %>">
-      <%= value %>
-    </div>
+<% if flash[:notice].present? %>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p id="notice"><%= flash[:notice] %></p>
+  </div>
+<% elsif flash[:error].present? %>
+  <div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p id="error"><%= flash[:error] %></p>
+  </div>
 <% end %>
+
   
   
   
@@ -30,11 +36,7 @@
          
       </div>
       <div class="humberger__menu__widget">
-          <div class="header__top__right__language">
-              <img src="img/language.png" alt="">
-        
-             
-          </div>
+          
           <div class="header__top__right__auth">
           <% if customer_signed_in? %>
                 <%= link_to destroy_customer_session_path, method: :delete, data: { confirm: "Are you sure you want to log out?" } do %>
@@ -279,7 +281,14 @@
                                     <% end %>
                             <% end %>
                                
-                                <img src="<%= image_url %>" alt="" style="width: 100px; height: 100px;">
+                                <% if image_url.present? %>
+                                    <%= link_to(product_path(line_item.productdetail), data: { turbolinks: false }) do %>
+                                        <img src="<%= image_url %>" alt="" style="width: 100px; height: 100px;">
+                                    <% end %>
+                                <% end %>
+
+                          
+
 
                                 <h5><%= line_item.productdetail.product_title %></h5>
                             </td>
@@ -308,7 +317,7 @@
                                     </td>
                                 <% else %>
                                     <td class="shoping__cart__price">
-                                        <%= number_to_currency(line_item.productdetail.price - @current_cart.dis_amt) %>
+                                        <%= number_to_currency(line_item.productdetail.price) %>
                                         </td>
                                 <% end %>
 
@@ -337,6 +346,11 @@
                                         <td class="shoping__cart__total">
                                         <span class="total-price" data-line-item-id="<%= line_item.id %>">
                                         <%= number_to_currency(line_item.total_price) %>
+                                        <%= number_to_currency(line_item.total_item_total, class: 'strikethrough-text') %>
+
+
+                                      
+                                        
                                         </span>
                                         </td>
                                    <% else %>
@@ -344,6 +358,7 @@
                                         <td class="shoping__cart__total">
                                         <span class="total-price" data-line-item-id="<%= line_item.id %>">
                                         <%= number_to_currency(line_item.total_price) %>
+                                        <%= number_to_currency(line_item.item_price) %>
                                         </span>
                                         </td>
                                     <% end %>
@@ -617,6 +632,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 .discount-button:hover {
   background-color: #0056b3;
 }
+.strikethrough-text {
+  text-decoration: line-through;
+}
+
 </style>
 
 

@@ -2,8 +2,9 @@ module Admin
  class DiscountsController < ApplicationController
   layout 'admin'
   before_action  :set_discount, only: %i[ show edit update destroy ]
-
-
+  before_action :current_cart
+  before_action :authenticate_user!  
+  
   # GET /discounts or /discounts.json
   def index
     @discounts = Discount.all
@@ -29,7 +30,7 @@ module Admin
     
     respond_to do |format|
       if @discount.save
-        format.html { redirect_to admin_discount_path, notice: "Discount was successfully created." }
+        format.html { redirect_to  url: admin_discounts_path, notice: "Discount was successfully created." }
         format.json { render :show, status: :created, location: @discount }
       else
         format.html { render :new, status: :unprocessable_entity }
