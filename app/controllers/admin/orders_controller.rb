@@ -19,10 +19,10 @@ class OrdersController < ApplicationController
   def show
     @order = Order.find(params[:id])
     y=@order.total_amount
-    byebug
+ 
     @total_amount_paid = StripeService.calculate_total_amount_paid
-    @cart = current_customer.cart
-    @shipping_amount=40
+  
+  
   end
 
   def new

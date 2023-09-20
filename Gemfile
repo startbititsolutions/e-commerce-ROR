@@ -72,3 +72,5 @@ gem 'devise-guests'
 gem 'coupons'
 # gem 'select2-rails'
 gem "selectize-rails"
+
+gem "whenever", "~> 1.0"

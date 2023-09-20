@@ -15,6 +15,10 @@ class Discount < ApplicationRecord
   #validates :end_date, presence: true, format: { with: /\A\d{1,2}\/\d{1,2}\/\d{4}\z/, message: "must be in the format dd/mm/yyyy" }
   validate :validate_date_format
 
+  def self.scheduled_discount
+    d=Discount.last
+    d.delete
+   end
   def validate_date_format
     if start_date.present? && !valid_date_format?(start_date)
       errors.add(:start_date, "must be in the format dd/mm/yyyy")
