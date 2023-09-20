@@ -39,47 +39,64 @@ class CartsController < ApplicationController
     @cart = current_cart
     @discount = Discount.all
     discount_code = params[:discount_code]
+
+    if discount_code == 'remove_discount'
+
+      @cart.update(
+        u: false,
+        dis_amt: 0,
+        dis_per: 0,
+        amt_type: " ",
+        discount_type: " ",
+        Applied_discount: " ",
+        productdetails1: nil  # Clear productdetails1 when removing the discount
+      )
   
-    matching_discount = @discount.find_by(code: discount_code)
+      flash[:notice] = "Discount removed successfully!"
+    else
+      matching_discount = @discount.find_by(code: discount_code)
   
-    if matching_discount && matching_discount.status && matching_discount.start_date <= Date.today && matching_discount.end_date >= Date.today && (matching_discount.min_use.nil? || matching_discount.used <= matching_discount.min_use)
-      if (matching_discount.min_purchase_amount.nil? || matching_discount.min_purchase_amount <= @current_cart.sub_total) && 
-        (matching_discount.min_purchase_quantity.nil? || matching_discount.min_purchase_quantity <= @current_cart.total_quantity)
-  
-        @cart.update(
-          u: false,
-          dis_amt: 0,
-          dis_per: 0,
-          amt_type: " ",
-          discount_type: " ",
-          Applied_discount: " "
-        )
-  
-        p = matching_discount.amount
-        l = matching_discount.percentage
-        i = matching_discount.amount_type
-        o = matching_discount.discount_type
+      if matching_discount &&
+         matching_discount.status &&
+         matching_discount.start_date <= Date.today &&
+         matching_discount.end_date >= Date.today &&
+         (matching_discount.min_use.nil? || matching_discount.used <= matching_discount.min_use) &&
+         (matching_discount.min_purchase_amount.nil? || matching_discount.min_purchase_amount <= @cart.sub_total) &&
+         (matching_discount.min_purchase_quantity.nil? || matching_discount.min_purchase_quantity <= @cart.total_quantity)
   
         @cart.update(
           u: true,
-          dis_amt: p,
-          dis_per: l,
-          amt_type: i,
-          discount_type: o,
+          dis_amt: matching_discount.amount,
+          dis_per: matching_discount.percentage,
+          amt_type: matching_discount.amount_type,
+          discount_type: matching_discount.discount_type,
           Applied_discount: matching_discount.code,
           productdetails1: matching_discount.productdetails1
         )
   
         flash[:notice] = "Discount applied successfully!"
       else
-        flash[:notice] = "Amount value is insufficient"
+        flash[:error] = "Invalid discount code."
       end
-    else
-      flash[:error] = "Invalid discount code."
     end
   
     redirect_to cart_path(@cart)
   end
   
+  def remove_discount
+    @cart = current_cart
+    @cart.update(
+        u: false,
+        dis_amt: 0,
+        dis_per: 0,
+        amt_type: " ",
+        discount_type: " ",
+        Applied_discount: " ",
+        productdetails1: nil  
+      )
+  
+      flash[:notice] = "Discount removed successfully!"
+      redirect_to cart_path(@cart)
+  end
   
 end

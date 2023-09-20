@@ -65,23 +65,22 @@
             <ul>
               <% @current_cart.line_items.each do |item| %>
                 <% if @current_cart.u == true && @current_cart.discount_type == "amount_on_product" %>
-                <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                       <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
                                 
 
                 <% if productdetails1_ids.include?(item.productdetail_id) %>
                       <% if @current_cart.amt_type =="percentage" %>
-
-                      
-                      <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price- item.productdetail.price * @current_cart.dis_per/100) %></span></li>
+                          <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.total_price) %></span></li>
                       <% else %>
-                      <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price- @current_cart.dis_amt) %></span></li>
-                    <% end %>
+                     
+                             <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.total_price) %></span></li>
+                      <% end %>
                 <% else %>
-                <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
-                 <% end %>
-                 <% else %>
-                 <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
-                  <% end %>
+                     <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
+                <% end %>
+              <% else %>
+                     <li><%= item.productdetail.product_title %> <span><%= number_to_currency(item.productdetail.price) %></span></li>
+              <% end %>
                   <% end %>
             </ul>
          

@@ -24,6 +24,12 @@
     <%= render 'layouts/navbar' %>
     </nav>
   </header>
+  <% if flash[:notice].present? %>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p id="notice"><%= flash[:notice] %></p>
+  </div>
+<% end %>
 
   
   <%= yield %>
@@ -33,12 +39,7 @@
    
   </footer>
   
-  <% if flash[:notice].present? %>
-  <div class="alert alert-success alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <p id="notice"><%= flash[:notice] %></p>
-  </div>
-<% end %>
+ 
 
 </body>
 </html>

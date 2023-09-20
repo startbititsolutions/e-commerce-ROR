@@ -27,6 +27,8 @@ resources :coupons
   get 'carts/:id', to: 'carts#show', as:"cart"
   delete 'carts/:id', to: 'carts#destroy'
   post 'apply_discount', to: 'carts#apply_discount'
+  post 'remove_discount', to: 'carts#remove_discount'
+
  get 'line_items/:id/add', to: 'line_items#add_quantity', as: "line_item_add"
 get 'line_items/:id/reduce', to: 'line_items#reduce_quantity', as: "line_item_reduce"
 post 'line_items', to: 'line_items#create'

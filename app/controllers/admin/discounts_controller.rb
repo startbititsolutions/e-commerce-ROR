@@ -8,6 +8,7 @@ module Admin
   # GET /discounts or /discounts.json
   def index
     @discounts = Discount.all
+ 
   end
 
   # GET /discounts/1 or /discounts/1.json

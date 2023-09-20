@@ -148,7 +148,7 @@
                   <nav class="header__menu">
                       <ul>
                       <li><%= link_to "Home", root_path, data: { turbolinks: false } %></li>
-                      <li class="active"><%= link_to "Products", products_path, data: { turbolinks: false } %></li>
+                      <li><%= link_to "Products", products_path, data: { turbolinks: false } %></li>
                           
                       <li><%= link_to "Blog", blog_path, data: { turbolinks: false } %></li>
                       <li><%= link_to "Contact", contact_path, data: { turbolinks: false } %></li>
@@ -179,74 +179,11 @@
     <!-- Header Section End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero hero-normal">
-        <div class="container">
-            <div class="row">
-            <div class="col-lg-3">
-            <div class="hero__categories">
-              <div class="hero__categories__all">
-                <i class="fa fa-bars"></i>
-                <span>Vendors</span>
-              </div>
-              <ul>
-                <% @vendors.each do |vendor| %>
-                
-                  <li>
-                  <%= link_to vendor.first_name, product_vendor_path(vendor), data: { turbolinks: false } %>
-                </li>
-                
-
-                <% end %>
-              </ul>
-            </div>
-          </div>
-          
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                    <div class="hero__search__form">
-                    <form action="#">
-                       
-                        <%= search_form_for @q, url: products_path do |f| %>
-                            <%= f.text_field :product_title_cont, placeholder: "What do you need" %>
-                          
-                            <%= f.submit "Search" %>
-                          
-                        <% end %>
-                    </form>
-                </div>
-                
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 <!-- Hero Section End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <div class="breadcrumb__text">
-                <h2>Shopping Cart</h2>
-                <div class="breadcrumb__option">
-                    <a href="./index.html">Home</a>
-                    <span>Shopping Cart</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
+
 <!-- Breadcrumb Section End -->
 
 <!-- Shoping Cart Section Begin -->
@@ -271,15 +208,15 @@
                         <tr>
                        
                             <td class="shoping__cart__item">
-                            <% if line_item.productdetail.images.attached? && line_item.productdetail.feature_image.present? %>
-                                  <% image_url = url_for(line_item.productdetail.feature_image) %>
-                            <% else %>
-                                    <% if line_item.productdetail.images.attached? %>
-                                        <% image_url = url_for(line_item.productdetail.images.first) %>
-                                    <% else %>
-                                           <% image_url = asset_path('avtar1.png') %>
-                                    <% end %>
-                            <% end %>
+                                <% if line_item.productdetail.images.attached? && line_item.productdetail.feature_image.present? %>
+                                    <% image_url = url_for(line_item.productdetail.feature_image) %>
+                                <% else %>
+                                        <% if line_item.productdetail.images.attached? %>
+                                            <% image_url = url_for(line_item.productdetail.images.first) %>
+                                        <% else %>
+                                            <% image_url = asset_path('avtar1.png') %>
+                                        <% end %>
+                                <% end %>
                                
                                 <% if image_url.present? %>
                                     <%= link_to(product_path(line_item.productdetail), data: { turbolinks: false }) do %>
@@ -287,48 +224,40 @@
                                     <% end %>
                                 <% end %>
 
+
                           
-
-
+                         
+        
                                 <h5><%= line_item.productdetail.product_title %></h5>
-                            </td>
-                            <% if @current_cart.u == true && @current_cart.discount_type == "amount_on_product" %>
-                               <% if @current_cart.amt_type =="percentage" %>
-                                    <td class="shoping__cart__price">
+                                    <% if @current_cart.u %>
+                                        <% if @current_cart.amt_type =="percentage" %>
+                                            <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
                                         
-                                        <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
-                                
 
-                                        <% if productdetails1_ids.include?(line_item.productdetail_id) %>
-                                                <span class="original-price" style="text-decoration: line-through; color: #bf6d6d; font-size: 18px;">
-                                                <%= number_to_currency(line_item.productdetail.price) %>
-                                                </span>
-                                                <span class="discounted-price">
-                                                    <i class="fas fa-tags" style="color: blue; font-size: 14px;"></i>
-                                                    <%= number_to_currency(line_item.productdetail.price - line_item.productdetail.price * @current_cart.dis_per/100) %>
-                                                    (Discount <%= @current_cart.dis_per %>%) 
-                                                </span>
+                                                <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                            <p  style="color: red;"> <%= @current_cart.dis_per.to_i %>% off on this product</p>
+
+                                            <% end %>
                                         <% else %>
-                                        <span class="original-price">
-                                        <%= number_to_currency(line_item.productdetail.price) %>
-                                        </span>
+                                            <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                                            
+
+                                            <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                            <p style="color: red;"><%= @current_cart.dis_amt.to_i %>$ off on this product</p>
+
+
+                                            <% end %>
                                         <% end %>
-
-                                    </td>
-                                <% else %>
-                                    <td class="shoping__cart__price">
-                                        <%= number_to_currency(line_item.productdetail.price) %>
-                                        </td>
-                                <% end %>
+                                   <% else %>
+                                   <% end %>
 
 
-                               
-
-                            <% else %>
+                            </td>
+                           
                                 <td class="shoping__cart__price">
-                                <%= number_to_currency(line_item.productdetail.price) %>
+                                  <%= number_to_currency(line_item.productdetail.price) %>
                                 </td>
-                            <% end %>
+                         
 
                             <td class="shoping__cart__quantity">
                             <div class="quantity">
@@ -341,26 +270,56 @@
                           
                                
                             </td>
+                            
                                <% if @current_cart.u == true && @current_cart.discount_type == "amount_on_product" %>
                                   <% if @current_cart.amt_type =="percentage" %>
-                                        <td class="shoping__cart__total">
-                                        <span class="total-price" data-line-item-id="<%= line_item.id %>">
-                                        <%= number_to_currency(line_item.total_price) %>
-                                        <%= number_to_currency(line_item.total_item_total, class: 'strikethrough-text') %>
+                                      <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                                
 
-
-                                      
+                                        <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                            <td class="shoping__cart__total">
+                                                <span class="item-price" data-line-item-id="<%= line_item.id %>"  style="text-decoration: line-through; color: red;">
+                                                <%= number_to_currency(line_item.item_price) %>
+                                                </span>
+                                                <span class="total-price" data-line-item-id="<%= line_item.id %>" >
+                                                    <%= number_to_currency(line_item.total_price) %>
+                                                </span>
+                                            
+                                            </td>
+                                        <% else %> 
+                                            <td class="shoping__cart__total">
+                                            
+                                                    <span class="total-price" data-line-item-id="<%= line_item.id %>" >
+                                                        <%= number_to_currency(line_item.total_price) %>
+                                                    </span>
                                         
-                                        </span>
-                                        </td>
+
+                                            </td>
+                                        <% end %>
                                    <% else %>
-                                    
-                                        <td class="shoping__cart__total">
-                                        <span class="total-price" data-line-item-id="<%= line_item.id %>">
-                                        <%= number_to_currency(line_item.total_price) %>
-                                        <%= number_to_currency(line_item.item_price) %>
-                                        </span>
-                                        </td>
+                                       <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                                
+
+                                        <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                            <td class="shoping__cart__total">
+                                                <span class="item-price" data-line-item-id="<%= line_item.id %>"  style="text-decoration: line-through; color: red;">
+                                                <%= number_to_currency(line_item.item_price) %>
+                                                </span>
+                                                <span class="total-price" data-line-item-id="<%= line_item.id %>" >
+                                                    <%= number_to_currency(line_item.total_price) %>
+                                                </span>
+                                            
+                                            </td>
+                                        <% else %> 
+                                            <td class="shoping__cart__total">
+                                            
+                                                    <span class="total-price" data-line-item-id="<%= line_item.id %>" >
+                                                        <%= number_to_currency(line_item.total_price) %>
+                                                    </span>
+                                        
+
+                                            </td>
+                                        <% end %>
                                     <% end %>
 
                                 <% else %>
@@ -380,6 +339,7 @@
                         
                             
                         </tr>
+
                         <% end %>
                         
                        
@@ -437,63 +397,31 @@
             <% end %>
             </div>
       </div>
-                <%= form_with(url: apply_discount_path(@cart), method: :post) do |form| %>
-                            <div class="discount-form">
-                            <%= form.text_field :discount_code, placeholder: "Enter discount code", class: "discount-input" %>
-                            <%= form.submit "Apply Discount", class: "discount-button" %>
-                            </div>
-                <% end %>
+      <%= form_with(url: apply_discount_path(@cart), method: :post) do |form| %>
+        <div class="discount-form">
+          <%= form.text_field :discount_code, placeholder: "Enter discount code", class: "discount-input" %>
+          <%= form.submit "Apply Discount", class: "discount-button" %>
+         
+          
+          
+        </div>
+        
+       
+      <% end %>
+      
+      <% if @current_cart.u %>
+
+      <%= button_to "Remove Discount", remove_discount_path, method: :post, data: { confirm: "Are you sure you want to remove the discount?" }, class: "discount-button", style: "margin-top: 13px;" %>
+    
+     <% end %>
+
+
+      
+      
+                
                 
       
-          <div class="col-lg-6">
          
-
-          
-            <h4>Offers</h4>
-            <div id="couponCarousel" class="carousel slide" data-ride="carousel">
-               
-                <div class="carousel-inner">
-                    <% @cart.line_items.each do |line_item| %>
-                        <% matching_discounts = @discount.where("productdetails1::text[] @> ARRAY[?]::text[]", [line_item.productdetail_id.to_s]) %>
-                
-                        <% if matching_discounts.any?  %>
-                            
-                            <% matching_discounts.each_with_index do |discount, index| %>
-                                <div class="carousel-item <%= index == 0 ? 'active' : '' %>">
-                                    <div class="carousel-content">
-                                    <% if  @current_cart.amt_type == "amount" && @current_cart.discount_type =="amount_on_product" %>
-                                        <div class="coupon-details text-center">
-                                            <p>Get <%= discount.amount %>$  off your order with code:</p>
-                                        </div>
-                                    <% else %>
-                                        <div class="coupon-details text-center">
-                                            <p>Get <%= discount.percentage %>%  off your order with code:</p>
-                                        </div>
-                                    <% end %>
-
-                                    <ul class="promotion-codes text-center">
-                                        <li><%= discount.code %></li>
-                                    </ul>
-                                    </div>
-                                </div>
-                            <% end %>
-                            
-                        <% end %>
-
-                    <% end %>
-                </div>
-                <a class="carousel-control-prev" href="#couponCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#couponCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-              
-            </div>
-            
-          </div>
     
              
           

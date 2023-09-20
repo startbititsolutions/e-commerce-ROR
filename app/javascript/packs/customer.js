@@ -72,6 +72,7 @@ $(document).on("click", ".increase-btn", function(event) {
         updateSubtotal(lineItemId, data.total_price); 
         updateCartTotal(data.cart_total); 
         updateTotalPrice(data.total_price, lineItemId);
+        updateTotalItem(data.total_item, lineItemId);
         updateTotalItemTotal(data.total_item_total);
       },
       error: function(error) {
@@ -84,13 +85,21 @@ $(document).on("click", ".increase-btn", function(event) {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
   } 
   function updateTotalPrice(newTotalPrice, lineItemId) {
+  
     var totalPriceElement = $(".total-price[data-line-item-id='" + lineItemId + "']");
+
     var currencySymbol = "$";
     var formattedTotalPrice = formatCurrency(newTotalPrice);
     totalPriceElement.text(formattedTotalPrice);
   } 
+  function  updateTotalItem(newTotalItem, lineItemId) {
+ 
+    var totalItemElement = $(".item-price[data-line-item-id='" + lineItemId + "']");
+    var currencySymbol = "$";
+    var formattedTotalPrice1 = formatCurrency(newTotalItem);
+    totalItemElement.text(formattedTotalPrice1);
+  }
   function updateSubtotal(lineItemId, newSubtotal) {
-
     var subtotalElement = $("#line-item-subtotal-" + lineItemId);
     var currencySymbol = "$";
       var formattedTotalPrice = formatCurrency(newSubtotal);
@@ -98,7 +107,6 @@ $(document).on("click", ".increase-btn", function(event) {
   }
   
   function updateCartTotal(newCartTotal) {
-
     var cartTotalElement = $(".shoping__checkout li:nth-last-child(1) span");
     var currencySymbol = "$";
     var formattedTotalPrice = formatCurrency(newCartTotal);
