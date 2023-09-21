@@ -45,13 +45,43 @@ $(document).on('turbolinks:load', function() {
     preload: 'focus',
     multiple: true, 
   });
-  customerSegmentOption.addEventListener('change', function () {
-    if (this.checked) {
-      customerSelectionField.style.display = 'block';
-    }
+  $(document).ready(function() {
+    
+    var productSelectize = $('#productdetail-dropdown')[0].selectize;
+    
+
+    $('#vendor-dropdown').change(function() {
+      var selectedVendorIds = $(this).val();
+  
+
+      if (!selectedVendorIds || selectedVendorIds.length === 0) {
+        productSelectize.clear();
+        return;
+      }
+  
+
+      $.ajax({
+        url: '/admin/discounts/get_productdetail_by_vendor', 
+        method: 'GET',
+        data: { vendor_ids: selectedVendorIds },
+        success: function(response) {
+        
+          productSelectize.clear();
+  
+    
+          response.forEach(function(product) {
+            productSelectize.addItem(product.id, true);
+          });
+        },
+        error: function() {
+ 
+          console.error('Failed to fetch products for the selected vendors.');
+        }
+      });
+    });
   });
-
-
+  
+ 
 // const vendorSelectize = $('#vendor-dropdown')[0].selectize;
 // const productSelectize = $('#productdetail-dropdown')[0].selectize;
 // console.log(vendorSelectize);

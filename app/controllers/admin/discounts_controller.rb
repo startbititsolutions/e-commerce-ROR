@@ -1,7 +1,7 @@
 module Admin
  class DiscountsController < ApplicationController
   layout 'admin'
-  before_action  :set_discount, only: %i[ show edit update destroy ]
+  before_action  :set_discount, only: %i[ show edit update  destroy]
   before_action :current_cart
   before_action :authenticate_user!  
   
@@ -24,10 +24,19 @@ module Admin
   def edit
     @discounts = Discount.all
   end
+   def get_productdetail_by_vendor
+    selected_vendor_ids = params[:vendor_ids]
+    products = Productdetail.where(vendor_id: [selected_vendor_ids])
+
+ 
+    render json: products
+
+   end
 
   # POST /discounts or /discounts.json
   def create
     @discount = Discount.new(discount_params)
+    
     
     respond_to do |format|
       if @discount.save
@@ -55,13 +64,14 @@ module Admin
 
   # DELETE /discounts/1 or /discounts/1.json
   def destroy
-    @discount.destroy
-
+    @discount.delay(run_at: 1.minutes.from_now).schedule_delete
+   
     respond_to do |format|
-      format.html { redirect_to admin_discounts_path, notice: "Discount was successfully destroyed." }
+      format.html { redirect_to admin_discounts_path, notice: "Discount will be destroyed." }
       format.json { head :no_content }
     end
   end
+
   def toggle_status
     
     @discount = Discount.find(params[:id])

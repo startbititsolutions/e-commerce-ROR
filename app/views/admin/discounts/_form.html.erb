@@ -107,29 +107,49 @@
   <h5 class="card-title">Applied To</h5>
 </div>
   <div class="card-body">
-    
-    
+     
+  <div class="form-check">
+  <input type="radio" name="selection_option" id="vendor-option" class="form-check-input">
+  <label for="vendor-option" class="form-check-label">Specific Vendor</label>
+</div>
     
     <div class="form-check">
       <input type="radio" name="selection_option" id="product-option" class="form-check-input">
       <label for="product-option" class="form-check-label">Specific Product</label>
     </div>
     
+  
+
+<div id="vendor-field">
+  <%= form.label :vendor_id %>
+  <%= form.select(
+    :vendor_id,
+    Vendor.all.map { |vendor| [vendor.first_name, vendor.id] },
+    { prompt: "Select a vendor" },
+    {
+      class: "selectize vendor-dropdown",
+      id: "vendor-dropdown",
+      multiple: true,
+      name: "discount[vendors1][]",
+    }
+  ) %>
+</div>
     
 
     <div id="productdetail-field">
       <%= form.label :productdetail_id %>
       <%= form.select(
         :productdetail_id,
-        Productdetail.all.map { |pd| [pd.product_title, pd.id] }, 
+        Productdetail.all.map { |pd| [pd.product_title, pd.id, data: { vendor: pd.vendor_id }] },
         { prompt: "Select a product detail" },
         {
-          class: "selectize", 
+          class: "selectize productdetail-dropdown",
           id: "productdetail-dropdown",
-          multiple: true, 
+          multiple: true,
           name: "discount[productdetails1][]",
         }
       ) %>
+
     </div>
   </div>
 </div>

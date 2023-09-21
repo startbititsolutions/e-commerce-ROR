@@ -120,6 +120,10 @@ $(document).on("click", ".increase-btn", function(event) {
     cartTotalElement1.text(formattedTotalPrice1);
   }
  
+    // Listen for changes in the "Specific Vendor" radio button
+   
+
+  
 
  console.log("aditya")
  

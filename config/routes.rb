@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   
+  mount Delayed::Web::Engine, at: '/jobs'
   resources :orders
 
   devise_for :customers
@@ -47,10 +48,14 @@ post  'line_items/:id', to: 'line_items#update_quantity'
     resources :vendors
     resources :orders
     resources :discounts do
+      collection do
+        get 'get_productdetail_by_vendor' 
+      end
       member do
         post 'toggle_status'
       end
     end
+    
     root to: 'admin#index' 
     resources :productdetails, only: [:index, :show, :edit, :update] do
       get 'filter_by_vendor', on: :collection

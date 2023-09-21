@@ -95,5 +95,20 @@ document.addEventListener('DOMContentLoaded', function() {
     convertPrices("");
   }
   // const deleteForms = $(".delete-form");
+  $(document).ready(function() {
+  $('#vendor-option').change(function() {
+    if ($(this).is(':checked')) {
+      // If "Specific Vendor" is selected, automatically select products associated with that vendor
+      var selectedVendor = $('#vendor-dropdown').val();
+      console.log("ADITYA")
+      console.log(selectedVendor)
+      if (selectedVendor) {
+        console.log("ADERT")
+        $('.productdetail-dropdown ').prop('selected', false); // Deselect all product details first
+        $('.productdetail-dropdown [data-vendor="' + selectedVendor + '"]').prop('selected', true);
+      }
+    }
+  });
+});
  
 });

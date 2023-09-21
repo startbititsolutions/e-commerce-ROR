@@ -14,7 +14,11 @@ class Discount < ApplicationRecord
   #validates :start_date, presence: true, format: { with: /\A\d{1,2}\/\d{1,2}\/\d{4}\z/, message: "must be in the format dd/mm/yyyy" }
   #validates :end_date, presence: true, format: { with: /\A\d{1,2}\/\d{1,2}\/\d{4}\z/, message: "must be in the format dd/mm/yyyy" }
   validate :validate_date_format
-
+  def schedule_delete
+   self.delete
+  end
+  
+  
   def self.scheduled_discount
     d=Discount.last
     d.delete

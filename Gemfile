@@ -74,3 +74,5 @@ gem 'coupons'
 gem "selectize-rails"
 
 gem "whenever", "~> 1.0"
+gem 'delayed_job_active_record'
+gem 'delayed-web'
