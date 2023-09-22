@@ -74,6 +74,8 @@ $(document).on("click", ".increase-btn", function(event) {
         updateTotalPrice(data.total_price, lineItemId);
         updateTotalItem(data.total_item, lineItemId);
         updateTotalItemTotal(data.total_item_total);
+        updateDiscountPrice(data.discount_price,lineItemId);
+
       },
       error: function(error) {
         console.error("Error updating quantity:", error);
@@ -119,6 +121,13 @@ $(document).on("click", ".increase-btn", function(event) {
     var formattedTotalPrice1 = formatCurrency(newTotalItem);
     cartTotalElement1.text(formattedTotalPrice1);
   }
+   function updateDiscountPrice(newDiscountPrice,lineItemId)
+   {
+    var discountTotalElement1 = $(".discount_element[data-line-item-id='" + lineItemId + "']");
+  
+    discountTotalElement1.text(newDiscountPrice);
+
+   }
  
     // Listen for changes in the "Specific Vendor" radio button
    

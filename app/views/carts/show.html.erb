@@ -229,7 +229,7 @@
                          
         
                                 <h5><%= line_item.productdetail.product_title %></h5>
-                                    <% if @current_cart.u %>
+                                    <% if @current_cart.u && @current_cart.vendor_type == false %>
                                         <% if @current_cart.amt_type =="percentage" %>
                                             <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
                                         
@@ -249,6 +249,29 @@
                                             <% end %>
                                         <% end %>
                                    <% else %>
+                                   <% if @current_cart.amt_type =="percentage" %>
+                                            <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                                        
+
+                                                <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                            <p  style="color: red;"> <%= @current_cart.dis_per.to_i %>% off on this product</p>
+
+                                            <% end %>
+                                    <% else %>
+                                            <%  productdetails1_ids = @current_cart.productdetails1.map(&:to_i) %>
+                                            
+
+                                            <% if productdetails1_ids.include?(line_item.productdetail_id) %>
+                                          
+                                            <p style="color: #e35757;">
+                                            <i class="fas fa-tag"></i> <%= @current_cart.Applied_discount %> (- $<span  class="discount_element" data-line-item-id="<%= line_item.id %>" ><%= number_with_precision(line_item.discount_price, precision: 2) %></span>) off on this product
+
+                                          
+                                              </p>
+
+                                            <% end %>
+                                        <% end %>
+
                                    <% end %>
 
 

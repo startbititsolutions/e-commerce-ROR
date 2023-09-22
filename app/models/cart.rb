@@ -10,42 +10,13 @@ class Cart < ApplicationRecord
       sum = 0
       vendor_discount = 0
       vendor_not_discount = 0
-      if self.vendor_type == false
+      
         self.line_items.each do |line_item|
           sum += line_item.total_price
-          byebug
-        end
-
-      else
-     
-        self.line_items.each do |line_item|
-          productdetails1_ids = self.productdetails1.map(&:to_i)
-
-          if productdetails1_ids.include?(line_item.productdetail_id)
-         
-         
-              vendor_discount += line_item.total_price 
-             
-            
-
-   
-           
-          else
-            
-            vendor_not_discount += line_item.total_price
-           
-
-          end
-           if self.amt_type == "amount"
           
-            sum =  (vendor_discount - self.dis_amt) + vendor_not_discount
-           
-           else
-            
-            sum =  (vendor_discount - ( vendor_discount * self.dis_per / 100.0)) + vendor_not_discount
-           end
         end
-      end
+
+      
         
       
       if self.u
@@ -67,14 +38,14 @@ class Cart < ApplicationRecord
       return sum
     end
   
- def total_item_total
-  sum =0
-  self.line_items.each do |line_item|
-    sum += line_item.item_price
-  end
-  return sum
+  def total_item_total
+    sum =0
+    self.line_items.each do |line_item|
+      sum += line_item.item_price
+    end
+    return sum
 
- end
+  end
     def total_quantity
       p=0
       self.line_items.each do |line_items|

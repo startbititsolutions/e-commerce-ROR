@@ -35,7 +35,7 @@ class LineItem < ApplicationRecord
           if cart.amt_type =="percentage"
             return quantity * ( productdetail.price - productdetail.price * cart.dis_per / 100.0)
           else 
-            result = (quantity * productdetail.price - item_price * cart.dis_amt/total_item_total)
+            result = (quantity * productdetail.price - item_price * cart.dis_amt / cart.total_item_total)
             return  result < 0 ? 0 : result
 
 
@@ -73,7 +73,10 @@ class LineItem < ApplicationRecord
         else
         0
         end
-end
+      end
+      def discount_price
+       return  item_price * cart.dis_amt / cart.total_item_total
+      end
      
   
   
