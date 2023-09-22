@@ -109,14 +109,15 @@
   <div class="card-body">
      
   <div class="form-check">
-  <input type="radio" name="selection_option" id="vendor-option" class="form-check-input">
+  <input type="radio" name="selection_option" id="vendor-option" class="form-check-input" checked="checked">
+
   <label for="vendor-option" class="form-check-label">Specific Vendor</label>
 </div>
-    
-    <div class="form-check">
-      <input type="radio" name="selection_option" id="product-option" class="form-check-input">
-      <label for="product-option" class="form-check-label">Specific Product</label>
-    </div>
+
+<div class="form-check" id="product-option-div">
+  <input type="radio" name="selection_option" id="product-option" class="form-check-input">
+  <label for="product-option" class="form-check-label">Specific Product</label>
+</div>
     
   
 
@@ -131,6 +132,7 @@
       id: "vendor-dropdown",
       multiple: true,
       name: "discount[vendors1][]",
+      onchange: "handleSelectChange(this);",
     }
   ) %>
 </div>
@@ -337,11 +339,13 @@ const productdetailField = document.getElementById('productdetail-field');
 const orderproductField = document.getElementById('orderproduct');
 const amountField = document.getElementById('amount-field');
 const percentageField = document.getElementById('percentage-field');
-
+const vendorOption = document.getElementById('vendor-option');
 const productOption = document.getElementById('product-option');
 const amountField1 = document.getElementById('amount1-field');
 const quantityField = document.getElementById('quantity-field');
+const vendorSelect = document.getElementById('vendor-dropdown')
 
+const productdetailSelect = document.getElementById('productdetail-dropdown');
 const amountOption = document.getElementById('amount-option');
 const minimumOption = document.getElementById('minimum-opt');
 
@@ -350,7 +354,20 @@ const endDateCheckbox = document.getElementById('end-date-checkbox');
 const endDateField = document.getElementById('end-date-field');
 const aswDiv = document.getElementById('asw');
 
+const vendorRadio = document.getElementById('vendor-option');
+const productRadio = document.getElementById('product-option');
+function handleSelectChange(selectElement) {
 
+  var selectedValue = selectElement.value;
+
+  var productOptionDiv = document.getElementById("product-option-div");
+
+  if (!selectedValue.trim()) {
+    productOptionDiv.style.display = "block"; 
+  } else {
+    productOptionDiv.style.display = "none"; 
+  }
+}
 endDateCheckbox.addEventListener('change', function () {
   if (this.checked) {
     endDateField.style.display = 'block';
@@ -376,17 +393,28 @@ amountOption.addEventListener('change', function () {
   });
 
   quantityOption.addEventListener('change', function () {
-    if (this.checked) {
+    if (this.checked ) {
       amountField1.style.display = 'none';
       quantityField.style.display = 'block';
     }
   });
 
 
-  productOption.addEventListener('change', function () {
-    if (this.checked) {
+
+
+
+  vendorOption.addEventListener('change', function () {
    
+    if (this.checked) {
+      productdetailField.style.display = 'none';
+      vendorField.style.display = 'block';
+    }
+  });
+ productOption.addEventListener('change', function () {
+   
+    if (this.checked) {
       productdetailField.style.display = 'block';
+      vendorField.style.display = 'none';
     }
   });
 
@@ -479,6 +507,7 @@ const minUseOption = document.getElementById('min-use-option');
       minDate: new Date(), 
       showYearDropdown: true,   
     });
+    
     console.log("aditya123")
    
     

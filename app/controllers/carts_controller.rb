@@ -49,12 +49,17 @@ class CartsController < ApplicationController
         amt_type: " ",
         discount_type: " ",
         Applied_discount: " ",
-        productdetails1: nil  # Clear productdetails1 when removing the discount
+        productdetails1: nil  
       )
   
       flash[:notice] = "Discount removed successfully!"
     else
       matching_discount = @discount.find_by(code: discount_code)
+      if matching_discount.vendors1.empty?
+        @cart.update(vendor_type: false)
+      else
+        @cart.update(vendor_type: true)
+      end
   
       if matching_discount &&
          matching_discount.status &&
@@ -72,6 +77,8 @@ class CartsController < ApplicationController
           discount_type: matching_discount.discount_type,
           Applied_discount: matching_discount.code,
           productdetails1: matching_discount.productdetails1
+         
+
         )
   
         flash[:notice] = "Discount applied successfully!"
@@ -92,6 +99,7 @@ class CartsController < ApplicationController
         amt_type: " ",
         discount_type: " ",
         Applied_discount: " ",
+        vendor_type: false,
         productdetails1: nil  
       )
   

@@ -50,9 +50,10 @@ module Admin
   end
 
   # PATCH/PUT /discounts/1 or /discounts/1.json
-  def update
+  def update                                
     respond_to do |format|
       if @discount.update(discount_params)
+        byebug
         format.html { redirect_to admin_discount_path, notice: "Discount was successfully updated." }
         format.json { render :show, status: :ok, location: @discount }
       else
