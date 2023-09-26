@@ -86,6 +86,7 @@ class CheckoutsController < ApplicationController
        
       )
       
+      
     end
 
         def success
@@ -122,13 +123,22 @@ class CheckoutsController < ApplicationController
             respond_to do |format|
               format.html
               format.pdf do
-                render pdf: "Order_#{@order.id}_Invoice",
-                template: "checkouts/success.html.erb",
-                formats: [:html],
-                disposition: :inline,
-                layout: 'pdf'
+                pdf = render_to_string pdf: "Order_#{@order.id}_Invoice",
+                                       template: "checkouts/success.html.erb",
+                                       formats: [:html],
+                                       layout: 'pdf'
+                
+               
+                OrderMailer.order_confirmation(@order, pdf).deliver_now
+              
              
+                render pdf: "Order_#{@order.id}_Invoice",
+                       template: "checkouts/success.html.erb",
+                       formats: [:html],
+                       disposition:  'attachment',
+                       layout: 'pdf'
               end
+              
 
 
             end
