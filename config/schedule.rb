@@ -16,14 +16,51 @@
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
 # end
- set :output, './log/cron.log'
+require_relative './environment'
+  set :output, './log/cron.log'
+#  every 1.minutes do
+#     set :environment, :development
+#     env :PATH, ENV['PATH']
+#   runner 'puts Time.now'
+#   runner 'puts Rails.env'
+#   runner 'Discount.scheduled_discount'
+#  end
+
+
+def timezoned time
+  Time.zone.parse(time).utc
+end
  every 1.minutes do
     set :environment, :development
     env :PATH, ENV['PATH']
   runner 'puts Time.now'
   runner 'puts Rails.env'
-  runner 'Discount.scheduled_discount'
+ 
  end
+
+ every 1.minutes, at: '01:32pm', by_timezone: 'London' do
+  set :environment, :development
+  env :PATH, ENV['PATH']
+runner 'puts Time.now'
+runner 'puts Rails.env'
+runner 'puts "thhis is england"'
+
+end
+every 1.hours, by_timezone: 'Moscow' do
+  set :environment, :development
+  env :PATH, ENV['PATH']
+runner 'puts Time.now'
+runner 'puts Rails.env'
+runner 'puts "thhis is moscow"'
+end
+every 1.day, at: timezoned('6:29 am') do
+  set :environment, :development
+  env :PATH, ENV['PATH']
+  runner 'puts Time.now'
+  runner 'puts Rails.env'
+  runner 'puts "this is aditya1"'
+end
+
 
 
 # Learn more: http://github.com/javan/whenever

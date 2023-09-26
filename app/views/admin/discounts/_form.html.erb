@@ -85,12 +85,12 @@
   <div class="form-group" id="amount-field" style="width: 150px;">
 
   <%= form.label :amount, 'Amount' %>
-  <%= form.number_field :amount, class: 'form-control', placeholder: "$ 0.0", style: 'border-radius: 10px;' %>
+  <%= form.number_field :amount, class: 'form-control', placeholder: "$ 0.0", style: 'border-radius: 10px;', id: "amount2" %>
 
 </div>
 <div class="form-group" id="percentage-field" style="width: 150px;">
   <%= form.label :percentage, 'Percentage' %>
-  <%= form.number_field :percentage, class: 'form-control', placeholder: "%", style: 'border-radius: 10px;', min: "0", max: "100", step: "0.01" %>
+  <%= form.number_field :percentage, class: 'form-control', placeholder: "%", style: 'border-radius: 10px;', min: "0", max: "100", step: "0.01",id: "percentage2" %>
   <p class="text-danger"><%= form.object.errors.full_messages_for(:percentage).first %></p>
 </div>
 
@@ -109,10 +109,10 @@
   <div class="card-body">
      
   <div class="form-check">
-  <input type="radio" name="selection_option" id="vendor-option" class="form-check-input" checked="checked">
+      <input type="radio" name="selection_option" id="vendor-option" class="form-check-input" checked="checked">
 
-  <label for="vendor-option" class="form-check-label">Specific Vendor</label>
-</div>
+      <label for="vendor-option" class="form-check-label">Specific Vendor</label>
+  </div>
 
 <div class="form-check" id="product-option-div">
   <input type="radio" name="selection_option" id="product-option" class="form-check-input">
@@ -126,14 +126,17 @@
   <%= form.select(
     :vendor_id,
     Vendor.all.map { |vendor| [vendor.first_name, vendor.id] },
-    { prompt: "Select a vendor" },
+    { prompt: "Select a vendor",
+    selected: @discount.vendors1 
+   },
     {
       class: "selectize vendor-dropdown",
       id: "vendor-dropdown",
       multiple: true,
       name: "discount[vendors1][]",
       onchange: "handleSelectChange(this);",
-    }
+    },
+  
   ) %>
 </div>
     
@@ -143,7 +146,9 @@
       <%= form.select(
         :productdetail_id,
         Productdetail.all.map { |pd| [pd.product_title, pd.id, data: { vendor: pd.vendor_id }] },
-        { prompt: "Select a product detail" },
+        { prompt: "Select a product detail",
+        selected: @discount.productdetails1 
+       },
         {
           class: "selectize productdetail-dropdown",
           id: "productdetail-dropdown",
@@ -170,7 +175,7 @@
 
  
 <div class="form-check">
-  <input type="radio" name="min_purchase_option" id="minimum-opt" class="form-check-input" >
+  <input type="radio" name="min_purchase_option" id="minimum-opt" class="form-check-input" checked="checked" >
   <label for="minimum-opt" class="form-check-label">No minimum requirement</label>
 </div>
  
@@ -242,33 +247,7 @@
    
 
 
-<div class="row justify-content-center mb-3">
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-  <h5 class="card-title">Customer Selection</h5>
-</div>
-<div class="card-body">
-  <div class="form-group">
-    <label>Select Option:</label>
-    <div class="form-check">
-      <input type="radio" name="customer-selection" id="all-customer-option" class="form-check-input" checked>
-      <label for="all-customer-option" class="form-check-label">All Customers</label>
-    </div>
-    <div class="form-check">
-      <input type="radio" name="customer-selection" id="customer-segment-option" class="form-check-input">
-      <label for="customer-segment-option" class="form-check-label">Customer Segment</label>
-    </div>
-  </div>
 
-  <div class="form-group" id="customer-selection-field">
-    <%= form.label :customer_id %>
-    <%= form.collection_select(:customer_id, Customer.all, :email, :id, { prompt: "Select a customer" }, class: "form-control") %>
-  </div>
-</div>
-</div>
-</div>
-</div>
 <div class="row justify-content-center mb-3">
    <div class="col-md-6">
    <div class="card">
@@ -332,6 +311,9 @@
 </div>
 
 <script>
+const amountValue = document.getElementById('amount2');
+console.log(amountValue.value)
+const percentageValue = document.getElementById('percentage2');
 const discountTypeSelect = document.getElementById('discount-type-dropdown');
 const amountTypeSelect = document.getElementById('amount-type-dropdown');
 const vendorField = document.getElementById('vendor-field');
@@ -344,16 +326,13 @@ const productOption = document.getElementById('product-option');
 const amountField1 = document.getElementById('amount1-field');
 const quantityField = document.getElementById('quantity-field');
 const vendorSelect = document.getElementById('vendor-dropdown')
-
 const productdetailSelect = document.getElementById('productdetail-dropdown');
 const amountOption = document.getElementById('amount-option');
 const minimumOption = document.getElementById('minimum-opt');
-
 const quantityOption = document.getElementById('quantity-option');
 const endDateCheckbox = document.getElementById('end-date-checkbox');
 const endDateField = document.getElementById('end-date-field');
 const aswDiv = document.getElementById('asw');
-
 const vendorRadio = document.getElementById('vendor-option');
 const productRadio = document.getElementById('product-option');
 function handleSelectChange(selectElement) {
@@ -418,19 +397,31 @@ amountOption.addEventListener('change', function () {
     }
   });
 
-
+  amountField.style.display = 'none';
+  percentageField.style.display = 'none';
 amountTypeSelect.addEventListener('change', function () {
  
     if (amountTypeSelect.value === 'amount') {
-
+      percentageField.style.display = 'none';
+       if (percentageValue.value !== '')
+        amountField.style.display = 'none';
+       else
         amountField.style.display = 'block';
-        percentageField.style.display = 'none';
+    
+    
+
     
 
     } else if (amountTypeSelect.value === 'percentage') {
        
         amountField.style.display = 'none';
-        percentageField.style.display = 'block';
+        if(amountValue.value !== '')
+        percentageField.style.display = 'none';
+        else
+          percentageField.style.display = 'block';
+       
+          
+
       
     } else {
     
@@ -481,15 +472,7 @@ const minUseOption = document.getElementById('min-use-option');
       document.getElementById('limit-per-user-field').style.display = 'none';
     }
   });
-  const allCustomerOption = document.getElementById('all-customer-option');
-  const customerSegmentOption = document.getElementById('customer-segment-option');
-  const customerSelectionField = document.getElementById('customer-selection-field');
-  customerSelectionField.style.display = 'none';
-  allCustomerOption.addEventListener('change', function () {
-    if (this.checked) {
-      customerSelectionField.style.display = 'none';
-    }
-  });
+ 
   document.addEventListener("DOMContentLoaded", function() {
     var input = document.querySelector('.datepicker');
     var endInput = document.querySelector('#end-datepicker');

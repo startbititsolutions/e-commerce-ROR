@@ -34,7 +34,7 @@ module Admin
     
     # GET /productdetails/1 or /productdetails/1.json
     def show
-      @productdetails = Productdetail.find(params[:id])
+      @productdetails = Productdetail.friendly.find(params[:id])
       @image_urls = []
       
       if @productdetails.images.attached?

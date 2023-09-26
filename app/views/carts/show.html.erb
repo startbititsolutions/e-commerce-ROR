@@ -1,17 +1,17 @@
 
-<% if flash[:notice].present? %>
-  <div class="alert alert-success alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <p id="notice"><%= flash[:notice] %></p>
-  </div>
-<% elsif flash[:error].present? %>
-  <div class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <p id="error"><%= flash[:error] %></p>
-  </div>
-<% end %>
 
   
+<% if flash[:notice].present? %>
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <p id="notice"><%= flash[:notice] %></p>
+</div>
+<% elsif flash[:error].present? %>
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <p id="error"><%= flash[:error] %></p>
+</div>
+<% end %>
   
   
   
@@ -263,11 +263,11 @@
 
                                             <% if productdetails1_ids.include?(line_item.productdetail_id) %>
                                           
-                                            <p style="color: #e35757;">
-                                            <i class="fas fa-tag"></i> <%= @current_cart.Applied_discount %> (- $<span  class="discount_element" data-line-item-id="<%= line_item.id %>" ><%= number_with_precision(line_item.discount_price, precision: 2) %></span>) off on this product
+                                                <p style="color: #e35757;">
+                                                <i class="fas fa-tag"></i> <%= @current_cart.Applied_discount %> (- $<span  class="discount_element" data-line-item-id="<%= line_item.id %>" ><%= number_with_precision(line_item.discount_price, precision: 2) %></span>) off on this product
 
-                                          
-                                              </p>
+                                            
+                                                </p>
 
                                             <% end %>
                                         <% end %>

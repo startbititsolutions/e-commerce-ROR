@@ -76,3 +76,8 @@ gem "selectize-rails"
 gem "whenever", "~> 1.0"
 gem 'delayed_job_active_record'
 gem 'delayed-web'
+gem 'friendly_id'
+gem 'pry'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+

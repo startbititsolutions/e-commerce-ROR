@@ -46,6 +46,22 @@ class Cart < ApplicationRecord
     return sum
 
   end
+      
+
+def  total_item_discount 
+  sum=0
+  self.line_items.each do |line_item|
+    productdetails1_ids = self.productdetails1.map(&:to_i)
+
+    if productdetails1_ids.include?(line_item.productdetail_id)
+   
+            sum += line_item.item_price 
+       
+      
+    end
+  end
+  return sum
+end
     def total_quantity
       p=0
       self.line_items.each do |line_items|

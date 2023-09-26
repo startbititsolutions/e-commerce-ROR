@@ -1,8 +1,11 @@
 class CartsController < ApplicationController
+
+
   layout 'frontend'
   def show
+    @current_cart.productdetails1 = [] if @current_cart.productdetails1.nil? 
     Stripe.api_key = 'sk_test_51NkQmqBmFMBRRenabOm23pEYYG1oiM3BnMLRodHkCw8rvImbvdRyFL6gY8NLVV6PMpfs2fsBDFwwyQNL2Rzn7B0K00vqTjNulq'
-      
+ 
     begin
     
       @coupons = Stripe::Coupon.list
@@ -30,6 +33,7 @@ class CartsController < ApplicationController
   def destroy
 
     @cart = @current_cart
+
     @cart.destroy
     session[:cart_id] = nil
     redirect_to root_path

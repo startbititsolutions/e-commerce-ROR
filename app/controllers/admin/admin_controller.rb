@@ -3,7 +3,7 @@ module Admin
     class AdminController < ApplicationController
       layout 'admin'
       before_action :authenticate_user!
-  before_action :check_admin_role
+      before_action :check_admin_role
 
       def index
         render layout: 'admin'
@@ -11,7 +11,7 @@ module Admin
       private
 
       def check_admin_role
-        redirect_to admin_root_path unless current_user.has_role?(:admin)
+        redirect_to root_path unless current_user.has_role?(:admin)
       end
     end
   end

@@ -59,19 +59,24 @@ class LineItemsController < ApplicationController
         if new_quantity > 0
           @line_item.update(quantity: new_quantity)
         end
+        response_hash = {
+          quantity: @line_item.quantity,
+          total_price: @line_item.total_price,
+          total_item: @line_item.item_price,
+          cart_total: @line_item.cart.sub_total,
+          total_item_total: @line_item.cart.total_item_total
+        }
+      
+        if @current_cart.u
+          response_hash[:discount_price] = @line_item.discount_price
+        else
+          0
+        end
     
         respond_to do |format|
           format.json do
-            render json: {
-              quantity: @line_item.quantity,
-              
-              total_price: @line_item.total_price,
-              total_item:  @line_item.item_price,
-              cart_total: @line_item.cart.sub_total,
-              total_item_total: @line_item.cart.total_item_total,
-              discount_price: @line_item.discount_price
-              
-            }
+             
+            render json: response_hash
           end
           format.html do
             redirect_to cart_path(@current_cart)

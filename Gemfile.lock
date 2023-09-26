@@ -80,6 +80,7 @@ GEM
     chronic (0.10.2)
     ckeditor (5.1.1)
       orm_adapter (~> 0.5.0)
+    coderay (1.1.3)
     concurrent-ruby (1.2.2)
     coupons (0.0.0)
     crass (1.0.6)
@@ -107,6 +108,8 @@ GEM
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
+    friendly_id (5.5.0)
+      activerecord (>= 4.0.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     i18n (1.14.1)
@@ -155,6 +158,9 @@ GEM
     pay (6.8.0)
       rails (>= 6.0.0)
     pg (1.5.3)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     public_suffix (5.0.1)
     puma (5.6.6)
       nio4r (~> 2.0)
@@ -266,7 +272,10 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    wicked_pdf (2.7.0)
+      activesupport
     will_paginate (4.0.0)
+    wkhtmltopdf-binary (0.12.6.6)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.8)
@@ -286,12 +295,14 @@ DEPENDENCIES
   devise-guests
   dotenv-rails
   faker
+  friendly_id
   image_processing (~> 1.2)
   jbuilder (~> 2.7)
   jquery-rails
   listen (~> 3.3)
   pay
   pg (~> 1.1)
+  pry
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.7, >= 6.1.7.4)
@@ -308,7 +319,9 @@ DEPENDENCIES
   webdrivers
   webpacker (~> 5.0)
   whenever (~> 1.0)
+  wicked_pdf
   will_paginate
+  wkhtmltopdf-binary
 
 RUBY VERSION
    ruby 3.2.0p0

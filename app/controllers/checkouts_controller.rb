@@ -113,12 +113,25 @@ class CheckoutsController < ApplicationController
             @shipping_amount=40
              @current_cart.line_items.each do |item|
                     item.update(order_id: @order.id)  
-     
+              
      
                 end
             @cart = @current_cart
             @cart.destroy
             session[:cart_id] = nil
+            respond_to do |format|
+              format.html
+              format.pdf do
+                render pdf: "Order_#{@order.id}_Invoice",
+                template: "checkouts/success.html.erb",
+                formats: [:html],
+                disposition: :inline,
+                layout: 'pdf'
+             
+              end
+
+
+            end
             
           
         end

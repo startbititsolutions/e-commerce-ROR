@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_22_091059) do
+ActiveRecord::Schema.define(version: 2023_09_25_124843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -290,6 +290,8 @@ ActiveRecord::Schema.define(version: 2023_09_22_091059) do
     t.string "currency"
     t.integer "feature_image_id"
     t.integer "inventory"
+    t.string "slug"
+    t.index ["slug"], name: "index_productdetails_on_slug", unique: true
     t.index ["vendor_id"], name: "index_productdetails_on_vendor_id"
   end
 

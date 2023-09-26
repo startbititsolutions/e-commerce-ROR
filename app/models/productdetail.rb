@@ -1,6 +1,9 @@
   class Productdetail < ApplicationRecord
     
     #has_one_attached :image
+    extend FriendlyId
+    friendly_id :product_title, use: :slugged
+
     
     has_many_attached :images, dependent: :destroy
     belongs_to :vendor,dependent: :destroy

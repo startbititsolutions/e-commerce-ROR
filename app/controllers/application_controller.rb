@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   private
   def current_cart
     if current_customer
-      # If the customer is logged in, associate their cart with their customer account.
+    
       if session[:cart_id]
         @current_cart = Cart.find_by(id: session[:cart_id])
         @current_cart.update(customer: current_customer) if @current_cart && @current_cart.customer.blank?
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   def after_confirmation_path_for(resource_name, resource)
     UserMailer.send_confirmation_instructions(resource).deliver_now
     
-    root_path
+    new_user_session_path
   end
    
 end

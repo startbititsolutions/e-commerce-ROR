@@ -2,6 +2,8 @@
 module Admin
   class VendorsController < ApplicationController
     layout 'admin'
+    before_action :authenticate_user!  
+
       def index
           
           @vendors = Vendor.all
