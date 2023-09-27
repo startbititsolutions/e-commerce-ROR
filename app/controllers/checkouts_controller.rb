@@ -124,7 +124,7 @@ class CheckoutsController < ApplicationController
               format.html
               format.pdf do
                 pdf = render_to_string pdf: "Order_#{@order.id}_Invoice",
-                                       template: "checkouts/success.html.erb",
+                                       template: "checkouts/payment_received.html.erb",
                                        formats: [:html],
                                        layout: 'pdf'
                 
@@ -133,7 +133,7 @@ class CheckoutsController < ApplicationController
               
              
                 render pdf: "Order_#{@order.id}_Invoice",
-                       template: "checkouts/success.html.erb",
+                       template: "checkouts/payment_received.html.erb",
                        formats: [:html],
                        disposition:  'attachment',
                        layout: 'pdf'

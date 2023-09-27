@@ -1,0 +1,78 @@
+<section style="background-color: #eee;">
+  <div style="padding: 50px;">
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #fff;">
+        
+            <tr>
+              <td style="background-color: #f37a27; padding: 10px; text-align: center;">
+                <p style="font-weight: bold; font-size: 28px; color: white;">Order Details</p>
+              </td>
+            </tr>
+         
+            <tr>
+              <td style="padding: 20px;">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="70%" style="padding: 10px;">
+                      <p style="font-size: 12px; color: #888; margin: 0;">Date</p>
+                      <p><%= @order.created_at.localtime.strftime("%A, %e %B %Y ") %></p>
+                    </td>
+                    <td width="30%" style="padding: 10px;">
+                      <p style="font-size: 12px; color: #888; margin: 0;">Order No.</p>
+                      <p>#<%= @order.id %></p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          
+            <tr>
+              <td style="background-color: #f2f2f2; padding: 20px;">
+                <% @order.line_items.each do |item| %>
+                  <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="70%" style="padding: 10px;">
+                        <p><%= item.productdetail.product_title %> x <%= item.quantity %></p>
+                      </td>
+                      <td width="30%" style="padding: 10px;">
+                        <p><%= number_to_currency(item.quantity * item.productdetail.price) %></p>
+                      </td>
+                    </tr>
+                  </table>
+                <% end %>
+              </td>
+            </tr>
+           
+            <tr>
+              <td style="padding: 20px;">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                <tr >
+                <td width="1000%" style="padding: 10px;">
+                <p style="font-weight: bold; font-size: 20px; color: #f37a27; margin: 0;">Discount: <%= number_to_currency(@order.line_items.sum { |item| item.quantity * item.productdetail.price } - @total_amount_paid) %></p>
+              </td>
+                </tr>
+                  <tr>
+                   
+                    <td width="100%" style="padding: 10px;">
+                      <p style="font-weight: bold; font-size: 20px; color: #f37a27; margin: 0;">Total: $<%= @total_amount_paid %></p>
+                    </td>
+                  </tr>
+                 
+                </table>
+              </td>
+            </tr>
+           
+           
+            <tr>
+              <td style="padding: 20px; text-align: center;">
+             
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
