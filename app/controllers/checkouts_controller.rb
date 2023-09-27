@@ -102,6 +102,23 @@ class CheckoutsController < ApplicationController
 
            
               matching_discount.update(used: p)
+              @current_cart.line_items.each do |item|
+                productdetails1_ids = @current_cart.productdetails1.map(&:to_i)
+
+                if productdetails1_ids.include?(item.productdetail_id)
+             
+                  item.update(discount_id: matching_discount.id)
+              
+                  item.update(discount_item_price: item.total_price)
+              
+                  item.update(product_item_price: item.item_price)  
+                  item.update(status:true) 
+                end
+
+
+                             
+             
+              end
             end 
 
 

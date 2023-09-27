@@ -1,0 +1,242 @@
+
+<section style="background-color: #eee;">
+  <div style="padding: 50px;">
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #fff;">
+            <tr>
+              <td style="background-color: #87CEFA; padding: 20px; text-align: center;">
+                <h2>
+                  <%= @order.name %>
+                </h2>
+                <p class="fs-sm">
+                  This is the receipt for a payment of <strong><%= @total_amount_paid %></strong> (USD) you made to Spacial Themes.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 20px;">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="70%" style="padding: 10px;">
+                      <p style="font-size: 12px; color: #888; margin: 0;">Order No.</p>
+                      <strong>#<%= @order.id %></strong>
+                    </td>
+                    <td width="30%" style="padding: 10px;">
+                      <p style="font-size: 12px; color: #888; margin: 0;">Order Date</p>
+                      <strong><%= @order.created_at.localtime.strftime("%A, %e %B %Y ") %></strong>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color: #f2f2f2; padding: 20px;">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="text-muted mb-2">Client</div>
+                    <strong>
+                    <%= @order.name %>
+                    </strong>
+                    <p class="fs-sm">
+                    <%= @order.address %>
+                      <br>
+                      <a href="#!" class="text-purple"><%= @order.name %></a>
+                    </p>
+                  </div>
+                  <div class="col-md-6 text-md-end">
+                    <div class="text-muted mb-2">Payment To</div>
+                    <strong>
+                     Ogani lmt
+                    </strong>
+                    <p class="fs-sm">
+                      9th Avenue, San Francisco 99383
+                      <br>
+                      <a href="#!" class="text-purple">ogani@email.com</a>
+                    </p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 20px;">
+              <% @order.line_items.each do |item| %>
+                    <% if item.productdetail.images.attached? && item.productdetail.feature_image.present? %>
+                    <% image = (item.productdetail.feature_image) %>
+                    <% else %>
+                    <% if item.productdetail.images.attached? %>
+                        <% image = (item.productdetail.images.first) %>
+                    <% else %>
+                        <% image = asset_path('avtar1.png') %>
+                    <% end %>
+                   <% end %>
+                 
+                 <table class="table border-bottom border-gray-200 mt-3">
+                  <thead>
+                    <tr>
+                    
+                      <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm px-0">Description</th>
+                      <th scope="col" class="fs-sm text-dark text-uppercase-bold-sm text-end px-0">Amount</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                  <% if item.discount_id.present? %>
+                    <tr>
+                      <td class="px-0">
+                      <% if image.present? %>
+                    
+                    <%= link_to(product_path(item.productdetail), data: { turbolinks: false }) do %>
+                      <%= image_tag(image, style: "width: 100px; height: 100px;") %>
+                    <% end %>
+                  <% end %>
+                    <p><%= item.productdetail.product_title %> x <%= item.quantity %></p>
+                    <% discount = Discount.find(item.discount_id) %>
+                    <p style="margin-top: -10px;"><i class="fas fa-tag">(<%= discount.code %>)</i></p>
+                      </td>
+                      <td class="text-end px-0"> <span style="text-decoration: line-through;"><%= number_to_currency(item.quantity * item.productdetail.price) %></span>
+                      <span><%= number_to_currency(item.discount_item_price) %></span> </td>
+                    </tr>
+                 <% else %>
+                   <tr>
+                      <td class="px-0">
+                      <% if image.present? %>
+                    
+                    <%= link_to(product_path(item.productdetail), data: { turbolinks: false }) do %>
+                      <%= image_tag(image, style: "width: 100px; height: 100px;") %>
+                    <% end %>
+                  <% end %>
+                    <p><%= item.productdetail.product_title %> x <%= item.quantity %></p>
+                   
+                      </td>
+                      <td class="text-end px-0"> <span style="text-decoration: line-through;"><%= number_to_currency(item.quantity * item.productdetail.price) %></span>
+                    </td>
+                    </tr>
+
+                 <% end %>
+
+                   
+                  </tbody>
+                </table>
+                <div class="mt-5">
+                  <div class="d-flex justify-content-end">
+                    <p class="text-muted me-3">Subtotal:</p>
+                    <span><%= @total_amount_paid %></span>
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <p class="text-muted me-3">Discount:</p>
+                    <span>-<%= number_to_currency(@order.line_items.sum { |item| item.quantity * item.productdetail.price } - @total_amount_paid) %></span>
+                  </div>
+                  <div class="d-flex justify-content-end mt-3">
+                    <h5 class="me-3">Total:</h5>
+                    <h5 class="text-success"><%= @total_amount_paid %> USD</h5>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+<style>
+body{margin-top:20px;
+background:#87CEFA;
+}
+
+.card-footer-btn {
+    display: flex;
+    align-items: center;
+    border-top-left-radius: 0!important;
+    border-top-right-radius: 0!important;
+}
+.text-uppercase-bold-sm {
+    text-transform: uppercase!important;
+    font-weight: 500!important;
+    letter-spacing: 2px!important;
+    font-size: .85rem!important;
+}
+.hover-lift-light {
+    transition: box-shadow .25s ease,transform .25s ease,color .25s ease,background-color .15s ease-in;
+}
+.justify-content-center {
+    justify-content: center!important;
+}
+.btn-group-lg>.btn, .btn-lg {
+    padding: 0.8rem 1.85rem;
+    font-size: 1.1rem;
+    border-radius: 0.3rem;
+}
+.btn-dark {
+    color: #fff;
+    background-color: #1e2e50;
+    border-color: #1e2e50;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(30,46,80,.09);
+    border-radius: 0.25rem;
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.p-5 {
+    padding: 3rem!important;
+}
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.5rem 1.5rem;
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+
+.table td, .table th {
+    border-bottom: 0;
+    border-top: 1px solid #edf2f9;
+}
+.table>:not(caption)>*>* {
+    padding: 1rem 1rem;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+.px-0 {
+    padding-right: 0!important;
+    padding-left: 0!important;
+}
+.table thead th, tbody td, tbody th {
+    vertical-align: middle;
+}
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+
+.mt-5 {
+    margin-top: 3rem!important;
+}
+
+.icon-circle[class*=text-] [fill]:not([fill=none]), .icon-circle[class*=text-] svg:not([fill=none]), .svg-icon[class*=text-] [fill]:not([fill=none]), .svg-icon[class*=text-] svg:not([fill=none]) {
+    fill: currentColor!important;
+}
+.svg-icon>svg {
+    width: 1.45rem;
+    height: 1.45rem;
+}
+</style>

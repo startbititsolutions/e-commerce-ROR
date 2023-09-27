@@ -23,16 +23,71 @@
             </div>
 
             <div class="mx-n5 px-5 py-4" style="background-color: #f2f2f2;">
-            <% @order.line_items.each do |item| %>
-              <div class="row mb-3">
-                <div class="col-md-8 col-lg-9">
-                  <p><%= item.productdetail.product_title %> x <%= item.quantity %></p>
-                </div>
-                <div class="col-md-4 col-lg-3">
-                  <p><%= number_to_currency(item.quantity * item.productdetail.price) %></p>
-                </div>
-              </div>
-            <% end %>
+             <% @order.line_items.each do |item| %>
+                       
+               <% if item.discount_id.present? %>
+                  <div class="row mb-3">
+                  <% if item.productdetail.images.attached? && item.productdetail.feature_image.present? %>
+                     <% image_url = url_for(item.productdetail.feature_image) %>
+                  <% else %>
+                      <% if item.productdetail.images.attached? %>
+                          <% image_url = url_for(item.productdetail.images.first) %>
+                      <% else %>
+                          <% image_url = asset_path('avtar1.png') %>
+                      <% end %>
+                  <% end %>
+                  <div class="col-md-4 col-lg-4">
+                  <% if image_url.present? %>
+                      <%= link_to(product_path(item.productdetail), data: { turbolinks: false }) do %>
+                          <img src="<%= image_url %>" alt="" style="width: 100px; height: 100px;">
+                      <% end %>
+                  <% end %>
+                  </div>
+                    <div class="col-md-4 col-lg-4">
+                      <p><%= item.productdetail.product_title %> x <%= item.quantity %>
+                    
+                      </p>
+                      <% discount = Discount.find(item.discount_id) %>
+                      <p style="margin-top: -10px;"><i class="fas fa-tag">(<%= discount.code %>)</i></p>
+
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                      <p>
+                      <span style="text-decoration: line-through;"><%= number_to_currency(item.quantity * item.productdetail.price) %></span>
+                      <span><%= number_to_currency(item.discount_item_price) %></span>
+                      </p>
+                  
+                     
+                    </div>
+                  </div>
+              <% else %>
+                      <div class="row mb-3">
+                      <% if item.productdetail.images.attached? && item.productdetail.feature_image.present? %>
+                     <% image_url = url_for(item.productdetail.feature_image) %>
+                  <% else %>
+                      <% if item.productdetail.images.attached? %>
+                          <% image_url = url_for(item.productdetail.images.first) %>
+                      <% else %>
+                          <% image_url = asset_path('avtar1.png') %>
+                      <% end %>
+                  <% end %>
+                  <div class="col-md-4 col-lg-4">
+                  <% if image_url.present? %>
+                      <%= link_to(product_path(item.productdetail), data: { turbolinks: false }) do %>
+                          <img src="<%= image_url %>" alt="" style="width: 100px; height: 100px;">
+                      <% end %>
+                  <% end %>
+                  </div>
+                        <div class="col-md-4 col-lg-4">
+                          <p><%= item.productdetail.product_title %> x <%= item.quantity %></p>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                          <p><%= number_to_currency(item.quantity * item.productdetail.price) %></p>
+                        </div>
+                      </div>
+              <% end %>
+
+             <% end %>
             <!-- <div class="row">
             <div class="col-md-8 col-lg-9">
               <p class="mb-0">Shipping</p>
