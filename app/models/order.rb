@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+    include Discard::Model
     belongs_to  :customer
     has_many :line_items, dependent: :destroy
 

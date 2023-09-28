@@ -6,11 +6,25 @@ class OrdersController < ApplicationController
  
   layout 'admin'
   def index
-    @search = Order.ransack(params[:q])
-    @orders = @search.result
+    @order=Order.all
+    @orders= @order.where(discarded_at:nil)
+      @search = @orders.ransack(params[:q])
+      @orders = @search.result
    
    
     @shipping_amount=40
+  end
+  def discarded_order
+    @order=Order.all
+    @orders= @order.where.not(discarded_at:nil)
+      @search = @orders.ransack(params[:q])
+      @orders = @search.result
+  end
+  def undiscard_order
+    @order =Order.find(params[:id])
+    @order.undiscard
+    redirect_to admin_orders_path, notice: "order undiscarded successfully."
+
   end
   def edit
     @order = Order.find(params[:id])
@@ -51,8 +65,8 @@ class OrdersController < ApplicationController
   end
   def destroy
     @order =Order.find(params[:id])
-    @order.destroy
-    redirect_to admin_orders_path, notice: "order deleted successfully."
+    @order.discard
+    redirect_to admin_orders_path, notice: "order discard successfully."
 
   end
   def update

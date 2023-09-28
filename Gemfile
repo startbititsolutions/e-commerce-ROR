@@ -80,4 +80,5 @@ gem 'friendly_id'
 gem 'pry'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
-
+gem 'discard', '~> 1.2'
+gem 'globalize'

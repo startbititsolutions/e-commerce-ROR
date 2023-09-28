@@ -46,7 +46,12 @@ post  'line_items/:id', to: 'line_items#update_quantity'
     resources :coupons
     resources :admin_users, only: [:edit, :update,:show]
     resources :vendors
-    resources :orders
+    resources :orders do
+      get 'discarded_order',on: :collection
+      member do
+        post :undiscard_order
+      end
+    end
     resources :discounts do
       collection do
         get 'get_productdetail_by_vendor' 

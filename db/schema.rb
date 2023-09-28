@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_09_27_072144) do
+ActiveRecord::Schema.define(version: 2023_09_28_115050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,17 @@ ActiveRecord::Schema.define(version: 2023_09_27_072144) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "discount_translations", force: :cascade do |t|
+    t.bigint "discount_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "title"
+    t.string "code"
+    t.index ["discount_id"], name: "index_discount_translations_on_discount_id"
+    t.index ["locale"], name: "index_discount_translations_on_locale"
+  end
+
   create_table "discounts", force: :cascade do |t|
     t.string "title"
     t.boolean "status"
@@ -186,7 +197,9 @@ ActiveRecord::Schema.define(version: 2023_09_27_072144) do
     t.boolean "delivered", default: false
     t.boolean "way", default: false
     t.integer "discount_id"
+    t.datetime "discarded_at"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.index ["discarded_at"], name: "index_orders_on_discarded_at"
   end
 
   create_table "pay_charges", force: :cascade do |t|
