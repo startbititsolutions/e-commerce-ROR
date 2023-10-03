@@ -1,0 +1,26 @@
+ru:
+  placeholders:
+    search_customer_name: "Поиск по имени клиента"
+  global:
+    menu:
+      home: "Главная"
+      products: "Продукты"
+      Log: "Выйти"
+      Orders: "Заказы"
+      discount: "Скидка"
+      vendor: "Поставщик"
+      edit_profile: "Редактировать профиль"
+      Coupun: "Купон"
+      Create: "Создать купон"
+  admin:
+    orders:
+      index:
+
+        order_number: "Номер заказа"
+        name: "Имя"
+        created: "Дата создания"
+        item: "Товар"
+        Total: "Итого"
+        fullfillment: "Статус выполнения"
+        action: "Действие"
+        status: "Статус"

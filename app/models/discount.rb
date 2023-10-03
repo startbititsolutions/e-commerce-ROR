@@ -8,7 +8,7 @@ class Discount < ApplicationRecord
   validates :discount_type, presence: true
   validate :code_format
   validates :productdetails1, presence: { any: true, message: "must have at least one element" }
-  translates :title,:code
+
   #validates :productdetails1, presence:true
   # validates :start_date, presence: true, format: { with: /\A\d{2}\/\d{2}\/\d{4}\z/, message: "must be in the format dd/mm/yyyy" }
   #validates :end_date, presence: true, format: { with: /\A\d{2}\/\d{2}\/\d{4}\z/, message: "must be in the format dd/mm/yyyy" }

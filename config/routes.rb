@@ -43,33 +43,34 @@ post  'line_items/:id', to: 'line_items#update_quantity'
 
 
   namespace :admin do
-    resources :coupons
-    resources :admin_users, only: [:edit, :update,:show]
-    resources :vendors
-    resources :orders do
-      get 'discarded_order',on: :collection
-      member do
-        post :undiscard_order
+    scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+      resources :coupons
+      resources :admin_users, only: [:edit, :update,:show]
+      resources :vendors
+      resources :orders do
+        get 'discarded_order',on: :collection
+        member do
+          post :undiscard_order
+        end
       end
-    end
-    resources :discounts do
-      collection do
-        get 'get_productdetail_by_vendor' 
+      resources :discounts do
+        collection do
+          get 'get_productdetail_by_vendor' 
+        end
+        member do
+          post 'toggle_status'
+        end
       end
-      member do
-        post 'toggle_status'
-      end
-    end
+      
+      root to: 'admin#index' 
+      resources :productdetails, only: [:index, :show, :edit, :update] do
+        get 'filter_by_vendor', on: :collection
+        get 'page/:page', action: :index, on: :collection, as: 'page'
     
-    root to: 'admin#index' 
-    resources :productdetails, only: [:index, :show, :edit, :update] do
-      get 'filter_by_vendor', on: :collection
-      get 'page/:page', action: :index, on: :collection, as: 'page'
-  
-      delete 'delete_image/:image_id', action: :delete_image, on: :member, as: :delete_image
-    
+        delete 'delete_image/:image_id', action: :delete_image, on: :member, as: :delete_image
+      
+      end
     end
-
 
   end 
  

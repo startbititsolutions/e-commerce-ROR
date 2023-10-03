@@ -5,7 +5,7 @@ module Admin
   before_action  :set_discount, only: %i[ show edit update  destroy]
   before_action :current_cart
   before_action :authenticate_user!  
-  before_action :set_locale_to_russian
+
   
   # GET /discounts or /discounts.json
   def index
@@ -41,7 +41,7 @@ module Admin
   def create
     @discount = Discount.new(discount_params)
     
-    
+    byebug
     respond_to do |format|
       if @discount.save
         format.html { redirect_to  url: admin_discounts_path, notice: "Discount was successfully created." }
@@ -95,8 +95,6 @@ module Admin
     def discount_params
       params.require(:discount).permit(:title, :status, :discount_type, :amount_type, :used, :code, :amount, :percentage, :min_purchase_amount, :min_purchase_quantity, :start_date, :end_date, :min_use, :customer_id, :vendor_id, :productdetail_id ,vendors1: [], productdetails1: [])
     end
-    def set_locale_to_russian
-      I18n.locale = :ru
-    end
+   
  end
 end

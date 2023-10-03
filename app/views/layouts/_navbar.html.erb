@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <% if current_user && current_user.image.attached? %>
-    <%= link_to admin_admin_user_path(current_user) do %>
+    <%= link_to admin_admin_user_path(current_user,locale: I18n.locale) do %>
       <%= image_tag current_user.image, alt: "User Image", class: "user-image rounded-circle" ,style:"width:47px; height:50px;" %>
      
     <% end %>
@@ -14,16 +14,17 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
        
-          <%= link_to "Home", admin_root_path, class: "nav-link" %>
+      <%= link_to t('global.menu.home'), admin_root_path(locale: I18n.locale), class: "nav-link" %>
+
 
       </li>
     
         <li>
        
      <% if user_signed_in? && current_user.has_role?('admin') %>
-        <%= link_to "Products", admin_productdetails_path,class: "nav-item nav-link" %>
-        <%#= link_to "Log out", destroy_user_session_path,class: "nav-item nav-link" %>
-        <%#= link_to "log out", destroy_user_session_path, data: { method: :delete }, class: 'nav-item nav-link'  %>
+        <%= link_to t('global.menu.products'), admin_productdetails_path,class: "nav-item nav-link" %>
+        <%#= link_to t('global.menu.Log'), destroy_user_session_path,class: "nav-item nav-link" %>
+        <%#= link_to t('global.menu.Log'), destroy_user_session_path, data: { method: :delete }, class: 'nav-item nav-link'  %>
           
         <% end %>
  
@@ -37,22 +38,22 @@
         <li class="nav-item">
         <% if user_signed_in? %>
      
-       <%= link_to "Log out", destroy_user_session_path, method: :delete, class: 'nav-item nav-link', data: { confirm: "Are you sure you want to log out?" } %>
+       <%= link_to t('global.menu.Log'), destroy_user_session_path, method: :delete, class: 'nav-item nav-link', data: { confirm: "Are you sure you want to log out?" } %>
        <% end %>
        <li class="nav-item">
             <% if user_signed_in? && current_user.has_role?('admin') %>
-       <%= link_to "Vendor",admin_vendors_path,  class: 'nav-item nav-link'  %>
+       <%= link_to t('global.menu.vendor'),admin_vendors_path,  class: 'nav-item nav-link'  %>
        <% end %>
        </li>
        <li class="nav-item">
             <% if user_signed_in? && current_user.has_role?('admin') %>
-       <%= link_to "Orders",admin_orders_path,  class: 'nav-item nav-link'  %>
+       <%= link_to t('global.menu.Orders'),admin_orders_path,  class: 'nav-item nav-link'  %>
        <% end %>
        </li>
 
          <li class="nav-item">
             <% if user_signed_in? && current_user.has_role?('admin') %>
-       <%= link_to "Edit profile",edit_admin_admin_user_path(current_user),  class: 'nav-item nav-link'  %>
+       <%= link_to t('global.menu.edit_profile'),edit_admin_admin_user_path(current_user,locale: I18n.locale),  class: 'nav-item nav-link'  %>
        <% end %>
        </li>
       <li class="nav-item">
@@ -62,28 +63,26 @@
        </li>
        <li class="nav-item">
        <% if user_signed_in? && current_user.has_role?('admin') %>
-  <%= link_to "Coupun",admin_coupons_path,  class: 'nav-item nav-link'  %>
+  <%= link_to t('global.menu.Coupun'),admin_coupons_path,  class: 'nav-item nav-link'  %>
   <% end %>
   </li>
   <li class="nav-item">
        <% if user_signed_in? && current_user.has_role?('admin') %>
-  <%= link_to " Create Coupun",new_admin_coupon_path,  class: 'nav-item nav-link'  %>
+  <%= link_to t('global.menu.Create'),new_admin_coupon_path,  class: 'nav-item nav-link'  %>
   <% end %>
   </li>
   <li class="nav-item">
   <% if user_signed_in? && current_user.has_role?('admin') %>
-<%= link_to " Discount",admin_discounts_path  ,  class: 'nav-item nav-link'  %>
+<%= link_to t('global.menu.discount'),admin_discounts_path  ,  class: 'nav-item nav-link'  %>
 <% end %>
 </li>
       
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
+      
     </ul>
 <div class="form-inline my-2 my-lg-0">
 <%= form_tag admin_productdetails_path,  method: :get, remote: true, html: { id: 'search-form' } do %>
 
-  <%= text_field_tag :product_title_or_vendor_first_name_cont, params[:product_title_or_vendor_first_name_cont], placeholder: 'Search by Product Title ', class: 'search form-control mr-sm-2' %>
+  <%= text_field_tag :product_title_or_vendor_first_name_cont, params[:product_title_or_vendor_first_name_cont], placeholder: t('placeholders.search_customer_name'), class: 'search form-control mr-sm-2' %>
   <%= submit_tag "submit", class: 'btn btn-outline-sucess my-2 my-sm-0 ', style: 'margin-right: 36px;' do %>
 <i class="fa fa-search"></i> Search
 

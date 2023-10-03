@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :current_cart
+  # before_action :set_locale
   def after_sign_in_path_for(resource)
     if resource.is_a?(User) && resource.has_role?(:admin)
       admin_root_path
@@ -9,6 +10,11 @@ class ApplicationController < ActionController::Base
     else
       root_path
     end
+  end
+
+  def set_locale
+
+    I18n.locale = extract_locale || I18n.default_locale
   end
 
 
@@ -42,7 +48,16 @@ class ApplicationController < ActionController::Base
   
     @current_cart
   end
-  
+  def default_url_options
+    {locale: I18n.locale}
+  end
+
+  def extract_locale
+    parsed_locale = params[:locale]
+    I18n.available_locales.map(&:to_s).include?(parsed_locale) ?
+      parsed_locale.to_sym :
+      nil
+  end
 
   
   

@@ -1,0 +1,26 @@
+h1 Coupons
+
+- if flash[:notice].present?
+  .alert.alert-success.alert-dismissible
+    button.close data-dismiss="alert" &times;
+    p#notice= flash[:notice]
+
+table.table
+  thead
+    tr
+      th Name
+      th Percent Off
+      th Duration
+      th Promotion Codes
+  tbody
+    - @coupons.each do |coupon|
+      tr
+        td= coupon.name
+        td= "#{coupon.percent_off}%"
+        td= coupon.duration
+        td
+          ul
+            - @promotion_codes[coupon.id].each do |promotion_code|
+              li= promotion_code.code
+        td
+          = link_to "Delete", admin_coupon_path(coupon.id), method: :delete, data: { confirm: "Are you sure you want to delete this coupon?" }, class: "btn btn-danger btn-sm"

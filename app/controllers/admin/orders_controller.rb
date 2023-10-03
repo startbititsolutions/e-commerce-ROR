@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
 
   before_action :current_cart
   before_action :authenticate_user!  
+  before_action :set_locale
  
   layout 'admin'
   def index

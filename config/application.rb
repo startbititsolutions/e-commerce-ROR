@@ -17,6 +17,8 @@ module Filterbaseproduct
     config.active_storage.replace_on_assign_to_many = false
     config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
     config.active_job.queue_adapter = :delayed_job
+    config.i18n.available_locales = [:en, :ru]
+    config.i18n.default_locale = :en
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
