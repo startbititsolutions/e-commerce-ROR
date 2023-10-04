@@ -17,7 +17,7 @@ en:
   admin:
     orders:
       index:
-      
+        order:  "order"
         order_number: "Order Number"
         name: "Name"
         created: "Created At"

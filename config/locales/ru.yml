@@ -15,7 +15,7 @@ ru:
   admin:
     orders:
       index:
-
+        order: "заказы"
         order_number: "Номер заказа"
         name: "Имя"
         created: "Дата создания"

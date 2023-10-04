@@ -1,0 +1,19 @@
+.container
+  = form_with(url: admin_coupons_path, method: 'post', local: true) do |form|
+    .form-group
+      = form.label :coupon_name, 'Coupon Name'
+      = form.text_field :coupon_name, class: 'form-control', placeholder: 'Enter coupon name'
+    .form-group
+      = form.label :promotion_code_name, 'code'
+      = form.text_field :promotion_code_name, class: 'form-control', placeholder: 'Enter coupon code'
+    .form-group
+      = form.label :duration, 'Duration'
+      = form.select :duration, [['Once', 'once'], ['Forever', 'forever'], ['Multiple Months', 'multiple_months']], {}, class: 'form-control'
+    .form-group
+      = form.label :percent_off, 'Percent Off'
+      = form.number_field :percent_off, class: 'form-control', placeholder: 'Enter percent off'
+    = form.submit 'Create Coupon', class: 'btn btn-primary text-center'
+
+- if flash[:error]
+  %p.text-danger= flash[:error]
+ 

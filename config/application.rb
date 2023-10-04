@@ -19,12 +19,15 @@ module Filterbaseproduct
     config.active_job.queue_adapter = :delayed_job
     config.i18n.available_locales = [:en, :ru]
     config.i18n.default_locale = :en
+    
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
      config.time_zone = "Central Time (US & Canada)"
+     config.generators.template_engine = :haml
+
     # config.eager_load_paths << Rails.root.join("app/services")
    
   end

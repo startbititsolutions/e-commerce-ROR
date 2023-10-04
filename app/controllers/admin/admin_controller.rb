@@ -2,9 +2,9 @@
 module Admin
     class AdminController < ApplicationController
       layout 'admin'
-      before_action :authenticate_user!
-      before_action :check_admin_role
-      before_action :set_locale
+       before_action :authenticate_user!
+       before_action :check_admin_role
+       before_action :set_locale
 
       def index
         render layout: 'admin'
