@@ -18,8 +18,8 @@ class OrdersController < ApplicationController
   def discarded_order
     @order=Order.all
     @orders= @order.where.not(discarded_at:nil)
-      @search = @orders.ransack(params[:q])
-      @orders = @search.result
+    @search = @orders.ransack(params[:q])
+    @orders = @search.result
   end
   def undiscard_order
     @order =Order.find(params[:id])
